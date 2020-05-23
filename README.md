@@ -1,1 +1,1 @@
-# bazel-arm-none-eabi
+# Bazel arm-none-eabi
