@@ -1,0 +1,8 @@
+load("@rules_cc//cc:defs.bzl", "cc_toolchain_suite")
+
+cc_toolchain_suite(
+    name = "arm-none-eabi",
+    toolchains = {
+        "darwin": "//toolchains/arm-none-eabi:darwin",
+    },
+)
