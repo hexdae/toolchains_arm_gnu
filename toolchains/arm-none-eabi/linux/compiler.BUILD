@@ -1,4 +1,4 @@
-# toolchain/arm-none-eabi/linux/compiler.BUILD
+# toolchains/arm-none-eabi/linux/compiler.BUILD
 
 package(default_visibility = ['//visibility:public'])
 

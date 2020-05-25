@@ -1,4 +1,4 @@
-# toolchain/arm-none-eabi/darwin/compiler.BUILD
+# toolchains/arm-none-eabi/darwin/compiler.BUILD
 
 package(default_visibility = ['//visibility:public'])
 
