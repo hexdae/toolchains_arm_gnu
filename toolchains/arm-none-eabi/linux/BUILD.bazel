@@ -8,9 +8,9 @@ compiler = "arm-none-eabi-linux"
 filegroup(
     name = "all_files",
     srcs = [
-        ":arm_none_eabi_ar_files",
-        ":arm_none_eabi_compiler_files",
-        ":arm_none_eabi_linker_files",
+        ":ar_files",
+        ":compiler_files",
+        ":linker_files",
         "@{}//:compiler_pieces".format(compiler),
     ],
 )
