@@ -6,6 +6,10 @@ This is an example project to illustrate the blog post [Bazel for ARM embedded t
 
 This repository can be used as a template to include a custom toolchain to use with Bazel.
 
+## Testing
+
+`bazel build project` will download the custom compiler and build the `project` target.
+
 ## Folder structure
 
 ```bash
