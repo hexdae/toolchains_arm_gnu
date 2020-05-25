@@ -1,0 +1,15 @@
+├── WORKSPACE
+│
+├── project
+│   ├── BUILD.bazel
+│   └── /* SOURCE CODE */
+│
+└── toolchains
+    ├── BUILD.bazel
+    └── arm-none-eabi
+        ├── darwin
+        │   └── /* DARWIN TOOLCHAIN */
+        ├── linux
+        │   └── /* LINUX TOOLCHAIN */
+        └── ...
+            └── /* OTHER TOOLCHAIN  */
