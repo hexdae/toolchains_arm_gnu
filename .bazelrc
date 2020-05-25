@@ -1,3 +1,7 @@
-# Compilation flags for building with arm-none-eabi
-build --crosstool_top=//toolchains:arm-none-eabi              # Target cross compiler.
-build --host_crosstool_top=@bazel_tools//tools/cpp:toolchain  # Host compiler used for tools.
+# .bazelrc
+
+# Target arm-none-eabi toolchain for target builds.
+build --crosstool_top=//toolchains:arm-none-eabi
+
+# Target the default cpp compiler for host builds.
+build --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
