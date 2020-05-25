@@ -75,5 +75,5 @@ cc_toolchain(
     strip_files = ":strip_files",
     supports_param_files = 0,
     toolchain_config = ":linux_config",
-    toolchain_identifier = "arm-none-eabi-darwin",
+    toolchain_identifier = "arm-none-eabi-linux",
 )
