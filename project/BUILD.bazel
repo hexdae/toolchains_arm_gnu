@@ -9,5 +9,8 @@ cc_library(
         "source/*.cpp",
     ]),
     hdrs = glob(["includes/*.h"]),
+    copts = [
+        "-ffreestanding",
+    ],
     includes = ["includes"],
 )

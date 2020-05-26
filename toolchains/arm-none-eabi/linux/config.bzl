@@ -40,13 +40,16 @@ def _impl(ctx):
                 ],
                 flag_groups = [
                     flag_group(
-                        flags =
-                            [
-                                "-isystem",
-                                "{}/arm-none-eabi/include".format(ARM_NONE_EABI_PATH),
-                                "-isystem",
-                                "{}/lib/gcc/arm-none-eabi/{}/include".format(ARM_NONE_EABI_PATH, ARM_NONE_EABI_VERSION),
-                            ],
+                        flags = [
+                            "-isystem",
+                            "{}/arm-none-eabi/include".format(ARM_NONE_EABI_PATH),
+                            "-isystem",
+                            "{}/lib/gcc/arm-none-eabi/{}/include".format(ARM_NONE_EABI_PATH, ARM_NONE_EABI_VERSION),
+                            "-isystem",
+                            "{}/arm-none-eabi/include/c++/{}/".format(ARM_NONE_EABI_PATH, ARM_NONE_EABI_VERSION),
+                            "-isystem",
+                            "{}/arm-none-eabi/include/c++/{}/arm-none-eabi/".format(ARM_NONE_EABI_PATH, ARM_NONE_EABI_VERSION),
+                        ],
                     ),
                 ],
             ),
