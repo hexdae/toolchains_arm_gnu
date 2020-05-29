@@ -1,3 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-external/arm-none-eabi-windows/bin/arm-none-eabi-gcc "$@"

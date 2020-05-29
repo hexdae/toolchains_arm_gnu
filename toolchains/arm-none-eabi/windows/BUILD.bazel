@@ -20,7 +20,7 @@ filegroup(
 filegroup(
     name = "compiler_files",
     srcs = [
-        "arm-none-eabi-gcc",
+        "arm-none-eabi-gcc.bat",
         "@{}//:compiler_pieces".format(compiler),
         "@{}//:gcc".format(compiler),
     ],
@@ -29,8 +29,8 @@ filegroup(
 filegroup(
     name = "linker_files",
     srcs = [
-        "arm-none-eabi-gcc",
-        "arm-none-eabi-ld",
+        "arm-none-eabi-gcc.bat",
+        "arm-none-eabi-ld.bat",
         "@{}//:ar".format(compiler),
         "@{}//:compiler_pieces".format(compiler),
         "@{}//:gcc".format(compiler),
@@ -41,7 +41,7 @@ filegroup(
 filegroup(
     name = "ar_files",
     srcs = [
-        "arm-none-eabi-ar",
+        "arm-none-eabi-ar.bat",
         "@{}//:ar".format(compiler),
     ],
 )
@@ -49,7 +49,7 @@ filegroup(
 filegroup(
     name = "objcopy_files",
     srcs = [
-        "arm-none-eabi-objcopy",
+        "arm-none-eabi-objcopy.bat",
         "@{}//:objcopy".format(compiler),
     ],
 )
@@ -57,7 +57,7 @@ filegroup(
 filegroup(
     name = "strip_files",
     srcs = [
-        "arm-none-eabi-strip",
+        "arm-none-eabi-strip.bat",
         "@{}//:strip".format(compiler),
     ],
 )

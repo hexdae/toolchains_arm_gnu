@@ -5,42 +5,42 @@ package(default_visibility = ['//visibility:public'])
 filegroup(
     name = "gcc",
     srcs = [
-        "bin/arm-none-eabi-gcc",
+        "bin/arm-none-eabi-gcc.exe",
     ],
 )
 
 filegroup(
     name = "ar",
     srcs = [
-        "bin/arm-none-eabi-ar",
+        "bin/arm-none-eabi-ar.exe",
     ],
 )
 
 filegroup(
     name = "ld",
     srcs = [
-        "bin/arm-none-eabi-ld",
+        "bin/arm-none-eabi-ld.exe",
     ],
 )
 
 filegroup(
     name = "nm",
     srcs = [
-        "bin/arm-none-eabi-nm",
+        "bin/arm-none-eabi-nm.exe",
     ],
 )
 
 filegroup(
     name = "objcopy",
     srcs = [
-        "bin/arm-none-eabi-objcopy",
+        "bin/arm-none-eabi-objcopy.exe",
     ],
 )
 
 filegroup(
     name = "objdump",
     srcs = [
-        "bin/arm-none-eabi-objdump",
+        "bin/arm-none-eabi-objdump.exe",
     ],
 )
 

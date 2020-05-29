@@ -7,7 +7,7 @@ ARM_NONE_EABI_PATH = "external/arm-none-eabi-windows"
 ARM_NONE_EABI_VERSION = "9.2.1"
 
 def wrapper_path(tool):
-    return "arm-none-eabi/windows/arm-none-eabi-{}".format(tool)
+    return "arm-none-eabi/windows/arm-none-eabi-{}.bat".format(tool)
 
 def _impl(ctx):
     tool_paths = [
