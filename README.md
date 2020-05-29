@@ -4,11 +4,11 @@ This is an example project to illustrate the blog post [Bazel for ARM embedded t
 
 The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel.
 
-## Instruction
+## Instructions
 
 ### Bazel
 
-[Install Bazel](https://docs.bazel.build/versions/master/install.html) for your platform 
+[Install Bazel](https://docs.bazel.build/versions/master/install.html) for your platform. Installing with a package manager is recommended, especially on windows where additional runtime components are needed.
 
 - [Ubuntu Linux](https://docs.bazel.build/versions/master/install-ubuntu.html): `sudo apt install bazel`
 - [macOS](https://docs.bazel.build/versions/master/install-os-x.html): `brew install bazel`
