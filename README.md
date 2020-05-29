@@ -6,6 +6,14 @@ The goal of the project is to illustrate how to use a custom ARM embedded toolch
 
 ## Instruction
 
+### Bazel
+
+[Install Bazel](https://docs.bazel.build/versions/master/install.html) for your platform 
+
+- [Ubuntu Linux](https://docs.bazel.build/versions/master/install-ubuntu.html): `sudo apt install bazel`
+- [macOS](https://docs.bazel.build/versions/master/install-os-x.html): `brew install bazel`
+- [Windows](https://docs.bazel.build/versions/master/install-windows.html): `choco install bazel`x
+  
 ### Bazelisk
 
 `bazelisk` is a user-friendly launcher for `bazel`. Follow the install instructions in the [Bazelisk repo](https://github.com/bazelbuild/bazelisk)
