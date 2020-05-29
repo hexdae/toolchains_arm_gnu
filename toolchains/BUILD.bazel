@@ -7,5 +7,6 @@ cc_toolchain_suite(
     toolchains = {
         "darwin": "//toolchains/arm-none-eabi/darwin",
         "k8": "//toolchains/arm-none-eabi/linux",
+        "x64_windows": "//toolchains/arm-none-eabi/windows",
     },
 )
