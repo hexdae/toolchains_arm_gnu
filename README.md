@@ -1,6 +1,6 @@
 # Bazel arm-none-eabi-gcc toolchain 
 
-![build](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/CI/badge.svg)
+![Build](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Build/badge.svg)
 
 This is an example project to illustrate the blog post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/).
 
