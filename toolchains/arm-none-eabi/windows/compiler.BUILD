@@ -47,21 +47,21 @@ filegroup(
 filegroup(
     name = "strip",
     srcs = [
-        "bin/arm-none-eabi-strip",
+        "bin/arm-none-eabi-strip.exe",
     ],
 )
 
 filegroup(
     name = "as",
     srcs = [
-        "bin/arm-none-eabi-as",
+        "bin/arm-none-eabi-as.exe",
     ],
 )
 
 filegroup(
     name = "size",
     srcs = [
-        "bin/arm-none-eabi-size",
+        "bin/arm-none-eabi-size.exe",
     ],
 )
 
