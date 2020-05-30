@@ -8,8 +8,10 @@
     ├── BUILD.bazel
     └── arm-none-eabi
         ├── darwin
-        │   └── /* DARWIN TOOLCHAIN */
+        │   └── /* DARWIN TOOLCHAIN  */
         ├── linux
-        │   └── /* LINUX TOOLCHAIN  */
+        │   └── /* LINUX TOOLCHAIN   */
+        ├── windows
+        │   └── /* WINDOWS TOOLCHAIN */
         └── ...
-            └── /* OTHER TOOLCHAIN  */
+            └── /* OTHER TOOLCHAIN   */
