@@ -4,7 +4,9 @@
 
 This is an example project to illustrate the blog post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/).
 
-The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel.
+The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel. 
+
+If this project was useful to you, give it a ⭐️ and I'll keep improving it :)
 
 ## Instructions
 
