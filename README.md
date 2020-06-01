@@ -1,12 +1,13 @@
-# Bazel arm-none-eabi-gcc toolchain 
-
 ![Build](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Build/badge.svg)
 
-This is an example project to illustrate the blog post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/).
+# Bazel arm-none-eabi-gcc toolchain 
+
+
+If this project was useful to you, give it a ⭐️ and I'll keep improving it!
+
+You can follow the post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/) to get more details about this code.
 
 The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel. 
-
-If this project was useful to you, give it a ⭐️ and I'll keep improving it :)
 
 ## Instructions
 
@@ -16,7 +17,7 @@ If this project was useful to you, give it a ⭐️ and I'll keep improving it :
 
 - [Ubuntu Linux](https://docs.bazel.build/versions/master/install-ubuntu.html): `sudo apt install bazel`
 - [macOS](https://docs.bazel.build/versions/master/install-os-x.html): `brew install bazel`
-- [Windows](https://docs.bazel.build/versions/master/install-windows.html): `choco install bazel`x
+- [Windows](https://docs.bazel.build/versions/master/install-windows.html): `choco install bazel`
   
 ### Bazelisk
 
