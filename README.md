@@ -2,12 +2,11 @@
 
 # Bazel arm-none-eabi-gcc toolchain 
 
+The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel. 
 
 If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
 You can follow the post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/) to get more details about this code.
-
-The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel. 
 
 ## Instructions
 
@@ -23,21 +22,19 @@ The goal of the project is to illustrate how to use a custom ARM embedded toolch
 
 `bazelisk` is a user-friendly launcher for `bazel`. Follow the install instructions in the [Bazelisk repo](https://github.com/bazelbuild/bazelisk)
 
-### Usage
-
 Use `bazelisk` as you would use `bazel`, this takes care of using the correct Bazel version for each project by using the [.bazelversion](./.bazelversion) file contained in each project.
 
   
-### Testing
+### Build
 
-Use the command:
+Use this command to build the `project` target.
 
 ```bash
 # build the project
 bazelisk build project
 ```
 
-to download the custom compiler for your OS and build the `project` target.
+This will take care of downloading the appropriate toolchain for your OS and compile all the source files specified by the target.
 
 ## Folder structure
 
