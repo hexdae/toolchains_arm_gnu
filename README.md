@@ -1,14 +1,41 @@
 ![Build](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Build/badge.svg)
 
-# Bazel arm-none-eabi-gcc toolchain 
+# Bazel arm-none-eabi-gcc toolchain
 
-The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel. 
+The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel.
 
 If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
 You can follow the post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/) to get more details about this code.
 
-## Instructions
+## Use the toolchain
+
+To get started with the toolchain just add the following to your `WORKSPACE` file
+
+```python
+# WORKSPACE
+
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+git_repository(
+    name = "arm_none_eabi",
+    remote = "https://github.com/d-asnaghi/bazel-arm-none-eabi.git",
+)
+
+load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
+arm_none_eabi_deps()
+```
+
+And this to your `.bazelrc `
+```bash
+# .bazelrc
+
+# Target arm-none-eabi toolchain for target builds.
+build --crosstool_top=@arm_none_eabi//toolchain
+
+# Target the default cpp compiler for host builds.
+build --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
+```
+## Testing
 
 ### Bazel
 
@@ -17,14 +44,14 @@ You can follow the post [Bazel for ARM embedded toolchains](https://d-asnaghi.gi
 - [Ubuntu Linux](https://docs.bazel.build/versions/master/install-ubuntu.html): `sudo apt install bazel`
 - [macOS](https://docs.bazel.build/versions/master/install-os-x.html): `brew install bazel`
 - [Windows](https://docs.bazel.build/versions/master/install-windows.html): `choco install bazel`
-  
+
 ### Bazelisk
 
 `bazelisk` is a user-friendly launcher for `bazel`. Follow the install instructions in the [Bazelisk repo](https://github.com/bazelbuild/bazelisk)
 
 Use `bazelisk` as you would use `bazel`, this takes care of using the correct Bazel version for each project by using the [.bazelversion](./.bazelversion) file contained in each project.
 
-  
+
 ### Build
 
 Use this command to build the `project` target.
@@ -45,7 +72,7 @@ This will take care of downloading the appropriate toolchain for your OS and com
 │   ├── BUILD.bazel
 │   └── /* SOURCE CODE */
 │
-└── toolchains
+└── toolchain
     ├── BUILD.bazel
     └── arm-none-eabi
         ├── darwin
