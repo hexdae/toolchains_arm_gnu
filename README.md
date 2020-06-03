@@ -8,7 +8,7 @@ If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
 You can follow the post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/) to get more details about this code.
 
-## Use the toolchain from this repo.
+## Use the toolchain from this repo
 
 To get started with the arm none eabi embedded toolchain,
 just add the following to your `WORKSPACE` file
@@ -41,7 +41,7 @@ build --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
 
 Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler
 
-## Integrate the toolchain into your project.
+## Integrate the toolchain into your project
 
 Follow these steps if you want to test this repo before using it to integrate
 the toolchain into your local project.
