@@ -64,12 +64,12 @@ filegroup(
 
 cc_arm_none_eabi_config(
     name = "windows_config",
-    toolchain_identifier = "arm-none-eabi-windows",
-    host_system_name = "x86-windows",
     gcc_repo = compiler,
     gcc_version = "9.2.1",
-    wrapper_path = "arm-none-eabi/windows",
+    host_system_name = "x86-windows",
+    toolchain_identifier = "arm-none-eabi-windows",
     wrapper_ext = ".bat",
+    wrapper_path = "arm-none-eabi/windows",
 )
 
 cc_toolchain(

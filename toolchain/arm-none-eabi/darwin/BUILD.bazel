@@ -64,10 +64,10 @@ filegroup(
 
 cc_arm_none_eabi_config(
     name = "darwin_config",
-    toolchain_identifier = "arm-none-eabi-darwin",
-    host_system_name = "x86-darwin",
     gcc_repo = compiler,
     gcc_version = "9.2.1",
+    host_system_name = "x86-darwin",
+    toolchain_identifier = "arm-none-eabi-darwin",
     wrapper_path = "arm-none-eabi/darwin",
 )
 

@@ -4,65 +4,47 @@ package(default_visibility = ['//visibility:public'])
 
 filegroup(
     name = "gcc",
-    srcs = [
-        "bin/arm-none-eabi-gcc",
-    ],
+    srcs = glob(["bin/arm-none-eabi-gcc*"]),
 )
 
 filegroup(
     name = "ar",
-    srcs = [
-        "bin/arm-none-eabi-ar",
-    ],
+    srcs = glob(["bin/arm-none-eabi-ar*"]),
 )
 
 filegroup(
     name = "ld",
-    srcs = [
-        "bin/arm-none-eabi-ld",
-    ],
+    srcs = glob(["bin/arm-none-eabi-ld*"]),
 )
 
 filegroup(
     name = "nm",
-    srcs = [
-        "bin/arm-none-eabi-nm",
-    ],
+    srcs = glob(["bin/arm-none-eabi-nm*"]),
 )
 
 filegroup(
     name = "objcopy",
-    srcs = [
-        "bin/arm-none-eabi-objcopy",
-    ],
+    srcs = glob(["bin/arm-none-eabi-objcopy*"]),
 )
 
 filegroup(
     name = "objdump",
-    srcs = [
-        "bin/arm-none-eabi-objdump",
-    ],
+    srcs = glob(["bin/arm-none-eabi-objdump*"]),
 )
 
 filegroup(
     name = "strip",
-    srcs = [
-        "bin/arm-none-eabi-strip",
-    ],
+    srcs = glob(["bin/arm-none-eabi-strip*"]),
 )
 
 filegroup(
     name = "as",
-    srcs = [
-        "bin/arm-none-eabi-as",
-    ],
+    srcs = glob(["bin/arm-none-eabi-as*"]),
 )
 
 filegroup(
     name = "size",
-    srcs = [
-        "bin/arm-none-eabi-size",
-    ],
+    srcs = glob(["bin/arm-none-eabi-size*"]),
 )
 
 filegroup(
