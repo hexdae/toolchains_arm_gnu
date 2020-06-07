@@ -1,4 +1,6 @@
-![Build](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Build/badge.svg)
+![Linux](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Linux/badge.svg)
+![macOS](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/macOS/badge.svg)
+![Windows](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Windows/badge.svg)
 
 # Bazel arm-none-eabi-gcc toolchain
 
