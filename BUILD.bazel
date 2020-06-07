@@ -1,1 +1,90 @@
 # BUILD
+
+package(default_visibility = ["//visibility:public"])
+
+config_setting(
+    name = "darwin",
+    values = {"cpu": "darwin"},
+)
+
+config_setting(
+    name = "linux",
+    values = {"cpu": "k8"},
+)
+
+config_setting(
+    name = "windows",
+    values = {"cpu": "x64_windows"},
+)
+
+filegroup(
+    name = "gcc",
+    srcs = select({
+        "darwin": ["@arm-none-eabi-darwin//:gcc"],
+        "linux": ["@arm-none-eabi-linux//:gcc"],
+        "windows": ["@arm-none-eabi-windows//:gcc"],
+    }),
+)
+
+filegroup(
+    name = "ar",
+    srcs = select({
+        "darwin": ["@arm-none-eabi-darwin//:ar"],
+        "linux": ["@arm-none-eabi-linux//:ar"],
+        "windows": ["@arm-none-eabi-windows//:ar"],
+    }),
+)
+
+filegroup(
+    name = "ld",
+    srcs = select({
+        "darwin": ["@arm-none-eabi-darwin//:ld"],
+        "linux": ["@arm-none-eabi-linux//:ld"],
+        "windows": ["@arm-none-eabi-windows//:ld"],
+    }),
+)
+
+filegroup(
+    name = "nm",
+    srcs = select({
+        "darwin": ["@arm-none-eabi-darwin//:nm"],
+        "linux": ["@arm-none-eabi-linux//:nm"],
+        "windows": ["@arm-none-eabi-windows//:nm"],
+    }),
+)
+
+filegroup(
+    name = "objcopy",
+    srcs = select({
+        "darwin": ["@arm-none-eabi-darwin//:objcopy"],
+        "linux": ["@arm-none-eabi-linux//:objcopy"],
+        "windows": ["@arm-none-eabi-windows//:objcopy"],
+    }),
+)
+
+filegroup(
+    name = "objdump",
+    srcs = select({
+        "darwin": ["@arm-none-eabi-darwin//:objdump"],
+        "linux": ["@arm-none-eabi-linux//:objdump"],
+        "windows": ["@arm-none-eabi-windows//:objdump"],
+    }),
+)
+
+filegroup(
+    name = "strip",
+    srcs = select({
+        "darwin": ["@arm-none-eabi-darwin//:strip"],
+        "linux": ["@arm-none-eabi-linux//:strip"],
+        "windows": ["@arm-none-eabi-windows//:strip"],
+    }),
+)
+
+filegroup(
+    name = "as",
+    srcs = select({
+        "darwin": ["@arm-none-eabi-darwin//:as"],
+        "linux": ["@arm-none-eabi-linux//:as"],
+        "windows": ["@arm-none-eabi-windows//:as"],
+    }),
+)
