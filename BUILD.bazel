@@ -1,4 +1,1 @@
-# BUILD.bazel
-
-# Export the dependency rules
-export_files("deps.bzl")
+# BUILD
