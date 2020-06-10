@@ -34,15 +34,47 @@ And this to your `.bazelrc `
 ```bash
 # .bazelrc
 
-# Target arm-none-eabi toolchain for target builds.
-build --crosstool_top=@arm_none_eabi//toolchain
+# Build using platforms by default
+build --incompatible_enable_cc_toolchain_resolution
+build --platforms=@arm_none_eabi//platforms:arm_none_eabi_generic
+```
 
-# Target the default cpp compiler for host builds.
-build --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
+If for you are using Bazel rules that do not support platforms, you can also use this instead
+```bash
+# .bazelrc
+
+# Use the legacy crosstool-top config
+build:legacy --crosstool_top=@arm_none_eabi//toolchain
+build:legacy --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
 ```
 
 Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler
 
+## Platforms
+
+By default, this repo defines the `arm-none-eabi-generic` platform as:
+```python
+platform(
+    name = "arm_none_eabi_generic",
+    constraint_values = [
+        "@platforms//os:none",
+        "@platforms//cpu:arm",
+    ],
+)
+```
+
+If you want to further differentiate your project's platforms (for example to support a certain board/cpu) you can extend it using this template:
+
+```python
+platform(
+    name = "your_custom_platform",
+    constraint_values = [
+        "<your addiotional constraints>",
+    ],
+    parents = [
+        "@arm_none_eabi//platforms:arm_none_eabi_generic"
+    ],
+)
 ## Integrate the toolchain into your project
 
 Follow these steps if you want to test this repo before using it to integrate
