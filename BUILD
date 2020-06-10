@@ -4,17 +4,17 @@ package(default_visibility = ["//visibility:public"])
 
 config_setting(
     name = "darwin",
-    values = {"cpu": "darwin"},
+    values = {"host_cpu": "darwin"},
 )
 
 config_setting(
     name = "linux",
-    values = {"cpu": "k8"},
+    values = {"host_cpu": "k8"},
 )
 
 config_setting(
     name = "windows",
-    values = {"cpu": "x64_windows"},
+    values = {"host_cpu": "x64_windows"},
 )
 
 filegroup(
