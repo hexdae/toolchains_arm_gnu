@@ -1,7 +1,9 @@
 # .bazelrc
 
-# Target arm-none-eabi toolchain for target builds.
-build --crosstool_top=@arm_none_eabi//toolchain
+# Build using platforms by default
+build --incompatible_enable_cc_toolchain_resolution
+build --platforms=@arm_none_eabi//platforms:arm_none_eabi_generic
 
-# Target the default cpp compiler for host builds.
-build --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
+# Use the legacy crosstool-top config
+build:legacy --crosstool_top=@arm_none_eabi//toolchain
+build:legacy --host_crosstool_top=@bazel_tools//tools/cpp:toolchain

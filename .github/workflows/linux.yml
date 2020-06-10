@@ -16,3 +16,4 @@ jobs:
       - name: build project
         run: |
           bazelisk build project:all
+          bazelisk build --config=legacy project:all

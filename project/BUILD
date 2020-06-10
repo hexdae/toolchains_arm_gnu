@@ -10,6 +10,8 @@ cc_library(
     ]),
     hdrs = glob(["includes/*.h"]),
     copts = [
+        "-mcpu=cortex-a5",
+        "-mthumb",
         "-ffreestanding",
     ],
     includes = ["includes"],

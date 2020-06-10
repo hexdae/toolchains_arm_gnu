@@ -63,25 +63,11 @@ filegroup(
 )
 
 cc_arm_none_eabi_config(
-    name = "windows_config",
+    name = "config",
     gcc_repo = compiler,
     gcc_version = "9.2.1",
     host_system_name = "x86-windows",
     toolchain_identifier = "arm_none_eabi_windows",
     wrapper_ext = ".bat",
     wrapper_path = "arm-none-eabi/windows",
-)
-
-cc_toolchain(
-    name = "windows",
-    all_files = ":all_files",
-    ar_files = ":ar_files",
-    compiler_files = ":compiler_files",
-    dwp_files = ":empty",
-    linker_files = ":linker_files",
-    objcopy_files = ":objcopy_files",
-    strip_files = ":strip_files",
-    supports_param_files = 0,
-    toolchain_config = ":windows_config",
-    toolchain_identifier = "arm_none_eabi_windows",
 )

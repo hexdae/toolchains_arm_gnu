@@ -63,24 +63,10 @@ filegroup(
 )
 
 cc_arm_none_eabi_config(
-    name = "linux_config",
+    name = "config",
     gcc_repo = compiler,
     gcc_version = "9.2.1",
     host_system_name = "x86-darwin",
     toolchain_identifier = "arm_none_eabi_linux",
     wrapper_path = "arm-none-eabi/linux",
-)
-
-cc_toolchain(
-    name = "linux",
-    all_files = ":all_files",
-    ar_files = ":ar_files",
-    compiler_files = ":compiler_files",
-    dwp_files = ":empty",
-    linker_files = ":linker_files",
-    objcopy_files = ":objcopy_files",
-    strip_files = ":strip_files",
-    supports_param_files = 0,
-    toolchain_config = ":linux_config",
-    toolchain_identifier = "arm_none_eabi_linux",
 )

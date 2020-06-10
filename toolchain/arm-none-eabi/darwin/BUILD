@@ -63,24 +63,10 @@ filegroup(
 )
 
 cc_arm_none_eabi_config(
-    name = "darwin_config",
+    name = "config",
     gcc_repo = compiler,
     gcc_version = "9.2.1",
     host_system_name = "x86-darwin",
     toolchain_identifier = "arm_none_eabi_darwin",
     wrapper_path = "arm-none-eabi/darwin",
-)
-
-cc_toolchain(
-    name = "darwin",
-    all_files = ":all_files",
-    ar_files = ":ar_files",
-    compiler_files = ":compiler_files",
-    dwp_files = ":empty",
-    linker_files = ":linker_files",
-    objcopy_files = ":objcopy_files",
-    strip_files = ":strip_files",
-    supports_param_files = 0,
-    toolchain_config = ":darwin_config",
-    toolchain_identifier = "arm_none_eabi_darwin",
 )
