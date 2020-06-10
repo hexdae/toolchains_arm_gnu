@@ -1,1 +1,1 @@
-"external/arm-none-eabi-windows/bin/arm-none-eabi-cpp.exe" %*
+"external/arm_none_eabi_windows/bin/arm-none-eabi-cpp.exe" %*

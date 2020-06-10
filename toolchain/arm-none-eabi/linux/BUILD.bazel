@@ -5,7 +5,7 @@ load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
 
 package(default_visibility = ["//visibility:public"])
 
-compiler = "arm-none-eabi-linux"
+compiler = "arm_none_eabi_linux"
 
 filegroup(
     name = "all_files",
@@ -67,7 +67,7 @@ cc_arm_none_eabi_config(
     gcc_repo = compiler,
     gcc_version = "9.2.1",
     host_system_name = "x86-darwin",
-    toolchain_identifier = "arm-none-eabi-linux",
+    toolchain_identifier = "arm_none_eabi_linux",
     wrapper_path = "arm-none-eabi/linux",
 )
 
@@ -82,5 +82,5 @@ cc_toolchain(
     strip_files = ":strip_files",
     supports_param_files = 0,
     toolchain_config = ":linux_config",
-    toolchain_identifier = "arm-none-eabi-linux",
+    toolchain_identifier = "arm_none_eabi_linux",
 )

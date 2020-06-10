@@ -2,7 +2,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def arm_none_eabi_deps():
     http_archive(
-        name = "arm-none-eabi-darwin",
+        name = "arm_none_eabi_darwin",
         build_file = "@arm_none_eabi//toolchain:compiler.BUILD",
         sha256 = "1249f860d4155d9c3ba8f30c19e7a88c5047923cea17e0d08e633f12408f01f0",
         strip_prefix = "gcc-arm-none-eabi-9-2019-q4-major",
@@ -10,7 +10,7 @@ def arm_none_eabi_deps():
     )
 
     http_archive(
-        name = "arm-none-eabi-linux",
+        name = "arm_none_eabi_linux",
         build_file = "@arm_none_eabi//toolchain:compiler.BUILD",
         sha256 = "bcd840f839d5bf49279638e9f67890b2ef3a7c9c7a9b25271e83ec4ff41d177a",
         strip_prefix = "gcc-arm-none-eabi-9-2019-q4-major",
@@ -18,7 +18,7 @@ def arm_none_eabi_deps():
     )
 
     http_archive(
-        name = "arm-none-eabi-windows",
+        name = "arm_none_eabi_windows",
         build_file = "@arm_none_eabi//toolchain:compiler.BUILD",
         sha256 = "e4c964add8d0fdcc6b14f323e277a0946456082a84a1cc560da265b357762b62",
         url = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/gcc-arm-none-eabi-9-2019-q4-major-win32.zip?revision=20c5df9c-9870-47e2-b994-2a652fb99075&la=en&hash=347C07EEEB848CC8944F943D8E1EAAB55A6CA0BC",
