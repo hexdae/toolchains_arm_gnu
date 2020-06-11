@@ -77,6 +77,37 @@ platform(
 )
 ```
 
+## Direct access to gcc tools
+
+If you need direct access to `gcc` tools, they are directly available as `@arm_none_eabi//:<tool>`. For example, the following `genrules` could be used to produce `.bin` and `.hex` artifacts from a generic `.out` target.
+
+```python
+
+cc_binary(
+    name = "target.out"
+    srcs = [...],
+    deps = [...],
+    copts = [...],
+    ...
+)
+
+genrule(
+    name = "bin",
+    srcs = [":target.out"],
+    outs = ["target.bin"],
+    cmd = "$(execpath @arm_none_eabi//:objcopy) -O binary $< $@",
+    tools = ["@arm_none_eabi//:objcopy"],
+)
+
+genrule(
+    name = "hex",
+    srcs = [":target.out"],
+    outs = ["target.hex"],
+    cmd = "$(execpath @arm_none_eabi//:objcopy) -O ihex $< $@",
+    tools = ["@arm_none_eabi//:objcopy"],
+)
+```
+
 ## Integrate the toolchain into your project
 
 Follow these steps if you want to test this repo before using it to integrate
@@ -124,12 +155,16 @@ This will take care of downloading the appropriate toolchain for your OS and com
 │
 └── toolchain
     ├── BUILD.bazel
+    ├── compiler.BUILD
+    ├── config.bzl
     └── arm-none-eabi
         ├── darwin
-        │   └── /* DARWIN TOOLCHAIN */
+        │   └── /* DARWIN TOOLCHAIN   */
         ├── linux
-        │   └── /* LINUX TOOLCHAIN  */
+        │   └── /* LINUX TOOLCHAIN    */
+        ├── windows
+        │   └── /* WINDOWS TOOLCHAIN  */
         └── ...
-            └── /* OTHER TOOLCHAIN  */
+            └── /* OTHER TOOLCHAIN    */
 
 ```
