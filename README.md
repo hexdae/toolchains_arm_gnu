@@ -4,6 +4,8 @@
 
 # Bazel arm-none-eabi-gcc toolchain
 
+![BazelArm](https://asnaghi.me/images/bazel-arm.png)
+
 The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel.
 
 If this project was useful to you, give it a ⭐️ and I'll keep improving it!
