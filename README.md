@@ -69,12 +69,14 @@ If you want to further differentiate your project's platforms (for example to su
 platform(
     name = "your_custom_platform",
     constraint_values = [
-        "<your addiotional constraints>",
+        "<your additional constraints>",
     ],
     parents = [
         "@arm_none_eabi//platforms:arm_none_eabi_generic"
     ],
 )
+```
+
 ## Integrate the toolchain into your project
 
 Follow these steps if you want to test this repo before using it to integrate
