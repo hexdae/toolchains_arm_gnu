@@ -36,7 +36,7 @@ And this to your `.bazelrc `
 
 # Build using platforms by default
 build --incompatible_enable_cc_toolchain_resolution
-build --platforms=@arm_none_eabi//platforms:arm_none_eabi_generic
+build --platforms=@arm_none_eabi//platforms:arm_none_generic
 ```
 
 If for you are using Bazel rules that do not support platforms, you can also use this instead
@@ -55,7 +55,7 @@ Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler
 By default, this repo defines the `arm-none-eabi-generic` platform as:
 ```python
 platform(
-    name = "arm_none_eabi_generic",
+    name = "arm_none_generic",
     constraint_values = [
         "@platforms//os:none",
         "@platforms//cpu:arm",
@@ -72,7 +72,7 @@ platform(
         "<your additional constraints>",
     ],
     parents = [
-        "@arm_none_eabi//platforms:arm_none_eabi_generic"
+        "@arm_none_eabi//platforms:arm_none_generic"
     ],
 )
 ```
