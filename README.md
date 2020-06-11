@@ -4,7 +4,9 @@
 
 # Bazel arm-none-eabi-gcc toolchain
 
-![BazelArm](https://asnaghi.me/images/bazel-arm.png)
+<p align="center">
+    <img src="https://asnaghi.me/images/bazel-arm.png" width="400px"/>
+</p>
 
 The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel.
 
