@@ -104,7 +104,7 @@ config_setting()
 selects.config_setting_group(
     name = "your_config_setting_group",
     match_all = [
-        "@arm_none_eabi//config:arm_none_eabi_compatible",
+        "@arm_none_eabi//config:arm_none_compatible",
         ":your_config_setting"
     ],
 )
@@ -121,7 +121,7 @@ filegroup(
 cc_binary(
     name = "your_binary",
     srcs = select({
-        "@arm_none_eabi//config:arm_none_eabi_compatible": [":arm_none_srcs"],
+        "@arm_none_eabi//config:arm_none_compatible": [":arm_none_srcs"],
         ...
     })
 )
