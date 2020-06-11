@@ -77,9 +77,59 @@ platform(
 )
 ```
 
+## Configurable build attributes
+
+If you want to select some build attributes based on their compatibility with the arm-none-eabi-gcc toolchain, you can use the `config_settings` available at `@arm_none_eabi//config:arm_none_compatible`, defined as:
+
+```python
+config_setting(
+    name = "arm_none_compatible",
+    constraint_values = [
+        "@platforms//cpu:arm",
+        "@platforms//os:none",
+    ],
+)
+```
+
+You can always add onto this `config_setting` by creating your own `config_setting_group` that inherits from this one:
+
+```python
+load("@bazel_skylib//lib:selects.bzl", "selects")
+
+config_setting()
+    name = "your_config_setting",
+    ...
+)
+
+selects.config_setting_group(
+    name = "your_config_setting_group",
+    match_all = [
+        "@arm_none_eabi//config:arm_none_eabi_compatible",
+        ":your_config_setting"
+    ],
+)
+```
+
+and then use these definitions to `select` in rules
+
+```python
+filegroup(
+    name = "arm_none_srcs",
+    srcs = [...],
+)
+
+cc_binary(
+    name = "your_binary",
+    srcs = select({
+        "@arm_none_eabi//config:arm_none_eabi_compatible": [":arm_none_srcs"],
+        ...
+    })
+)
+```
+
 ## Direct access to gcc tools
 
-If you need direct access to `gcc` tools, they are directly available as `@arm_none_eabi//:<tool>`. For example, the following `genrules` could be used to produce `.bin` and `.hex` artifacts from a generic `.out` target.
+If you need direct access to `gcc` tools, they are available as `@arm_none_eabi//:<tool>`. For example, the following `genrules` could be used to produce `.bin` and `.hex` artifacts from a generic `.out` target.
 
 ```python
 
