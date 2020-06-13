@@ -16,18 +16,17 @@ You can follow the post [Bazel for ARM embedded toolchains](https://d-asnaghi.gi
 
 ## Use the toolchain from this repo
 
-To get started with the arm none eabi embedded toolchain,
-just add the following to your `WORKSPACE` file
+To get started with the arm none eabi embedded toolchain, copy the appropriate `WORKSPACE` setup
+from the [releases](https://github.com/d-asnaghi/bazel-arm-none-eabi/releases) page. For example:
 
 ```python
 # WORKSPACE
 
-# Toolchain: ARM none eabi gcc v1.0.
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(
     name = "arm_none_eabi",
-    url = "https://github.com/d-asnaghi/bazel-arm-none-eabi/archive/v1.0.tar.gz",
-    sha256 = "a6dbabaabfc0150862c8cab20db11422b785c4cff4e13bd12281725ecacdf886",
+    url = "https://github.com/d-asnaghi/bazel-arm-none-eabi/archive/<VERSION>.tar.gz",
+    sha256 = "<SHA256>",
     strip_prefix = "bazel-arm-none-eabi-1.0"
 )
 

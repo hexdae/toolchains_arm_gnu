@@ -57,6 +57,7 @@ toolchain(
     name = "macos",
     exec_compatible_with = [
         "@platforms//os:macos",
+        "@platforms//cpu:x86_64"
     ],
     target_compatible_with = [
         "@platforms//os:none",
@@ -70,6 +71,7 @@ toolchain(
     name = "linux",
     exec_compatible_with = [
         "@platforms//os:linux",
+        "@platforms//cpu:x86_64"
     ],
     target_compatible_with = [
         "@platforms//os:none",
