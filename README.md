@@ -8,7 +8,7 @@
     <img src="https://asnaghi.me/images/bazel-arm.png" width="400px"/>
 </p>
 
-The goal of the project is to illustrate how to use a custom ARM embedded toolchain with Bazel.
+The goal of the project is to illustrate how to use a custom arm-none-eabi embedded toolchain with Bazel.
 
 If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
