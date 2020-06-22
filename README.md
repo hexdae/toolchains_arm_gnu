@@ -12,7 +12,7 @@ The goal of the project is to illustrate how to use a custom arm-none-eabi embed
 
 If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
-You can follow the post [Bazel for ARM embedded toolchains](https://d-asnaghi.github.io/blog/post/embedded-bazel/) to get more details about this code.
+You can follow the post [Bazel for ARM embedded toolchains](https://asnaghi.me/post/embedded-bazel/) to get more details about this code.
 
 ## Use the toolchain from this repo
 
