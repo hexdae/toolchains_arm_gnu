@@ -1,12 +1,37 @@
-![Linux](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Linux/badge.svg)
-![macOS](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/macOS/badge.svg)
-![Windows](https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Windows/badge.svg)
+<p align="center">
+    
+<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/blob/master/LICENSE">
+    <img alt="GitHub license" src="https://img.shields.io/github/license/d-asnaghi/bazel-arm-none-eabi?color=success">
+</a>
 
-# Bazel arm-none-eabi-gcc toolchain
+<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/d-asnaghi/bazel-arm-none-eabi?color=success">
+</a>
+
+<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/d-asnaghi/bazel-arm-none-eabi">
+</a>
+
+<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
+    <img alt="Linux" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Linux/badge.svg">
+</a>
+
+<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
+    <img alt="macOS" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/macOS/badge.svg">
+</a>
+
+<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
+    <img alt="Widnows" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Windows/badge.svg">
+</a>
+
+</p>
 
 <p align="center">
-    <img src="https://asnaghi.me/images/bazel-arm.png" width="400px"/>
+    
+<img src="https://asnaghi.me/images/bazel-arm.png" width="400px"/>
+
 </p>
+
 
 The goal of the project is to illustrate how to use a custom arm-none-eabi embedded toolchain with Bazel.
 
