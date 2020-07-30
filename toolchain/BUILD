@@ -6,7 +6,7 @@ cc_toolchain_suite(
     name = "toolchain",
     toolchains = {
         "darwin": ":cc_toolchain_darwin",
-        "k8": ":cc_toolchain_linux",
+        "k8": ":cc_toolchain_linux_x86_64",
         "x64_windows": ":cc_toolchain_windows",
     },
 )
@@ -26,16 +26,16 @@ cc_toolchain(
 )
 
 cc_toolchain(
-    name = "cc_toolchain_linux",
-    all_files = "//toolchain/arm-none-eabi/linux:all_files",
-    ar_files = "//toolchain/arm-none-eabi/linux:ar_files",
-    compiler_files = "//toolchain/arm-none-eabi/linux:compiler_files",
+    name = "cc_toolchain_linux_x86_64",
+    all_files = "//toolchain/arm-none-eabi/linux_x86_64:all_files",
+    ar_files = "//toolchain/arm-none-eabi/linux_x86_64:ar_files",
+    compiler_files = "//toolchain/arm-none-eabi/linux_x86_64:compiler_files",
     dwp_files = ":empty",
-    linker_files = "//toolchain/arm-none-eabi/linux:linker_files",
-    objcopy_files = "//toolchain/arm-none-eabi/linux:objcopy_files",
-    strip_files = "//toolchain/arm-none-eabi/linux:strip_files",
+    linker_files = "//toolchain/arm-none-eabi/linux_x86_64:linker_files",
+    objcopy_files = "//toolchain/arm-none-eabi/linux_x86_64:objcopy_files",
+    strip_files = "//toolchain/arm-none-eabi/linux_x86_64:strip_files",
     supports_param_files = 0,
-    toolchain_config = "//toolchain/arm-none-eabi/linux:config",
+    toolchain_config = "//toolchain/arm-none-eabi/linux_x86_64:config",
     toolchain_identifier = "arm_none_eabi_linux_x86_64",
 )
 
@@ -68,7 +68,7 @@ toolchain(
 )
 
 toolchain(
-    name = "linux",
+    name = "linux_x86_64",
     exec_compatible_with = [
         "@platforms//os:linux",
         "@platforms//cpu:x86_64"
