@@ -18,6 +18,14 @@ def arm_none_eabi_deps():
     )
 
     http_archive(
+        name = "arm_none_eabi_linux_aarch64",
+        build_file = "@arm_none_eabi//toolchain:compiler.BUILD",
+        sha256 = "1f5b9309006737950b2218250e6bb392e2d68d4f1a764fe66be96e2a78888d83",
+        strip_prefix = "gcc-arm-none-eabi-9-2019-q4-major",
+        url = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/gcc-arm-none-eabi-9-2019-q4-major-aarch64-linux.tar.bz2?revision=4583ce78-e7e7-459a-ad9f-bff8e94839f1&la=en&hash=550DB9C0184B7C70B6C020A5DCBB9D1E156264B7",
+    )
+
+    http_archive(
         name = "arm_none_eabi_windows",
         build_file = "@arm_none_eabi//toolchain:compiler.BUILD",
         sha256 = "e4c964add8d0fdcc6b14f323e277a0946456082a84a1cc560da265b357762b62",
