@@ -40,6 +40,20 @@ cc_toolchain(
 )
 
 cc_toolchain(
+    name = "cc_toolchain_linux_aarch64",
+    all_files = "//toolchain/arm-none-eabi/linux_aarch64:all_files",
+    ar_files = "//toolchain/arm-none-eabi/linux_aarch64:ar_files",
+    compiler_files = "//toolchain/arm-none-eabi/linux_aarch64:compiler_files",
+    dwp_files = ":empty",
+    linker_files = "//toolchain/arm-none-eabi/linux_aarch64:linker_files",
+    objcopy_files = "//toolchain/arm-none-eabi/linux_aarch64:objcopy_files",
+    strip_files = "//toolchain/arm-none-eabi/linux_aarch64:strip_files",
+    supports_param_files = 0,
+    toolchain_config = "//toolchain/arm-none-eabi/linux_aarch64:config",
+    toolchain_identifier = "arm_none_eabi_linux_aarch64",
+)
+
+cc_toolchain(
     name = "cc_toolchain_windows",
     all_files = "//toolchain/arm-none-eabi/windows:all_files",
     ar_files = "//toolchain/arm-none-eabi/windows:ar_files",
@@ -77,9 +91,25 @@ toolchain(
         "@platforms//os:none",
         "@platforms//cpu:arm",
     ],
-    toolchain = ":cc_toolchain_linux",
+    toolchain = ":cc_toolchain_linux_x86_64",
     toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
 )
+
+
+toolchain(
+    name = "linux_aarch64",
+    exec_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:aarch64"
+    ],
+    target_compatible_with = [
+        "@platforms//os:none",
+        "@platforms//cpu:arm",
+    ],
+    toolchain = ":cc_toolchain_linux_aarch64",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)
+
 
 toolchain(
     name = "windows",
