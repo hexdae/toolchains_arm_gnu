@@ -68,5 +68,5 @@ cc_arm_none_eabi_config(
     gcc_version = "9.2.1",
     host_system_name = "x86-darwin",
     toolchain_identifier = "arm_none_eabi_linux_x86_64",
-    wrapper_path = "arm-none-eabi/linux",
+    wrapper_path = "arm-none-eabi/linux_aarch64",
 )
