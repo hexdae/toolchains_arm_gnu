@@ -10,7 +10,7 @@ def arm_none_eabi_deps():
     )
 
     http_archive(
-        name = "arm_none_eabi_linux",
+        name = "arm_none_eabi_linux_x86_64",
         build_file = "@arm_none_eabi//toolchain:compiler.BUILD",
         sha256 = "bcd840f839d5bf49279638e9f67890b2ef3a7c9c7a9b25271e83ec4ff41d177a",
         strip_prefix = "gcc-arm-none-eabi-9-2019-q4-major",

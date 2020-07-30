@@ -36,7 +36,7 @@ cc_toolchain(
     strip_files = "//toolchain/arm-none-eabi/linux:strip_files",
     supports_param_files = 0,
     toolchain_config = "//toolchain/arm-none-eabi/linux:config",
-    toolchain_identifier = "arm_none_eabi_linux",
+    toolchain_identifier = "arm_none_eabi_linux_x86_64",
 )
 
 cc_toolchain(
