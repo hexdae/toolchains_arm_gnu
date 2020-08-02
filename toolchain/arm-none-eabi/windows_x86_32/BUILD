@@ -1,6 +1,5 @@
 # toolchains/arm-none-eabi/windows/BUILD.bazel
 
-load("@rules_cc//cc:defs.bzl", "cc_toolchain")
 load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
 
 package(default_visibility = ["//visibility:public"])
@@ -69,5 +68,5 @@ cc_arm_none_eabi_config(
     host_system_name = "x86-windows",
     toolchain_identifier = "arm_none_eabi_windows_x86_32",
     wrapper_ext = ".bat",
-    wrapper_path = "arm-none-eabi/windows",
+    wrapper_path = "arm-none-eabi/windows_x86_32",
 )
