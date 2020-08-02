@@ -1,6 +1,6 @@
 # toolchains/BUILD.bazel
 
-load("@rules_cc//cc:defs.bzl", "cc_toolchain_suite")
+load("@rules_cc//cc:defs.bzl", "cc_toolchain", "cc_toolchain_suite")
 
 cc_toolchain_suite(
     name = "toolchain",
@@ -119,6 +119,21 @@ toolchain(
         "@platforms//os:none",
         "@platforms//cpu:arm",
     ],
+    toolchain = ":cc_toolchain_windows_x86_32",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)
+
+toolchain(
+    name = "windows_x86_64",
+    exec_compatible_with = [
+        "@platforms//os:windows",
+        "@platforms//cpu:x86_64",
+    ],
+    target_compatible_with = [
+        "@platforms//os:none",
+        "@platforms//cpu:arm",
+    ],
+    # No 64bit source is available, so we reuse the 32bit one.
     toolchain = ":cc_toolchain_windows_x86_32",
     toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
 )

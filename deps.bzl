@@ -37,4 +37,5 @@ def arm_none_eabi_deps():
         "@arm_none_eabi//toolchain:linux_x86_64",
         "@arm_none_eabi//toolchain:linux_aarch64",
         "@arm_none_eabi//toolchain:windows_x86_32",
+        "@arm_none_eabi//toolchain:windows_x86_64",
     )
