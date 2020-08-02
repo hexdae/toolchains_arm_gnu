@@ -1,5 +1,5 @@
 <p align="center">
-    
+
 <a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/blob/master/LICENSE">
     <img alt="GitHub license" src="https://img.shields.io/github/license/d-asnaghi/bazel-arm-none-eabi?color=success">
 </a>
@@ -27,7 +27,7 @@
 </p>
 
 <p align="center">
-    
+
 <img src="https://asnaghi.me/images/bazel-arm.png" width="400px"/>
 
 </p>
@@ -214,11 +214,11 @@ git clone https://github.com/d-asnaghi/bazel-arm-none-eabi.git
 
 ### Build
 
-Use this command to build any `project` target (a mock example is provided).
+Use this command to build any target (a mock target `examples` is provided).
 
 ```bash
-# build the project
-bazelisk build project
+# build the examples
+bazelisk build examples
 ```
 
 This will take care of downloading the appropriate toolchain for your OS and compile all the source files specified by the target.
@@ -228,7 +228,7 @@ This will take care of downloading the appropriate toolchain for your OS and com
 ```bash
 ├── WORKSPACE
 │
-├── project
+├── examples
 │   ├── BUILD.bazel
 │   └── /* SOURCE CODE */
 │
@@ -237,13 +237,13 @@ This will take care of downloading the appropriate toolchain for your OS and com
     ├── compiler.BUILD
     ├── config.bzl
     └── arm-none-eabi
-        ├── darwin
+        ├── darwin_x86_64
         │   └── /* DARWIN TOOLCHAIN   */
-        ├── linux
+        ├── linux_x86_64
         │   └── /* LINUX TOOLCHAIN    */
-        ├── windows
+        ├── windows_x86_32
         │   └── /* WINDOWS TOOLCHAIN  */
         └── ...
-            └── /* OTHER TOOLCHAIN    */
+            └── /* OTHER TOOLCHAINS   */
 
 ```
