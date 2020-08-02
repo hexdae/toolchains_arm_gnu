@@ -22,7 +22,7 @@ cc_toolchain(
     strip_files = "//toolchain/arm-none-eabi/darwin:strip_files",
     supports_param_files = 0,
     toolchain_config = "//toolchain/arm-none-eabi/darwin:config",
-    toolchain_identifier = "arm_none_eabi_darwin",
+    toolchain_identifier = "arm_none_eabi_darwin_x86_64",
 )
 
 cc_toolchain(
