@@ -1,1 +1,0 @@
-"external/arm_none_eabi_windows/bin/arm-none-eabi-gcov.exe" %*

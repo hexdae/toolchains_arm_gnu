@@ -1,13 +1,13 @@
 # toolchains/BUILD.bazel
 
-load("@rules_cc//cc:defs.bzl", "cc_toolchain_suite")
+load("@rules_cc//cc:defs.bzl", "cc_toolchain", "cc_toolchain_suite")
 
 cc_toolchain_suite(
     name = "toolchain",
     toolchains = {
         "darwin": ":cc_toolchain_darwin",
         "k8": ":cc_toolchain_linux_x86_64",
-        "x64_windows": ":cc_toolchain_windows",
+        "x64_windows": ":cc_toolchain_windows_x86_32",
     },
 )
 
@@ -54,24 +54,24 @@ cc_toolchain(
 )
 
 cc_toolchain(
-    name = "cc_toolchain_windows",
-    all_files = "//toolchain/arm-none-eabi/windows:all_files",
-    ar_files = "//toolchain/arm-none-eabi/windows:ar_files",
-    compiler_files = "//toolchain/arm-none-eabi/windows:compiler_files",
+    name = "cc_toolchain_windows_x86_32",
+    all_files = "//toolchain/arm-none-eabi/windows_x86_32:all_files",
+    ar_files = "//toolchain/arm-none-eabi/windows_x86_32:ar_files",
+    compiler_files = "//toolchain/arm-none-eabi/windows_x86_32:compiler_files",
     dwp_files = ":empty",
-    linker_files = "//toolchain/arm-none-eabi/windows:linker_files",
-    objcopy_files = "//toolchain/arm-none-eabi/windows:objcopy_files",
-    strip_files = "//toolchain/arm-none-eabi/windows:strip_files",
+    linker_files = "//toolchain/arm-none-eabi/windows_x86_32:linker_files",
+    objcopy_files = "//toolchain/arm-none-eabi/windows_x86_32:objcopy_files",
+    strip_files = "//toolchain/arm-none-eabi/windows_x86_32:strip_files",
     supports_param_files = 0,
-    toolchain_config = "//toolchain/arm-none-eabi/windows:config",
-    toolchain_identifier = "arm_none_eabi_windows",
+    toolchain_config = "//toolchain/arm-none-eabi/windows_x86_32:config",
+    toolchain_identifier = "arm_none_eabi_windows_x86_32",
 )
 
 toolchain(
     name = "macos",
     exec_compatible_with = [
         "@platforms//os:macos",
-        "@platforms//cpu:x86_64"
+        "@platforms//cpu:x86_64",
     ],
     target_compatible_with = [
         "@platforms//os:none",
@@ -85,7 +85,7 @@ toolchain(
     name = "linux_x86_64",
     exec_compatible_with = [
         "@platforms//os:linux",
-        "@platforms//cpu:x86_64"
+        "@platforms//cpu:x86_64",
     ],
     target_compatible_with = [
         "@platforms//os:none",
@@ -95,12 +95,11 @@ toolchain(
     toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
 )
 
-
 toolchain(
     name = "linux_aarch64",
     exec_compatible_with = [
         "@platforms//os:linux",
-        "@platforms//cpu:aarch64"
+        "@platforms//cpu:aarch64",
     ],
     target_compatible_with = [
         "@platforms//os:none",
@@ -110,16 +109,31 @@ toolchain(
     toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
 )
 
-
 toolchain(
-    name = "windows",
+    name = "windows_x86_32",
     exec_compatible_with = [
         "@platforms//os:windows",
+        "@platforms//cpu:x86_32",
     ],
     target_compatible_with = [
         "@platforms//os:none",
         "@platforms//cpu:arm",
     ],
-    toolchain = ":cc_toolchain_windows",
+    toolchain = ":cc_toolchain_windows_x86_32",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)
+
+toolchain(
+    name = "windows_x86_64",
+    exec_compatible_with = [
+        "@platforms//os:windows",
+        "@platforms//cpu:x86_64",
+    ],
+    target_compatible_with = [
+        "@platforms//os:none",
+        "@platforms//cpu:arm",
+    ],
+    # No 64bit source is available, so we reuse the 32bit one.
+    toolchain = ":cc_toolchain_windows_x86_32",
     toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
 )
