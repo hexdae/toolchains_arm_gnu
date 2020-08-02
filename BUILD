@@ -22,7 +22,7 @@ filegroup(
     srcs = select({
         "darwin": ["@arm_none_eabi_darwin//:bin/arm-none-eabi-gcc"],
         "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-gcc"],
-        "windows": ["@arm_none_eabi_windows//:bin/arm-none-eabi-gcc.exe"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-gcc.exe"],
     }),
 )
 
@@ -31,7 +31,7 @@ filegroup(
     srcs = select({
         "darwin": ["@arm_none_eabi_darwin//:bin/arm-none-eabi-ar"],
         "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-ar"],
-        "windows": ["@arm_none_eabi_windows//:bin/arm-none-eabi-ar.exe"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-ar.exe"],
     }),
 )
 
@@ -40,7 +40,7 @@ filegroup(
     srcs = select({
         "darwin": ["@arm_none_eabi_darwin//:bin/arm-none-eabi-ld"],
         "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-ld"],
-        "windows": ["@arm_none_eabi_windows//:bin/arm-none-eabi-ld.exe"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-ld.exe"],
     }),
 )
 
@@ -49,7 +49,7 @@ filegroup(
     srcs = select({
         "darwin": ["@arm_none_eabi_darwin//:bin/arm-none-eabi-nm"],
         "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-nm"],
-        "windows": ["@arm_none_eabi_windows//:bin/arm-none-eabi-nm.exe"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-nm.exe"],
     }),
 )
 
@@ -58,7 +58,7 @@ filegroup(
     srcs = select({
         "darwin": ["@arm_none_eabi_darwin//:bin/arm-none-eabi-objcopy"],
         "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-objcopy"],
-        "windows": ["@arm_none_eabi_windows//:bin/arm-none-eabi-objcopy.exe"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-objcopy.exe"],
     }),
 )
 
@@ -67,7 +67,7 @@ filegroup(
     srcs = select({
         "darwin": ["@arm_none_eabi_darwin//:bin/arm-none-eabi-objdump"],
         "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-objdump"],
-        "windows": ["@arm_none_eabi_windows//:bin/arm-none-eabi-objdump.exe"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-objdump.exe"],
     }),
 )
 
@@ -76,7 +76,7 @@ filegroup(
     srcs = select({
         "darwin": ["@arm_none_eabi_darwin//:bin/arm-none-eabi-strip"],
         "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-strip"],
-        "windows": ["@arm_none_eabi_windows//:bin/arm-none-eabi-strip.exe"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-strip.exe"],
     }),
 )
 
@@ -85,6 +85,6 @@ filegroup(
     srcs = select({
         "darwin": ["@arm_none_eabi_darwin//:bin/arm-none-eabi-as"],
         "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-as"],
-        "windows": ["@arm_none_eabi_windows//:bin/arm-none-eabi-as.exe"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-as.exe"],
     }),
 )

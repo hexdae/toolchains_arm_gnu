@@ -5,7 +5,7 @@ load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
 
 package(default_visibility = ["//visibility:public"])
 
-compiler = "arm_none_eabi_windows"
+compiler = "arm_none_eabi_windows_x86_32"
 
 filegroup(
     name = "all_files",
@@ -67,7 +67,7 @@ cc_arm_none_eabi_config(
     gcc_repo = compiler,
     gcc_version = "9.2.1",
     host_system_name = "x86-windows",
-    toolchain_identifier = "arm_none_eabi_windows",
+    toolchain_identifier = "arm_none_eabi_windows_x86_32",
     wrapper_ext = ".bat",
     wrapper_path = "arm-none-eabi/windows",
 )

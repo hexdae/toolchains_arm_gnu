@@ -64,7 +64,7 @@ cc_toolchain(
     strip_files = "//toolchain/arm-none-eabi/windows:strip_files",
     supports_param_files = 0,
     toolchain_config = "//toolchain/arm-none-eabi/windows:config",
-    toolchain_identifier = "arm_none_eabi_windows",
+    toolchain_identifier = "arm_none_eabi_windows_x86_32",
 )
 
 toolchain(
