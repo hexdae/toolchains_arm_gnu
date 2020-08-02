@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - name: build project
+      - name: build examples
         run: |
-          bazelisk build project:all
-          bazelisk build --config=legacy project:all
+          bazelisk build examples:all
+          bazelisk build --config=legacy examples:all
