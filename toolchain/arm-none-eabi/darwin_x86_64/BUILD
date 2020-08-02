@@ -1,11 +1,10 @@
 # toolchains/arm-none-eabi/darwin/BUILD.bazel
 
-load("@rules_cc//cc:defs.bzl", "cc_toolchain")
 load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
 
 package(default_visibility = ["//visibility:public"])
 
-compiler = "arm_none_eabi_darwin"
+compiler = "arm_none_eabi_darwin_x86_64"
 
 filegroup(
     name = "all_files",
@@ -66,7 +65,7 @@ cc_arm_none_eabi_config(
     name = "config",
     gcc_repo = compiler,
     gcc_version = "9.2.1",
-    host_system_name = "x86-darwin",
-    toolchain_identifier = "arm_none_eabi_darwin",
-    wrapper_path = "arm-none-eabi/darwin",
+    host_system_name = "darwin_x86_64",
+    toolchain_identifier = "arm_none_eabi_darwin_x86_64",
+    wrapper_path = "arm-none-eabi/darwin_x86_64",
 )

@@ -1,6 +1,5 @@
 # toolchains/arm-none-eabi/linux/BUILD.bazel
 
-load("@rules_cc//cc:defs.bzl", "cc_toolchain")
 load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
 
 package(default_visibility = ["//visibility:public"])

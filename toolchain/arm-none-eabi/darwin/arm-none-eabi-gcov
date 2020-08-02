@@ -1,3 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-external/arm_none_eabi_darwin/bin/arm-none-eabi-gcov "$@"

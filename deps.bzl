@@ -1,8 +1,11 @@
+"""deps.bzl"""
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def arm_none_eabi_deps():
+    """Workspace dependencies for the arm none eabi gcc toolchain"""
+
     http_archive(
-        name = "arm_none_eabi_darwin",
+        name = "arm_none_eabi_darwin_x86_64",
         build_file = "@arm_none_eabi//toolchain:compiler.BUILD",
         sha256 = "1249f860d4155d9c3ba8f30c19e7a88c5047923cea17e0d08e633f12408f01f0",
         strip_prefix = "gcc-arm-none-eabi-9-2019-q4-major",
@@ -33,7 +36,7 @@ def arm_none_eabi_deps():
     )
 
     native.register_toolchains(
-        "@arm_none_eabi//toolchain:macos",
+        "@arm_none_eabi//toolchain:macos_x86_64",
         "@arm_none_eabi//toolchain:linux_x86_64",
         "@arm_none_eabi//toolchain:linux_aarch64",
         "@arm_none_eabi//toolchain:windows_x86_32",
