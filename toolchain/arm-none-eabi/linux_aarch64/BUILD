@@ -66,6 +66,6 @@ cc_arm_none_eabi_config(
     gcc_repo = compiler,
     gcc_version = "9.2.1",
     host_system_name = "linux_aarch64",
-    toolchain_identifier = "arm_none_eabi_linux_x86_64",
+    toolchain_identifier = "arm_none_eabi_linux_aarch64",
     wrapper_path = "arm-none-eabi/linux_aarch64",
 )
