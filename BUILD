@@ -88,3 +88,12 @@ filegroup(
         "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-as.exe"],
     }),
 )
+
+filegroup(
+    name = "gdb",
+    srcs = select({
+        "darwin": ["@arm_none_eabi_darwin_x86_64//:bin/arm-none-eabi-gdb"],
+        "linux": ["@arm_none_eabi_linux_x86_64//:bin/arm-none-eabi-gdb"],
+        "windows": ["@arm_none_eabi_windows_x86_32//:bin/arm-none-eabi-gdb.exe"],
+    }),
+)
