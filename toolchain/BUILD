@@ -2,17 +2,18 @@
 
 load("@rules_cc//cc:defs.bzl", "cc_toolchain", "cc_toolchain_suite")
 
+# This is for legacy compatibility, it will disappear in the future
 cc_toolchain_suite(
     name = "toolchain",
     toolchains = {
-        "darwin": ":cc_toolchain_darwin_x86_64",
+        "darwin": ":cc_toolchain_darwin",
         "k8": ":cc_toolchain_linux_x86_64",
         "x64_windows": ":cc_toolchain_windows_x86_32",
     },
 )
 
 cc_toolchain(
-    name = "cc_toolchain_darwin_x86_64",
+    name = "cc_toolchain_darwin",
     all_files = "//toolchain/arm-none-eabi/darwin_x86_64:all_files",
     ar_files = "//toolchain/arm-none-eabi/darwin_x86_64:ar_files",
     compiler_files = "//toolchain/arm-none-eabi/darwin_x86_64:compiler_files",
@@ -22,7 +23,7 @@ cc_toolchain(
     strip_files = "//toolchain/arm-none-eabi/darwin_x86_64:strip_files",
     supports_param_files = 0,
     toolchain_config = "//toolchain/arm-none-eabi/darwin_x86_64:config",
-    toolchain_identifier = "arm_none_eabi_darwin_x86_64",
+    toolchain_identifier = "arm_none_eabi_darwin",
 )
 
 cc_toolchain(
@@ -68,16 +69,15 @@ cc_toolchain(
 )
 
 toolchain(
-    name = "macos_x86_64",
+    name = "macos",
     exec_compatible_with = [
         "@platforms//os:macos",
-        "@platforms//cpu:x86_64",
     ],
     target_compatible_with = [
         "@platforms//os:none",
         "@platforms//cpu:arm",
     ],
-    toolchain = ":cc_toolchain_darwin_x86_64",
+    toolchain = ":cc_toolchain_darwin",
     toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
 )
 
