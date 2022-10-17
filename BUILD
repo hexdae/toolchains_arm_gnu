@@ -4,17 +4,25 @@ package(default_visibility = ["//visibility:public"])
 
 config_setting(
     name = "darwin",
-    values = {"host_cpu": "darwin"},
+    constraint_values = [
+        "@platforms//os:macos",
+    ],
 )
 
 config_setting(
     name = "linux",
-    values = {"host_cpu": "k8"},
+    constraint_values = [
+        "@platforms//cpu:x86_64",
+        "@platforms//os:linux",
+    ],
 )
 
 config_setting(
     name = "windows",
-    values = {"host_cpu": "x64_windows"},
+    constraint_values = [
+        "@platforms//cpu:x86_64",
+        "@platforms//os:windows",
+    ],
 )
 
 filegroup(
