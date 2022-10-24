@@ -42,21 +42,27 @@ You can follow the post [Bazel for ARM embedded toolchains](https://asnaghi.me/p
 ## Use the toolchain from this repo
 
 To get started with the arm none eabi embedded toolchain, copy the appropriate `WORKSPACE` setup
-from the [releases](https://github.com/d-asnaghi/bazel-arm-none-eabi/releases) page. For example:
+from the [releases](https://github.com/d-asnaghi/bazel-arm-none-eabi/releases) page. 
+
+Using a stable commit from the repo is also an option,for example:
 
 ```python
 # WORKSPACE
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-http_archive(
+#---------------------------------------------------------------------
+# ARM none eabi GCC
+#---------------------------------------------------------------------
+git_repository(
     name = "arm_none_eabi",
-    url = "https://github.com/d-asnaghi/bazel-arm-none-eabi/archive/<VERSION>.tar.gz",
-    sha256 = "<SHA256>",
-    strip_prefix = "bazel-arm-none-eabi-1.0"
+    commit = "<commit>",
+    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
+    shallow_since = "<value>",
 )
 
 load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
+
 arm_none_eabi_deps()
+#---------------------------------------------------------------------
 ```
 
 And this to your `.bazelrc `
