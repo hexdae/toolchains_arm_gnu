@@ -45,7 +45,7 @@ def arm_none_eabi_deps():
         url = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/gcc-arm-none-eabi-9-2019-q4-major-win32.zip?revision=20c5df9c-9870-47e2-b994-2a652fb99075&la=en&hash=347C07EEEB848CC8944F943D8E1EAAB55A6CA0BC",
     )
 
-    for cpu, _ in compatible_cpus.items():
+    for cpu in compatible_cpus.keys():
         native.register_toolchains(
             "@arm_none_eabi//toolchain:macos_{}".format(cpu),
             "@arm_none_eabi//toolchain:linux_x86_64_{}".format(cpu),
