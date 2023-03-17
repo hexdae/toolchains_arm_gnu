@@ -1,6 +1,7 @@
 # toolchains/BUILD.bazel
 
 load("@rules_cc//cc:defs.bzl", "cc_toolchain", "cc_toolchain_suite")
+load("@arm_none_eabi//:deps.bzl", "compatible_cpus")
 
 # This is for legacy compatibility, it will disappear in the future
 cc_toolchain_suite(
@@ -68,72 +69,85 @@ cc_toolchain(
     toolchain_identifier = "arm_none_eabi_windows_x86_32",
 )
 
-toolchain(
-    name = "macos",
-    exec_compatible_with = [
-        "@platforms//os:macos",
-    ],
-    target_compatible_with = [
-        "@platforms//os:none",
-        "@platforms//cpu:arm",
-    ],
-    toolchain = ":cc_toolchain_darwin",
-    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-)
+[
+    toolchain(
+        name = "macos_{}".format(cpu),
+        exec_compatible_with = ["@platforms//os:macos"],
+        target_compatible_with = [
+            "@platforms//os:none",
+            cpu_constraint,
+        ],
+        toolchain = ":cc_toolchain_darwin",
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
+    for cpu, cpu_constraint in compatible_cpus.items()
+]
 
-toolchain(
-    name = "linux_x86_64",
-    exec_compatible_with = [
-        "@platforms//os:linux",
-        "@platforms//cpu:x86_64",
-    ],
-    target_compatible_with = [
-        "@platforms//os:none",
-        "@platforms//cpu:arm",
-    ],
-    toolchain = ":cc_toolchain_linux_x86_64",
-    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-)
+[
+    toolchain(
+        name = "linux_x86_64_{}".format(cpu),
+        exec_compatible_with = [
+            "@platforms//os:linux",
+            "@platforms//cpu:x86_64",
+        ],
+        target_compatible_with = [
+            "@platforms//os:none",
+            cpu_constraint,
+        ],
+        toolchain = ":cc_toolchain_linux_x86_64",
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
+    for cpu, cpu_constraint in compatible_cpus.items()
+]
 
-toolchain(
-    name = "linux_aarch64",
-    exec_compatible_with = [
-        "@platforms//os:linux",
-        "@platforms//cpu:aarch64",
-    ],
-    target_compatible_with = [
-        "@platforms//os:none",
-        "@platforms//cpu:arm",
-    ],
-    toolchain = ":cc_toolchain_linux_aarch64",
-    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-)
+[
+    toolchain(
+        name = "linux_aarch64_{}".format(cpu),
+        exec_compatible_with = [
+            "@platforms//os:linux",
+            "@platforms//cpu:aarch64",
+        ],
+        target_compatible_with = [
+            "@platforms//os:none",
+            cpu_constraint,
+        ],
+        toolchain = ":cc_toolchain_linux_aarch64",
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
+    for cpu, cpu_constraint in compatible_cpus.items()
+]
 
-toolchain(
-    name = "windows_x86_32",
-    exec_compatible_with = [
-        "@platforms//os:windows",
-        "@platforms//cpu:x86_32",
-    ],
-    target_compatible_with = [
-        "@platforms//os:none",
-        "@platforms//cpu:arm",
-    ],
-    toolchain = ":cc_toolchain_windows_x86_32",
-    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-)
+[
+    toolchain(
+        name = "windows_x86_32_{}".format(cpu),
+        exec_compatible_with = [
+            "@platforms//os:windows",
+            "@platforms//cpu:x86_32",
+        ],
+        target_compatible_with = [
+            "@platforms//os:none",
+            cpu_constraint,
+        ],
+        toolchain = ":cc_toolchain_windows_x86_32",
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
+    for cpu, cpu_constraint in compatible_cpus.items()
+]
 
-toolchain(
-    name = "windows_x86_64",
-    exec_compatible_with = [
-        "@platforms//os:windows",
-        "@platforms//cpu:x86_64",
-    ],
-    target_compatible_with = [
-        "@platforms//os:none",
-        "@platforms//cpu:arm",
-    ],
-    # No 64bit source is available, so we reuse the 32bit one.
-    toolchain = ":cc_toolchain_windows_x86_32",
-    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-)
+[
+    toolchain(
+        name = "windows_x86_64_{}".format(cpu),
+        exec_compatible_with = [
+            "@platforms//os:windows",
+            "@platforms//cpu:x86_64",
+        ],
+        target_compatible_with = [
+            "@platforms//os:none",
+            cpu_constraint,
+        ],
+        # No 64bit source is available, so we reuse the 32bit one.
+        toolchain = ":cc_toolchain_windows_x86_32",
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
+    for cpu, cpu_constraint in compatible_cpus.items()
+]
