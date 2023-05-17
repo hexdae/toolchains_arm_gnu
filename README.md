@@ -49,6 +49,9 @@ Using a stable commit from the repo is also an option,for example:
 ```python
 # WORKSPACE
 
+# loading the git_repository rule into the workspace
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
 #---------------------------------------------------------------------
 # ARM none eabi GCC
 #---------------------------------------------------------------------
