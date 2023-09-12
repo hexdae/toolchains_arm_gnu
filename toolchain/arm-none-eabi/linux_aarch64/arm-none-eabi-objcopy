@@ -1,3 +1,3 @@
 #!/bin/bash
 set -euo pipefail
-external/arm_none_eabi_linux_x86_64/bin/arm-none-eabi-objcopy "$@"
+external/arm_none_eabi_linux_aarch64/bin/arm-none-eabi-objcopy "$@"
