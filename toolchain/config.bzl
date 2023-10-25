@@ -19,6 +19,16 @@ def _action_configs(bins):
         ],
     )
 
+    compile_cpp = action_config(
+        action_name = ACTION_NAMES.cpp_compile,
+        tools = [
+            struct(
+                type_name = "tool",
+                tool = _tool_path(bins, "gcc"),
+            ),
+        ],
+    )
+
     link = action_config(
         action_name = ACTION_NAMES.cpp_link_executable,
         tools = [
@@ -52,7 +62,7 @@ def _action_configs(bins):
         ],
     )
 
-    return [compile, link, ar, strip]
+    return [compile, compile_cpp, link, ar, strip]
 
 def _impl(ctx):
     include_flags = [
@@ -116,20 +126,25 @@ def _impl(ctx):
         ],
     )
 
-    custom_linkopts = feature(
-        name = "custom_linkopts",
-        enabled = True,
-        flag_sets = [
-            flag_set(
-                actions = [
-                    ACTION_NAMES.cpp_link_executable,
-                ],
-                flag_groups = [
-                    flag_group(flags = ctx.attr.linkopts),
-                ],
-            ),
-        ],
-    )
+    features = [toolchain_compiler_flags, toolchain_linker_flags]
+
+    if (len(ctx.attr.linkopts)):
+        custom_linkopts = feature(
+            name = "custom_linkopts",
+            enabled = True,
+            flag_sets = [
+                flag_set(
+                    actions = [
+                        ACTION_NAMES.cpp_link_executable,
+                    ],
+                    flag_groups = [
+                        flag_group(flags = ctx.attr.linkopts),
+                    ],
+                ),
+            ],
+        )
+
+        features.append(custom_linkopts)
 
     return cc_common.create_cc_toolchain_config_info(
         ctx = ctx,
@@ -142,11 +157,7 @@ def _impl(ctx):
         abi_version = "eabi",
         abi_libc_version = ctx.attr.gcc_version,
         action_configs = _action_configs(ctx.files.toolchain_bins),
-        features = [
-            toolchain_compiler_flags,
-            toolchain_linker_flags,
-            custom_linkopts,
-        ],
+        features = features,
     )
 
 cc_arm_none_eabi_config = rule(
