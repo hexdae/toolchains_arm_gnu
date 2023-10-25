@@ -70,6 +70,25 @@ filegroup(
     ]),
 )
 
+# files for executing compiler.
+filegroup(
+    name = "compiler_files",
+    srcs = [
+        ":compiler_pieces",
+        ":gcc",
+    ],
+)
+
+filegroup(
+    name = "linker_files",
+    srcs = [
+        ":ar",
+        ":compiler_pieces",
+        ":gcc",
+        ":ld",
+    ],
+)
+
 # collection of executables.
 filegroup(
     name = "compiler_components",

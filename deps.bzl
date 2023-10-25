@@ -1,8 +1,7 @@
 """deps.bzl"""
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@arm_none_eabi//toolchain:toolchains.bzl", "register_arm_none_eabi_toolchain")
-load("@bazel_skylib//rules:copy_directory.bzl", "copy_directory")
+load("@arm_none_eabi//toolchain:toolchain.bzl", "register_arm_none_eabi_toolchain")
 
 compatible_cpus = {
     "arm": "@platforms//cpu:arm",

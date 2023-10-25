@@ -1,5 +1,8 @@
+"""
+This module provides functions to register an arm-none-eabi toolchain
+"""
+
 load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
-load("@bazel_skylib//rules:copy_directory.bzl", "copy_directory")
 
 compatible_cpus = {
     "arm": "@platforms//cpu:arm",
@@ -9,6 +12,8 @@ compatible_cpus = {
     "armv7e-mf": "@platforms//cpu:armv7e-mf",
     "armv8-m": "@platforms//cpu:armv8-m",
 }
+
+hosts = ["darwin_x86_64", "linux_x86_64", "linux_aarch64", "windows_x86_32"]
 
 def register_arm_none_eabi_toolchain(name):
     for cpu in compatible_cpus.keys():
@@ -21,37 +26,36 @@ def register_arm_none_eabi_toolchain(name):
         )
 
 def arm_none_eabi_toolchain(name, constraint_values = [], copts = [], linkopts = []):
-    for host in ["darwin_x86_64", "linux_x86_64", "linux_aarch64", "windows_x86_32"]:
-        copy_directory(
-            name = "{}_arm_none_eabi_{}_wrappers".format(name, host),
-            src = "@arm_none_eabi//toolchain/arm-none-eabi:{}".format(host),
-            out = "arm-none-eabi-{}".format(host),
-        )
+    """
+    Create an arm-none-eabi toolchain with the given configuration.
 
+    Args:
+        name: The name of the toolchain.
+        constraint_values: A list of constraint values to apply to the toolchain.
+        copts: A list of compiler options to apply to the toolchain.
+        linkopts: A list of linker options to apply to the toolchain.
+    """
+    for host in hosts:
         cc_arm_none_eabi_config(
             name = "config_{}_{}".format(host, name),
             gcc_repo = "arm_none_eabi_{}".format(host),
             gcc_version = "9.2.1",
             host_system_name = host,
             toolchain_identifier = "arm_none_eabi_{}_{}".format(host, name),
-            wrapper_path = "arm-none-eabi-{}".format(host),
+            toolchain_bins = "@arm_none_eabi_{}//:compiler_components".format(host),
             copts = copts,
             linkopts = linkopts,
-            wrappers = ":{}_arm_none_eabi_{}_wrappers".format(name, host),
-            gcc = "@arm_none_eabi_{}//:bin/arm-none-eabi-gcc".format(host),
-            ar = "@arm_none_eabi_{}//:bin/arm-none-eabi-ar".format(host),
-            toolchain_bin = "@arm_none_eabi_{}//:compiler_components".format(host),
         )
 
         native.cc_toolchain(
             name = "cc_toolchain_{}_{}".format(host, name),
-            all_files = "@arm_none_eabi//toolchain/arm-none-eabi/{}:all_files".format(host),
-            ar_files = "@arm_none_eabi//toolchain/arm-none-eabi/{}:ar_files".format(host),
-            compiler_files = "@arm_none_eabi//toolchain/arm-none-eabi/{}:compiler_files".format(host),
+            all_files = "@arm_none_eabi_{}//:compiler_pieces".format(host),
+            ar_files = "@arm_none_eabi_{}//:ar".format(host),
+            compiler_files = "@arm_none_eabi_{}//:compiler_files".format(host),
             dwp_files = ":empty",
-            linker_files = "@arm_none_eabi//toolchain/arm-none-eabi/{}:linker_files".format(host),
-            objcopy_files = "@arm_none_eabi//toolchain/arm-none-eabi/{}:objcopy_files".format(host),
-            strip_files = "@arm_none_eabi//toolchain/arm-none-eabi/{}:strip_files".format(host),
+            linker_files = "@arm_none_eabi_{}//:linker_files".format(host),
+            objcopy_files = "@arm_none_eabi_{}//:objcopy".format(host),
+            strip_files = "@arm_none_eabi_{}//:strip".format(host),
             supports_param_files = 0,
             toolchain_config = ":config_{}_{}".format(host, name),
             toolchain_identifier = "arm_none_eabi_{}_{}".format(host, name),
