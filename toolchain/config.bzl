@@ -59,7 +59,7 @@ def _impl(ctx):
                     ACTION_NAMES.clif_match,
                 ],
                 flag_groups = [
-                    flag_group(flags = include_flags),
+                    flag_group(flags = include_flags + ctx.attr.copts),
                 ],
             ),
         ],
@@ -74,7 +74,7 @@ def _impl(ctx):
                     ACTION_NAMES.linkstamp_compile,
                 ],
                 flag_groups = [
-                    flag_group(flags = linker_flags),
+                    flag_group(flags = linker_flags + ctx.attr.linkopts),
                 ],
             ),
         ],
@@ -106,6 +106,8 @@ cc_arm_none_eabi_config = rule(
         "wrapper_ext": attr.string(default = ""),
         "gcc_repo": attr.string(default = ""),
         "gcc_version": attr.string(default = ""),
+        "copts": attr.string_list(default = []),
+        "linkopts": attr.string_list(default = []),
     },
     provides = [CcToolchainConfigInfo],
 )

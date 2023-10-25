@@ -60,12 +60,3 @@ filegroup(
         "@{}//:strip".format(compiler),
     ],
 )
-
-cc_arm_none_eabi_config(
-    name = "config",
-    gcc_repo = compiler,
-    gcc_version = "9.2.1",
-    host_system_name = "linux_x86_64",
-    toolchain_identifier = "arm_none_eabi_linux_x86_64",
-    wrapper_path = "arm-none-eabi/linux_x86_64",
-)
