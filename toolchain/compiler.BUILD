@@ -11,6 +11,18 @@ filegroup(
     srcs = glob(["bin/arm-none-eabi-gcc*"]),
 )
 
+# cpp executables.
+filegroup(
+    name = "cpp",
+    srcs = glob(["bin/arm-none-eabi-cpp*"]),
+)
+
+# gcov executables.
+filegroup(
+    name = "gcov",
+    srcs = glob(["bin/arm-none-eabi-gcov*"]),
+)
+
 # ar executables.
 filegroup(
     name = "ar",
@@ -73,6 +85,7 @@ filegroup(
     name = "compiler_files",
     srcs = [
         ":compiler_pieces",
+        ":cpp",
         ":gcc",
     ],
 )
@@ -93,7 +106,9 @@ filegroup(
     srcs = [
         ":ar",
         ":as",
+        ":cpp",
         ":gcc",
+        ":gcov",
         ":ld",
         ":nm",
         ":objcopy",

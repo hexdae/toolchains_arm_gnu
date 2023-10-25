@@ -8,63 +8,69 @@ def _tool_path(bins, tool_name):
 
     return None
 
-def _action_configs(bins):
-    compile = action_config(
-        action_name = ACTION_NAMES.c_compile,
-        tools = [
-            struct(
-                type_name = "tool",
-                tool = _tool_path(bins, "gcc"),
-            ),
-        ],
-    )
-
-    compile_cpp = action_config(
-        action_name = ACTION_NAMES.cpp_compile,
-        tools = [
-            struct(
-                type_name = "tool",
-                tool = _tool_path(bins, "gcc"),
-            ),
-        ],
-    )
-
-    link = action_config(
-        action_name = ACTION_NAMES.cpp_link_executable,
-        tools = [
-            struct(
-                type_name = "tool",
-                tool = _tool_path(bins, "gcc"),
-            ),
-        ],
-    )
-
-    ar = action_config(
-        action_name = ACTION_NAMES.cpp_link_static_library,
-        tools = [
-            struct(
-                type_name = "tool",
-                tool = _tool_path(bins, "ar"),
-            ),
-        ],
-        implies = [
-            "archiver_flags",
-        ],
-    )
-
-    strip = action_config(
-        action_name = ACTION_NAMES.strip,
-        tools = [
-            struct(
-                type_name = "tool",
-                tool = _tool_path(bins, "strip"),
-            ),
-        ],
-    )
-
-    return [compile, compile_cpp, link, ar, strip]
+def _action_configs(ctx, action_names, tool_name, implies = []):
+    return [
+        action_config(
+            action_name = action_name,
+            tools = [
+                struct(
+                    type_name = "tool",
+                    tool = _tool_path(ctx.files.toolchain_bins, tool_name),
+                ),
+            ],
+            implies = implies,
+        )
+        for action_name in action_names
+    ]
 
 def _impl(ctx):
+    action_configs = []
+
+    # Action -> binary mappings from Pigweed:
+    # https://github.com/google/pigweed/blob/aac7fab/pw_toolchain_bazel/cc_toolchain/private/cc_toolchain.bzl#L19
+
+    action_configs += _action_configs(
+        ctx,
+        [
+            ACTION_NAMES.assemble,
+            ACTION_NAMES.preprocess_assemble,
+            ACTION_NAMES.c_compile,
+            ACTION_NAMES.cc_flags_make_variable,
+            ACTION_NAMES.cpp_link_executable,
+            ACTION_NAMES.cpp_link_dynamic_library,
+            ACTION_NAMES.cpp_link_nodeps_dynamic_library,
+        ],
+        "gcc",
+    )
+
+    action_configs += _action_configs(
+        ctx,
+        [
+            ACTION_NAMES.cpp_compile,
+            ACTION_NAMES.cpp_header_parsing,
+        ],
+        "cpp",
+    )
+
+    action_configs += _action_configs(
+        ctx,
+        [ACTION_NAMES.cpp_link_static_library],
+        "ar",
+        implies = ["archiver_flags", "linker_param_file"],
+    )
+
+    action_configs += _action_configs(
+        ctx,
+        [ACTION_NAMES.llvm_cov],
+        "gcov",
+    )
+
+    action_configs += _action_configs(
+        ctx,
+        [ACTION_NAMES.strip],
+        "strip",
+    )
+
     include_flags = [
         "-I",
         "external/{}/arm-none-eabi/include".format(ctx.attr.gcc_repo),
@@ -156,7 +162,7 @@ def _impl(ctx):
         compiler = ctx.attr.gcc_repo,
         abi_version = "eabi",
         abi_libc_version = ctx.attr.gcc_version,
-        action_configs = _action_configs(ctx.files.toolchain_bins),
+        action_configs = action_configs,
         features = features,
     )
 
