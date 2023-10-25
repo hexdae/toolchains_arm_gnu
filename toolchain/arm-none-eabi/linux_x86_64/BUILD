@@ -6,6 +6,8 @@ package(default_visibility = ["//visibility:public"])
 
 compiler = "arm_none_eabi_linux_x86_64"
 
+exports_files(["**"])
+
 filegroup(
     name = "all_files",
     srcs = [

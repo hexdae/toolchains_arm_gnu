@@ -6,6 +6,23 @@ package(default_visibility = ["//visibility:public"])
 
 compiler = "arm_none_eabi_darwin_x86_64"
 
+exports_files(["**"])
+
+filegroup(
+    name = "all_wrappers",
+    srcs = [
+        "arm-none-eabi-ar",
+        "arm-none-eabi-cpp",
+        "arm-none-eabi-gcc",
+        "arm-none-eabi-gcov",
+        "arm-none-eabi-ld",
+        "arm-none-eabi-nm",
+        "arm-none-eabi-objcopy",
+        "arm-none-eabi-objdump",
+        "arm-none-eabi-strip",
+    ],
+)
+
 filegroup(
     name = "all_files",
     srcs = [

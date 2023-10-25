@@ -1,6 +1,8 @@
 """deps.bzl"""
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@arm_none_eabi//toolchain:toolchains.bzl", "register_arm_none_eabi_toolchain")
+load("@bazel_skylib//rules:copy_directory.bzl", "copy_directory")
 
 compatible_cpus = {
     "arm": "@platforms//cpu:arm",
@@ -44,3 +46,5 @@ def arm_none_eabi_deps():
         sha256 = "e4c964add8d0fdcc6b14f323e277a0946456082a84a1cc560da265b357762b62",
         url = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/gcc-arm-none-eabi-9-2019-q4-major-win32.zip?revision=20c5df9c-9870-47e2-b994-2a652fb99075&la=en&hash=347C07EEEB848CC8944F943D8E1EAAB55A6CA0BC",
     )
+
+    register_arm_none_eabi_toolchain("//toolchain:default")
