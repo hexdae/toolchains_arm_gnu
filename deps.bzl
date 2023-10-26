@@ -1,15 +1,7 @@
 """deps.bzl"""
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
-compatible_cpus = {
-    "arm": "@platforms//cpu:arm",
-    "armv6-m": "@platforms//cpu:armv6-m",
-    "armv7-m": "@platforms//cpu:armv7-m",
-    "armv7e-m": "@platforms//cpu:armv7e-m",
-    "armv7e-mf": "@platforms//cpu:armv7e-mf",
-    "armv8-m": "@platforms//cpu:armv8-m",
-}
+load("@arm_none_eabi//toolchain:toolchain.bzl", "compatible_cpus", "register_arm_none_eabi_toolchain")
 
 def arm_none_eabi_deps():
     """Workspace dependencies for the arm none eabi gcc toolchain"""
@@ -45,11 +37,6 @@ def arm_none_eabi_deps():
         url = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/gcc-arm-none-eabi-9-2019-q4-major-win32.zip?revision=20c5df9c-9870-47e2-b994-2a652fb99075&la=en&hash=347C07EEEB848CC8944F943D8E1EAAB55A6CA0BC",
     )
 
-    for cpu in compatible_cpus.keys():
-        native.register_toolchains(
-            "@arm_none_eabi//toolchain:macos_{}".format(cpu),
-            "@arm_none_eabi//toolchain:linux_x86_64_{}".format(cpu),
-            "@arm_none_eabi//toolchain:linux_aarch64_{}".format(cpu),
-            "@arm_none_eabi//toolchain:windows_x86_32_{}".format(cpu),
-            "@arm_none_eabi//toolchain:windows_x86_64_{}".format(cpu),
-        )
+def register_default_arm_none_eabi_toolchains():
+    for cpu in compatible_cpus:
+        register_arm_none_eabi_toolchain("//toolchain:{}".format(cpu))

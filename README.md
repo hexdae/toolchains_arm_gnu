@@ -62,13 +62,15 @@ git_repository(
     shallow_since = "<value>",
 )
 
-load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
+load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_none_eabi_toolchains")
 
 arm_none_eabi_deps()
+
+register_default_arm_none_eabi_toolchains()
 #---------------------------------------------------------------------
 ```
 
-And this to your `.bazelrc `
+And this to your `.bazelrc`
 ```bash
 # .bazelrc
 
@@ -77,16 +79,7 @@ build --incompatible_enable_cc_toolchain_resolution
 build --platforms=@arm_none_eabi//platforms:arm_none_generic
 ```
 
-If for you are using Bazel rules that do not support platforms, you can also use this instead
-```bash
-# .bazelrc
-
-# Use the legacy crosstool-top config
-build:legacy --crosstool_top=@arm_none_eabi//toolchain
-build:legacy --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
-```
-
-Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler
+Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler.
 
 ## Platforms
 
@@ -114,6 +107,36 @@ platform(
     ],
 )
 ```
+
+If you want to bake certain compiler flags in to your toolchain, you can define a custom `arm-none-eabi` toolchain in your repo.
+
+In a BUILD file:
+
+```python
+load("@arm_none_eabi//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
+arm_none_eabi_toolchain(
+    name = "custom_toolchain",
+    target_compatible_with = [
+        "<your additional constraints>",
+    ],
+    copts = [
+        "<your additional copts>",
+    ],
+    linkopts = [
+        "<your additional linkopts>",
+    ],
+)
+```
+
+And in your WORKSPACE:
+
+```python
+load("@arm_none_eabi//toolchain:toolchain.bzl", "register_arm_none_eabi_toolchain")
+
+register_arm_none_eabi_toolchain("@//path/to:custom_toolchain")
+```
+
+You should do this *before* you call `register_default_arm_none_eabi_toolchain()`, as the order of toolchain registration matters for toolchain resolution.
 
 ## Configurable build attributes
 

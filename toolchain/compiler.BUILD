@@ -1,14 +1,26 @@
 # toolchains/compiler.BUILD
 
-package(default_visibility = ['//visibility:public'])
+package(default_visibility = ["//visibility:public"])
 
 # export the executable files to make them available for direct use.
-exports_files(glob(["bin/*"]))
+exports_files(glob(["bin/*"]) + ["bin"])
 
 # gcc executables.
 filegroup(
     name = "gcc",
     srcs = glob(["bin/arm-none-eabi-gcc*"]),
+)
+
+# cpp executables.
+filegroup(
+    name = "cpp",
+    srcs = glob(["bin/arm-none-eabi-cpp*"]),
+)
+
+# gcov executables.
+filegroup(
+    name = "gcov",
+    srcs = glob(["bin/arm-none-eabi-gcov*"]),
 )
 
 # ar executables.
@@ -68,13 +80,35 @@ filegroup(
     ]),
 )
 
+# files for executing compiler.
+filegroup(
+    name = "compiler_files",
+    srcs = [
+        ":compiler_pieces",
+        ":cpp",
+        ":gcc",
+    ],
+)
+
+filegroup(
+    name = "linker_files",
+    srcs = [
+        ":ar",
+        ":compiler_pieces",
+        ":gcc",
+        ":ld",
+    ],
+)
+
 # collection of executables.
 filegroup(
     name = "compiler_components",
     srcs = [
         ":ar",
         ":as",
+        ":cpp",
         ":gcc",
+        ":gcov",
         ":ld",
         ":nm",
         ":objcopy",

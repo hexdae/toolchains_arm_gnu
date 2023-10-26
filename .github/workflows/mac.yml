@@ -16,4 +16,3 @@ jobs:
       - name: build examples
         run: |
           bazelisk build examples:all
-          bazelisk build --config=legacy examples:all
