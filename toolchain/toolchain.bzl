@@ -16,22 +16,21 @@ compatible_cpus = {
 hosts = ["darwin_x86_64", "linux_x86_64", "linux_aarch64", "windows_x86_32"]
 
 def register_arm_none_eabi_toolchain(name):
-    for cpu in compatible_cpus.keys():
-        native.register_toolchains(
-            "{}_macos_{}".format(name, cpu),
-            "{}_linux_x86_64_{}".format(name, cpu),
-            "{}_linux_aarch64_{}".format(name, cpu),
-            "{}_windows_x86_32_{}".format(name, cpu),
-            "{}_windows_x86_64_{}".format(name, cpu),
-        )
+    native.register_toolchains(
+        "{}_macos".format(name),
+        "{}_linux_x86_64".format(name),
+        "{}_linux_aarch64".format(name),
+        "{}_windows_x86_32".format(name),
+        "{}_windows_x86_64".format(name),
+    )
 
-def arm_none_eabi_toolchain(name, constraint_values = [], copts = [], linkopts = []):
+def arm_none_eabi_toolchain(name, target_compatible_with = [], copts = [], linkopts = []):
     """
     Create an arm-none-eabi toolchain with the given configuration.
 
     Args:
         name: The name of the toolchain.
-        constraint_values: A list of constraint values to apply to the toolchain.
+        target_compatible_with: A list of constraint values to apply to the toolchain.
         copts: A list of compiler options to apply to the toolchain.
         linkopts: A list of linker options to apply to the toolchain.
     """
@@ -61,71 +60,55 @@ def arm_none_eabi_toolchain(name, constraint_values = [], copts = [], linkopts =
             toolchain_identifier = "arm_none_eabi_{}_{}".format(host, name),
         )
 
-    for cpu, cpu_constraint in compatible_cpus.items():
-        native.toolchain(
-            name = "{}_macos_{}".format(name, cpu),
-            exec_compatible_with = ["@platforms//os:macos"],
-            target_compatible_with = [
-                "@platforms//os:none",
-                cpu_constraint,
-            ] + constraint_values,
-            toolchain = ":cc_toolchain_darwin_x86_64_{}".format(name),
-            toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-        )
+    native.toolchain(
+        name = "{}_macos".format(name),
+        exec_compatible_with = ["@platforms//os:macos"],
+        target_compatible_with = target_compatible_with,
+        toolchain = ":cc_toolchain_darwin_x86_64_{}".format(name),
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
 
-        native.toolchain(
-            name = "{}_linux_x86_64_{}".format(name, cpu),
-            exec_compatible_with = [
-                "@platforms//os:linux",
-                "@platforms//cpu:x86_64",
-            ],
-            target_compatible_with = [
-                "@platforms//os:none",
-                cpu_constraint,
-            ] + constraint_values,
-            toolchain = ":cc_toolchain_linux_x86_64_{}".format(name),
-            toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-        )
+    native.toolchain(
+        name = "{}_linux_x86_64".format(name),
+        exec_compatible_with = [
+            "@platforms//os:linux",
+            "@platforms//cpu:x86_64",
+        ],
+        target_compatible_with = target_compatible_with,
+        toolchain = ":cc_toolchain_linux_x86_64_{}".format(name),
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
 
-        native.toolchain(
-            name = "{}_linux_aarch64_{}".format(name, cpu),
-            exec_compatible_with = [
-                "@platforms//os:linux",
-                "@platforms//cpu:aarch64",
-            ],
-            target_compatible_with = [
-                "@platforms//os:none",
-                cpu_constraint,
-            ] + constraint_values,
-            toolchain = ":cc_toolchain_linux_aarch64_{}".format(name),
-            toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-        )
+    native.toolchain(
+        name = "{}_linux_aarch64".format(name),
+        exec_compatible_with = [
+            "@platforms//os:linux",
+            "@platforms//cpu:aarch64",
+        ],
+        target_compatible_with = target_compatible_with,
+        toolchain = ":cc_toolchain_linux_aarch64_{}".format(name),
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
 
-        native.toolchain(
-            name = "{}_windows_x86_32_{}".format(name, cpu),
-            exec_compatible_with = [
-                "@platforms//os:windows",
-                "@platforms//cpu:x86_32",
-            ],
-            target_compatible_with = [
-                "@platforms//os:none",
-                cpu_constraint,
-            ] + constraint_values,
-            toolchain = ":cc_toolchain_windows_x86_32_{}".format(name),
-            toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-        )
+    native.toolchain(
+        name = "{}_windows_x86_32".format(name),
+        exec_compatible_with = [
+            "@platforms//os:windows",
+            "@platforms//cpu:x86_32",
+        ],
+        target_compatible_with = target_compatible_with,
+        toolchain = ":cc_toolchain_windows_x86_32_{}".format(name),
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
 
-        native.toolchain(
-            name = "{}_windows_x86_64_{}".format(name, cpu),
-            exec_compatible_with = [
-                "@platforms//os:windows",
-                "@platforms//cpu:x86_64",
-            ],
-            target_compatible_with = [
-                "@platforms//os:none",
-                cpu_constraint,
-            ] + constraint_values,
-            # No 64bit source is available, so we reuse the 32bit one.
-            toolchain = ":cc_toolchain_windows_x86_32_{}".format(name),
-            toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-        )
+    native.toolchain(
+        name = "{}_windows_x86_64".format(name),
+        exec_compatible_with = [
+            "@platforms//os:windows",
+            "@platforms//cpu:x86_64",
+        ],
+        target_compatible_with = target_compatible_with,
+        # No 64bit source is available, so we reuse the 32bit one.
+        toolchain = ":cc_toolchain_windows_x86_32_{}".format(name),
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
