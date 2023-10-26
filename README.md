@@ -79,16 +79,7 @@ build --incompatible_enable_cc_toolchain_resolution
 build --platforms=@arm_none_eabi//platforms:arm_none_generic
 ```
 
-If for you are using Bazel rules that do not support platforms, you can also use this instead
-```bash
-# .bazelrc
-
-# Use the legacy crosstool-top config
-build:legacy --crosstool_top=@arm_none_eabi//toolchain
-build:legacy --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
-```
-
-Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler
+Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler.
 
 ## Platforms
 
