@@ -62,9 +62,11 @@ git_repository(
     shallow_since = "<value>",
 )
 
-load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps")
+load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_none_eabi_toolchains")
 
 arm_none_eabi_deps()
+
+register_default_arm_none_eabi_toolchains()
 #---------------------------------------------------------------------
 ```
 
@@ -123,7 +125,7 @@ In a BUILD file:
 load("@arm_none_eabi//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
 arm_none_eabi_toolchain(
     name = "custom_toolchain",
-    constraint_values = [
+    target_compatible_with = [
         "<your additional constraints>",
     ],
     copts = [
@@ -143,7 +145,7 @@ load("@arm_none_eabi//toolchain:toolchain.bzl", "register_arm_none_eabi_toolchai
 register_arm_none_eabi_toolchain("@//path/to:custom_toolchain")
 ```
 
-You must do this *before* you call `arm_none_eabi_deps()`, as `arm_none_eabi_deps()` will register the default arm-none-eabi toolchain, and toolchain resolution will consider toolchains in the order they are registered.
+You should do this *before* you call `register_default_arm_none_eabi_toolchain()`, as the order of toolchain registration matters for toolchain resolution.
 
 ## Configurable build attributes
 
