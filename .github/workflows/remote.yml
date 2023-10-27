@@ -1,0 +1,16 @@
+name: Remote
+
+on: [push]
+
+jobs:
+
+  linux:
+    name: Bazel Remote Execution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: remote execution
+        run: |
+          git clone https://github.com/bazelbuild/bazel-buildfarm
+          cd bazel-buildfarm && ./examples/bf-run start && cd ..
+          bazelisk build --config=remote --config=linux examples:all
