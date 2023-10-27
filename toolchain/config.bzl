@@ -105,6 +105,7 @@ def _impl(ctx):
                 ],
                 flag_groups = [
                     flag_group(flags = include_flags + ctx.attr.copts),
+                    flag_group(flags = ["-no-canonical-prefixes"]),
                 ],
             ),
         ],
