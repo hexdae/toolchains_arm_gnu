@@ -106,7 +106,6 @@ filegroup(
     srcs = [
         ":ar",
         ":as",
-        ":compiler_pieces",
         ":cpp",
         ":gcc",
         ":gcov",
