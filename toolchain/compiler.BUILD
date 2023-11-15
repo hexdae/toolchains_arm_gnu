@@ -26,7 +26,7 @@ filegroup(
 # gdb executables.
 filegroup(
     name = "gdb",
-    srcs = glob(["bin/arm-none-eabi-gdb*"]),
+    srcs = glob(["bin/arm-none-eabi-gdb"]),
 )
 
 # ar executables.

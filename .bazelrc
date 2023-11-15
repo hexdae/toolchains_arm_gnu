@@ -1,8 +1,10 @@
 # .bazelrc
 
+# Enable bazel mod
+common --enable_bzlmod
+
 # Build using platforms by default
 build --incompatible_enable_cc_toolchain_resolution
-build --platforms=@arm_none_eabi//platforms:arm_none_generic
 
 # Remote builds
 build:remote --genrule_strategy=remote
