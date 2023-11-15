@@ -14,7 +14,7 @@ compatible_cpus = {
 }
 
 hosts = {
-    "darwin_x86_64": ["@platforms//os:macos"], # Also runs on apple silicon
+    "darwin_x86_64": ["@platforms//os:macos"],  # Also runs on apple silicon
     "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
     "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
     "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],

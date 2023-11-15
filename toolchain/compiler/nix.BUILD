@@ -8,81 +8,80 @@ exports_files(glob(["bin/*"]) + ["bin"])
 # gcc executables.
 filegroup(
     name = "gcc",
-    srcs = glob(["bin/arm-none-eabi-gcc*"]),
+    srcs = ["bin/arm-none-eabi-gcc"],
 )
 
 # cpp executables.
 filegroup(
     name = "cpp",
-    srcs = glob(["bin/arm-none-eabi-cpp*"]),
+    srcs = ["bin/arm-none-eabi-cpp"],
 )
 
 # gcov executables.
 filegroup(
     name = "gcov",
-    srcs = glob(["bin/arm-none-eabi-gcov*"]),
+    srcs = ["bin/arm-none-eabi-gcov"],
 )
 
 # gdb executables.
 filegroup(
     name = "gdb",
-    srcs = glob(["bin/arm-none-eabi-gdb*"]),
+    srcs = ["bin/arm-none-eabi-gdb"],
 )
 
 # ar executables.
 filegroup(
     name = "ar",
-    srcs = glob(["bin/arm-none-eabi-ar*"]),
+    srcs = ["bin/arm-none-eabi-ar"],
 )
 
 # ld executables.
 filegroup(
     name = "ld",
-    srcs = glob(["bin/arm-none-eabi-ld*"]),
+    srcs = ["bin/arm-none-eabi-ld"],
 )
 
 # nm executables.
 filegroup(
     name = "nm",
-    srcs = glob(["bin/arm-none-eabi-nm*"]),
+    srcs = ["bin/arm-none-eabi-nm"],
 )
 
 # objcopy executables.
 filegroup(
     name = "objcopy",
-    srcs = glob(["bin/arm-none-eabi-objcopy*"]),
+    srcs = ["bin/arm-none-eabi-objcopy"],
 )
 
 # objdump executables.
 filegroup(
     name = "objdump",
-    srcs = glob(["bin/arm-none-eabi-objdump*"]),
+    srcs = ["bin/arm-none-eabi-objdump"],
 )
 
 # strip executables.
 filegroup(
     name = "strip",
-    srcs = glob(["bin/arm-none-eabi-strip*"]),
+    srcs = ["bin/arm-none-eabi-strip"],
 )
 
 # as executables.
 filegroup(
     name = "as",
-    srcs = glob(["bin/arm-none-eabi-as*"]),
+    srcs = ["bin/arm-none-eabi-as"],
 )
 
 # readelf executables.
 filegroup(
     name = "readelf",
-    srcs = glob(["bin/arm-none-eabi-readelf*"]),
+    srcs = ["bin/arm-none-eabi-readelf"],
 )
 
 # size executables.
 filegroup(
     name = "size",
-    srcs = glob(["bin/arm-none-eabi-size*"]),
+    srcs = ["bin/arm-none-eabi-size"],
 )
-
 
 # libraries and headers.
 filegroup(

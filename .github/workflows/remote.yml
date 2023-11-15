@@ -17,4 +17,4 @@ jobs:
         run: |
           git clone https://github.com/bazelbuild/bazel-buildfarm
           cd bazel-buildfarm && ./examples/bf-run start && cd ..
-          bazelisk build --config=remote --config=linux examples:all
+          bazelisk build --config=remote --config=linux //examples/...

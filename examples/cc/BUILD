@@ -1,19 +1,10 @@
 # project/BUILD.bazel
 
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
-
-filegroup(
-    name = "examples",
-    srcs = [
-        ":mock_bin",
-        ":mock_binary",
-        ":mock_hex",
-        ":mock_library",
-    ],
-)
+load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_filegroup")
 
 cc_library(
-    name = "mock_library",
+    name = "arm_library",
     srcs = ["source/library.cpp"],
     hdrs = ["includes/library.h"],
     copts = [
@@ -21,10 +12,14 @@ cc_library(
         "-mthumb",
     ],
     includes = ["includes"],
+    target_compatible_with = [
+        "@platforms//cpu:arm",
+        "@platforms//os:none",
+    ],
 )
 
 cc_binary(
-    name = "mock_binary",
+    name = "arm_elf",
     srcs = ["source/main.cpp"],
     copts = [
         "-mcpu=cortex-a5",
@@ -34,19 +29,26 @@ cc_binary(
         "-nostartfiles",
         "-Wl,--entry,main",
     ],
+    deps = [":arm_library"],
+)
+
+platform_transition_filegroup(
+    name = "elf",
+    srcs = [":arm_elf"],
+    target_platform = "//platforms:arm_none_eabi",
 )
 
 genrule(
-    name = "mock_bin",
-    srcs = [":mock_binary"],
+    name = "bin",
+    srcs = [":elf"],
     outs = ["mock.bin"],
     cmd = "$(execpath @arm_none_eabi//:objcopy) -O binary $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
 )
 
 genrule(
-    name = "mock_hex",
-    srcs = [":mock_binary"],
+    name = "hex",
+    srcs = [":elf"],
     outs = ["mock.hex"],
     cmd = "$(execpath @arm_none_eabi//:objcopy) -O ihex $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
