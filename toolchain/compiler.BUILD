@@ -65,6 +65,12 @@ filegroup(
     srcs = glob(["bin/arm-none-eabi-as*"]),
 )
 
+# readelf executables.
+filegroup(
+    name = "readelf",
+    srcs = glob(["bin/arm-none-eabi-readelf*"]),
+)
+
 # size executables.
 filegroup(
     name = "size",
@@ -75,9 +81,20 @@ filegroup(
 filegroup(
     name = "compiler_pieces",
     srcs = glob([
+        "libexec/**",
         "arm-none-eabi/**",
+        "lib/**",
         "lib/gcc/arm-none-eabi/**",
     ]),
+)
+
+filegroup(
+    name = "ar_files",
+    srcs = [
+        ":ar",
+        ":compiler_pieces",
+        ":gcc",
+    ],
 )
 
 # files for executing compiler.
@@ -106,6 +123,7 @@ filegroup(
     srcs = [
         ":ar",
         ":as",
+        ":compiler_pieces",
         ":cpp",
         ":gcc",
         ":gcov",
