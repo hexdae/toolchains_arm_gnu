@@ -21,7 +21,6 @@ cc_library(
 cc_binary(
     name = "arm_elf",
     srcs = ["source/main.cpp"],
-    deps = [":arm_library"],
     copts = [
         "-mcpu=cortex-a5",
         "-mthumb",
@@ -30,6 +29,7 @@ cc_binary(
         "-nostartfiles",
         "-Wl,--entry,main",
     ],
+    deps = [":arm_library"],
 )
 
 platform_transition_filegroup(
