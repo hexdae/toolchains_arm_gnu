@@ -23,6 +23,12 @@ filegroup(
     srcs = glob(["bin/arm-none-eabi-gcov*"]),
 )
 
+# gdb executables.
+filegroup(
+    name = "gdb",
+    srcs = glob(["bin/arm-none-eabi-gdb*"]),
+)
+
 # ar executables.
 filegroup(
     name = "ar",
@@ -76,6 +82,7 @@ filegroup(
     name = "size",
     srcs = glob(["bin/arm-none-eabi-size*"]),
 )
+
 
 # libraries and headers.
 filegroup(
