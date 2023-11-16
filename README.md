@@ -42,7 +42,7 @@ You can follow the post [Bazel for ARM embedded toolchains](https://asnaghi.me/p
 ## Use the toolchain from this repo
 
 To get started with the arm none eabi embedded toolchain, copy the appropriate `WORKSPACE` setup
-from the [releases](https://github.com/d-asnaghi/bazel-arm-none-eabi/releases) page. 
+from the [releases](https://github.com/d-asnaghi/bazel-arm-none-eabi/releases) page.
 
 Using a stable commit from the repo is also an option,for example:
 
@@ -81,38 +81,17 @@ build --platforms=@arm_none_eabi//platforms:arm_none_generic
 
 Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler.
 
-## Platforms
+## Features
 
-By default, this repo defines the `arm-none-eabi-generic` platform as:
-```python
-platform(
-    name = "arm_none_generic",
-    constraint_values = [
-        "@platforms//os:none",
-        "@platforms//cpu:arm",
-    ],
-)
-```
-
-If you want to further differentiate your project's platforms (for example to support a certain board/cpu) you can extend it using this template:
-
-```python
-platform(
-    name = "your_custom_platform",
-    constraint_values = [
-        "<your additional constraints>",
-    ],
-    parents = [
-        "@arm_none_eabi//platforms:arm_none_generic"
-    ],
-)
-```
+### Custom toolchain
 
 If you want to bake certain compiler flags in to your toolchain, you can define a custom `arm-none-eabi` toolchain in your repo.
 
 In a BUILD file:
 
 ```python
+# path/to/toolchains/BUILD
+
 load("@arm_none_eabi//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
 arm_none_eabi_toolchain(
     name = "custom_toolchain",
@@ -131,9 +110,7 @@ arm_none_eabi_toolchain(
 And in your WORKSPACE:
 
 ```python
-load("@arm_none_eabi//toolchain:toolchain.bzl", "register_arm_none_eabi_toolchain")
-
-register_arm_none_eabi_toolchain("@//path/to:custom_toolchain")
+register_toolchains("@//path/to/toolchains:all")
 ```
 
 You should do this *before* you call `register_default_arm_none_eabi_toolchain()`, as the order of toolchain registration matters for toolchain resolution.
