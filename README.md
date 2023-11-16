@@ -39,22 +39,36 @@ If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
 You can follow the post [Bazel for ARM embedded toolchains](https://asnaghi.me/post/embedded-bazel/) to get more details about this code.
 
+## Features
+
+- Simple integration with WORKSPACE / MODULE [experimental]
+- [Direct access to gcc tools](#direct-access-to-gcc-tools)
+- [Custom toolchain support](#custom-toolchain)
+- Remote execution support
+
 ## Use the toolchain from this repo
 
-To get started with the arm none eabi embedded toolchain, copy the appropriate `WORKSPACE` setup
-from the [releases](https://github.com/d-asnaghi/bazel-arm-none-eabi/releases) page.
+## .bazelrc
 
-Using a stable commit from the repo is also an option,for example:
+And this to your `.bazelrc`
+
+```bash
+# .bazelrc
+
+# Build using platforms by default
+build --incompatible_enable_cc_toolchain_resolution
+build --platforms=@arm_none_eabi//platforms:arm_none_generic
+```
+
+## WORKSPACE
+
+Add this git repository to your WORKSPACE to use the compiler
 
 ```python
-# WORKSPACE
+# WORKSPACE.bazel
 
-# loading the git_repository rule into the workspace
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-#---------------------------------------------------------------------
-# ARM none eabi GCC
-#---------------------------------------------------------------------
 git_repository(
     name = "arm_none_eabi",
     commit = "<commit>",
@@ -67,23 +81,34 @@ load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_no
 arm_none_eabi_deps()
 
 register_default_arm_none_eabi_toolchains()
-#---------------------------------------------------------------------
 ```
 
-And this to your `.bazelrc`
-```bash
-# .bazelrc
+## Bzlmod
 
-# Build using platforms by default
-build --incompatible_enable_cc_toolchain_resolution
-build --platforms=@arm_none_eabi//platforms:arm_none_generic
+Bazel mod support is experimental, add this to your module to use the compiler
+
+```python
+# MODULE.bazel
+
+bazel_dep(name = "arm_none_eabi", version = "0.0.1")
+
+arm_none_eabi = use_extension("@arm_none_eabi//:extensions.bzl", "arm_none_eabi")
+arm_none_eabi.toolchain(version = "9.2.1")
+use_repo(
+    arm_none_eabi,
+    "arm_none_eabi_darwin_x86_64",
+    "arm_none_eabi_linux_aarch64",
+    "arm_none_eabi_linux_x86_64",
+    "arm_none_eabi_windows_x86_64",
+)
+
+register_toolchains("@arm_none_eabi//toolchain:all")
 ```
+
 
 Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler.
 
-## Features
-
-### Custom toolchain
+## Custom toolchain
 
 If you want to bake certain compiler flags in to your toolchain, you can define a custom `arm-none-eabi` toolchain in your repo.
 
@@ -113,57 +138,7 @@ And in your WORKSPACE:
 register_toolchains("@//path/to/toolchains:all")
 ```
 
-You should do this *before* you call `register_default_arm_none_eabi_toolchain()`, as the order of toolchain registration matters for toolchain resolution.
-
-## Configurable build attributes
-
-If you want to select some build attributes based on their compatibility with the arm-none-eabi-gcc toolchain, you can use the `config_settings` available at `@arm_none_eabi//config:arm_none_compatible`, defined as:
-
-```python
-config_setting(
-    name = "arm_none_compatible",
-    constraint_values = [
-        "@platforms//cpu:arm",
-        "@platforms//os:none",
-    ],
-)
-```
-
-You can always add onto this `config_setting` by creating your own `config_setting_group` that inherits from this one:
-
-```python
-load("@bazel_skylib//lib:selects.bzl", "selects")
-
-config_setting()
-    name = "your_config_setting",
-    ...
-)
-
-selects.config_setting_group(
-    name = "your_config_setting_group",
-    match_all = [
-        "@arm_none_eabi//config:arm_none_compatible",
-        ":your_config_setting"
-    ],
-)
-```
-
-and then use these definitions to `select` in rules
-
-```python
-filegroup(
-    name = "arm_none_srcs",
-    srcs = [...],
-)
-
-cc_binary(
-    name = "your_binary",
-    srcs = select({
-        "@arm_none_eabi//config:arm_none_compatible": [":arm_none_srcs"],
-        ...
-    })
-)
-```
+Be careful about registering the default toolchains when using a custom one
 
 ## Direct access to gcc tools
 
@@ -196,63 +171,6 @@ genrule(
 )
 ```
 
-## Integrate the toolchain into your project
+## Remote execution
 
-Follow these steps if you want to test this repo before using it to integrate
-the toolchain into your local project.
-
-### Bazel
-
-[Install Bazel](https://docs.bazel.build/versions/master/install.html) for your platform. Installing with a package manager is recommended, especially on windows where additional runtime components are needed.
-
-- [Ubuntu Linux](https://docs.bazel.build/versions/master/install-ubuntu.html): `sudo apt install bazel`
-- [macOS](https://docs.bazel.build/versions/master/install-os-x.html): `brew install bazel`
-- [Windows](https://docs.bazel.build/versions/master/install-windows.html): `choco install bazel`
-
-### Bazelisk
-
-`bazelisk` is a user-friendly launcher for `bazel`. Follow the install instructions in the [Bazelisk repo](https://github.com/bazelbuild/bazelisk)
-
-Use `bazelisk` as you would use `bazel`, this takes care of using the correct Bazel version for each project by using the [.bazelversion](./.bazelversion) file contained in each project.
-
-### Clone the repo
-
-```bash
-git clone https://github.com/d-asnaghi/bazel-arm-none-eabi.git
-```
-
-### Build
-
-Use this command to build any target (a mock target `examples` is provided).
-
-```bash
-# build the examples
-bazelisk build examples
-```
-
-This will take care of downloading the appropriate toolchain for your OS and compile all the source files specified by the target.
-
-## Folder structure
-
-```bash
-├── WORKSPACE
-│
-├── examples
-│   ├── BUILD.bazel
-│   └── /* SOURCE CODE */
-│
-└── toolchain
-    ├── BUILD.bazel
-    ├── compiler.BUILD
-    ├── config.bzl
-    └── arm-none-eabi
-        ├── darwin_x86_64
-        │   └── /* DARWIN TOOLCHAIN   */
-        ├── linux_x86_64
-        │   └── /* LINUX TOOLCHAIN    */
-        ├── windows_x86_32
-        │   └── /* WINDOWS TOOLCHAIN  */
-        └── ...
-            └── /* OTHER TOOLCHAINS   */
-
-```
+This toolchain is compatible with remote execution, see [`remote.yml`](.github/workflows/remote.yml)
