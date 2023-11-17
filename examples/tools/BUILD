@@ -6,3 +6,10 @@ native_binary(
     out = "gdb",
     visibility = ["//visibility:public"],
 )
+
+native_binary(
+    name = "readelf",
+    src = "@arm_none_eabi//:readelf",
+    out = "readelf",
+    visibility = ["//visibility:public"],
+)
