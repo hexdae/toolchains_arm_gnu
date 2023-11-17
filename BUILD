@@ -1,23 +1,10 @@
 # BUILD
 
-load("//toolchain:toolchain.bzl", "hosts")
+load("//toolchain:toolchain.bzl", "hosts", "tools")
 
 package(default_visibility = ["//visibility:public"])
 
-TOOLS = [
-    "bin",
-    "gcc",
-    "ar",
-    "ld",
-    "nm",
-    "readelf",
-    "objcopy",
-    "objdump",
-    "strip",
-    "size",
-    "gdb",
-    "as",
-]
+TOOLS = tools + ["bin"]
 
 [
     config_setting(

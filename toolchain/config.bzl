@@ -42,7 +42,7 @@ def _impl(ctx):
             ACTION_NAMES.cpp_compile,
             ACTION_NAMES.cpp_header_parsing,
         ],
-        "gcc",
+        ctx.attr.gcc_tool,
     )
 
     action_configs += _action_configs(
@@ -168,6 +168,7 @@ cc_arm_none_eabi_config = rule(
         "toolchain_bins": attr.label(mandatory = True, allow_files = True),
         "gcc_repo": attr.string(default = ""),
         "gcc_version": attr.string(default = ""),
+        "gcc_tool": attr.string(default = "gcc"),
         "copts": attr.string_list(default = []),
         "linkopts": attr.string_list(default = []),
     },
