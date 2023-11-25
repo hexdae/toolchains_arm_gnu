@@ -9,7 +9,7 @@ _toolchain = tag_class(attrs = {
     "version": attr.string(),
 })
 
-arm_none_eabi = module_extension(
+arm_none_eabi_extension = module_extension(
     implementation = _arm_none_eabi_impl,
     tag_classes = {
         "toolchain": _toolchain,

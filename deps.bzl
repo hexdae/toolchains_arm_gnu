@@ -4,6 +4,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@arm_none_eabi//toolchain:toolchain.bzl", "compatible_cpus", "register_arm_none_eabi_toolchain")
 
 GCC = {
+    # Version 9-2019-q4-major from: https://developer.arm.com/downloads/-/gnu-rm
     "9.2.1": [
         {
             "name": "arm_none_eabi_darwin_x86_64",

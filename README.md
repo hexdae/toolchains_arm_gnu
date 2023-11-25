@@ -85,26 +85,32 @@ register_default_arm_none_eabi_toolchains()
 
 ## Bzlmod
 
-Bazel mod support is experimental, add this to your module to use the compiler
+To reuse this Bazel module, one would have to create a local git submodule first, then add `bazel_dep` with
+a `local_path_override` for MODULE.bazel file to recognize and use it.
+
+```python
+git submodule add https://github.com/hexdae/bazel-arm-none-eabi <path_to_submodule>
+```
 
 ```python
 # MODULE.bazel
 
-bazel_dep(name = "arm_none_eabi", version = "0.0.1")
-
-arm_none_eabi = use_extension("@arm_none_eabi//:extensions.bzl", "arm_none_eabi")
-arm_none_eabi.toolchain(version = "9.2.1")
+bazel_dep(name = "arm_none_eabi", version = "1.0.0")
+local_path_override(
+    module_name = "arm_none_eabi",
+    path = "<path_to_submodule>",
+)
+register_toolchains("@arm_none_eabi//toolchain:all")
+arm_none_eabi_ext = use_extension("@arm_none_eabi//:extensions.bzl", "arm_none_eabi_extension")
+arm_none_eabi_ext.toolchain(version = "9.2.1")
 use_repo(
-    arm_none_eabi,
+    arm_none_eabi_ext,
     "arm_none_eabi_darwin_x86_64",
     "arm_none_eabi_linux_aarch64",
     "arm_none_eabi_linux_x86_64",
     "arm_none_eabi_windows_x86_64",
 )
-
-register_toolchains("@arm_none_eabi//toolchain:all")
 ```
-
 
 Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler.
 
