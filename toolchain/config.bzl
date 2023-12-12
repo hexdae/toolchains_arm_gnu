@@ -64,28 +64,6 @@ def _impl(ctx):
         "strip",
     )
 
-    include_flags = [
-        "-I",
-        "external/{}/arm-none-eabi/include".format(ctx.attr.gcc_repo),
-        "-I",
-        "external/{}/lib/gcc/arm-none-eabi/{}/include".format(ctx.attr.gcc_repo, ctx.attr.gcc_version),
-        "-I",
-        "external/{}/lib/gcc/arm-none-eabi/{}/include-fixed".format(ctx.attr.gcc_repo, ctx.attr.gcc_version),
-        "-I",
-        "external/{}/arm-none-eabi/include/c++/{}/".format(ctx.attr.gcc_repo, ctx.attr.gcc_version),
-        "-I",
-        "external/{}/arm-none-eabi/include/c++/{}/arm-none-eabi/".format(ctx.attr.gcc_repo, ctx.attr.gcc_version),
-    ]
-
-    linker_flags = [
-        "-L",
-        "external/{}/arm-none-eabi/lib".format(ctx.attr.gcc_repo),
-        "-L",
-        "external/{}/lib/gcc/arm-none-eabi/{}".format(ctx.attr.gcc_repo, ctx.attr.gcc_version),
-        "-llibc.a",
-        "-llibgcc.a",
-    ]
-
     toolchain_compiler_flags = feature(
         name = "compiler_flags",
         enabled = True,
@@ -104,8 +82,8 @@ def _impl(ctx):
                     ACTION_NAMES.clif_match,
                 ],
                 flag_groups = [
-                    flag_group(flags = include_flags + ctx.attr.copts),
-                    flag_group(flags = ["-no-canonical-prefixes"]),
+                    flag_group(flags = ["-I" + include.path for include in ctx.files.include_path]),
+                    flag_group(flags = ctx.attr.copts + ["-no-canonical-prefixes", "-nostdinc"]),
                 ],
             ),
         ],
@@ -118,33 +96,17 @@ def _impl(ctx):
             flag_set(
                 actions = [
                     ACTION_NAMES.linkstamp_compile,
+                    ACTION_NAMES.cpp_link_executable,
                 ],
                 flag_groups = [
-                    flag_group(flags = linker_flags),
+                    flag_group(flags = ["-L" + include.path for include in ctx.files.library_path]),
+                    flag_group(flags = ctx.attr.linkopts + ["-no-canonical-prefixes"]),
                 ],
             ),
         ],
     )
 
     features = [toolchain_compiler_flags, toolchain_linker_flags]
-
-    if (len(ctx.attr.linkopts)):
-        custom_linkopts = feature(
-            name = "custom_linkopts",
-            enabled = True,
-            flag_sets = [
-                flag_set(
-                    actions = [
-                        ACTION_NAMES.cpp_link_executable,
-                    ],
-                    flag_groups = [
-                        flag_group(flags = ctx.attr.linkopts),
-                    ],
-                ),
-            ],
-        )
-
-        features.append(custom_linkopts)
 
     return cc_common.create_cc_toolchain_config_info(
         ctx = ctx,
@@ -170,6 +132,8 @@ cc_arm_none_eabi_config = rule(
         "gcc_version": attr.string(default = ""),
         "copts": attr.string_list(default = []),
         "linkopts": attr.string_list(default = []),
+        "include_path": attr.label_list(default = [], allow_files = True),
+        "library_path": attr.label_list(default = [], allow_files = True),
     },
     provides = [CcToolchainConfigInfo],
 )

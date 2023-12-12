@@ -30,14 +30,27 @@ def arm_none_eabi_toolchain(name, target_compatible_with = [], copts = [], linko
         copts: A list of compiler options to apply to the toolchain.
         linkopts: A list of linker options to apply to the toolchain.
     """
+    version = "9.2.1"
+
     for host, exec_compatible_with in hosts.items():
         cc_arm_none_eabi_config(
             name = "config_{}_{}".format(host, name),
             gcc_repo = "arm_none_eabi_{}".format(host),
-            gcc_version = "9.2.1",
+            gcc_version = version,
             host_system_name = host,
             toolchain_identifier = "arm_none_eabi_{}_{}".format(host, name),
             toolchain_bins = "@arm_none_eabi_{}//:compiler_components".format(host),
+            include_path = [
+                "@arm_none_eabi_{}//:arm-none-eabi/include".format(host),
+                "@arm_none_eabi_{}//:lib/gcc/arm-none-eabi/{}/include".format(host, version),
+                "@arm_none_eabi_{}//:lib/gcc/arm-none-eabi/{}/include-fixed".format(host, version),
+                "@arm_none_eabi_{}//:arm-none-eabi/include/c++/{}".format(host, version),
+                "@arm_none_eabi_{}//:arm-none-eabi/include/c++/{}/arm-none-eabi".format(host, version),
+            ],
+            library_path = [
+                "@arm_none_eabi_{}//:arm-none-eabi/lib".format(host),
+                "@arm_none_eabi_{}//:lib/gcc/arm-none-eabi/{}".format(host, version),
+            ],
             copts = copts,
             linkopts = linkopts,
         )
