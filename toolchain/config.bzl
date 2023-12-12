@@ -100,7 +100,7 @@ def _impl(ctx):
                 ],
                 flag_groups = [
                     flag_group(flags = ["-L" + include.path for include in ctx.files.library_path]),
-                    flag_group(flags = ctx.attr.linkopts + ["-no-canonical-prefixes"]),
+                    flag_group(flags = ctx.attr.linkopts),
                 ],
             ),
         ],
