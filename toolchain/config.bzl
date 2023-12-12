@@ -94,19 +94,26 @@ def _impl(ctx):
         enabled = True,
         flag_sets = [
             flag_set(
-                actions = [
-                    ACTION_NAMES.linkstamp_compile,
-                    ACTION_NAMES.cpp_link_executable,
-                ],
+                actions = [ACTION_NAMES.linkstamp_compile],
                 flag_groups = [
                     flag_group(flags = ["-L" + include.path for include in ctx.files.library_path]),
-                    flag_group(flags = ctx.attr.linkopts),
                 ],
             ),
         ],
     )
 
-    features = [toolchain_compiler_flags, toolchain_linker_flags]
+    custom_linkopts = feature(
+        name = "custom_linkopts",
+        enabled = True,
+        flag_sets = [
+            flag_set(
+                actions = [ACTION_NAMES.cpp_link_executable],
+                flag_groups = [
+                    flag_group(flags = ctx.attr.linkopts + ["-no-canonical-prefixes"]),
+                ],
+            ),
+        ],
+    )
 
     return cc_common.create_cc_toolchain_config_info(
         ctx = ctx,
@@ -119,7 +126,11 @@ def _impl(ctx):
         abi_version = "eabi",
         abi_libc_version = ctx.attr.gcc_version,
         action_configs = action_configs,
-        features = features,
+        features = [
+            toolchain_compiler_flags,
+            toolchain_linker_flags,
+            custom_linkopts,
+        ],
     )
 
 cc_arm_none_eabi_config = rule(
