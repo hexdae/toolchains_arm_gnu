@@ -13,6 +13,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: build examples
+      - name: Build examples
         run: |
           bazelisk build //examples/...
+      - name: Bazel backwards compatibility
+        run: |
+          USE_BAZEL_VERSION=6.4.0 bazelisk build //examples/...
