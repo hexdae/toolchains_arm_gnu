@@ -83,7 +83,11 @@ def _impl(ctx):
                 ],
                 flag_groups = [
                     flag_group(flags = ["-I" + include.path for include in ctx.files.include_path]),
-                    flag_group(flags = ctx.attr.copts + ["-no-canonical-prefixes", "-nostdinc"]),
+                    flag_group(flags = ctx.attr.copts + [
+                        "-fno-canonical-system-headers",
+                        "-no-canonical-prefixes",
+                        "-nostdinc",
+                    ]),
                 ],
             ),
         ],
