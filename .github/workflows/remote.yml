@@ -15,6 +15,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: remote execution
         run: |
-          git clone https://github.com/bazelbuild/bazel-buildfarm
-          cd bazel-buildfarm && ./examples/bf-run start && cd ..
+          cargo install --git https://github.com/TraceMachina/nativelink --tag v0.2.0
+          (nativelink .github/bre/basic_cas.json &)
           bazelisk build --config=remote --config=linux //examples/...

@@ -6,10 +6,11 @@ common --enable_bzlmod
 # Build using platforms by default
 build --incompatible_enable_cc_toolchain_resolution
 
-# Remote builds
-build:remote --genrule_strategy=remote
-build:remote --remote_download_minimal
-build:remote --remote_executor=grpc://localhost:8980
+# Remote builds (nativelink)
+build:remote --remote_instance_name=main
+build:remote --remote_cache=grpc://127.0.0.1:50051
+build:remote --remote_executor=grpc://127.0.0.1:50051
+build:remote --remote_default_exec_properties=cpu_count=1
 
 # Linux host (used for remote builds)
 build:linux --extra_execution_platforms=//platforms/host:linux
