@@ -85,17 +85,24 @@ register_default_arm_none_eabi_toolchains()
 
 ## Bzlmod
 
-Bazel mod support is experimental, add this to your module to use the compiler
+Bazel mod support is experimental, add this to your module to use the compiler.
+Eventually this module will be released to BCR, but for now it requires a `git_override``
 
 ```python
 # MODULE.bazel
 
-bazel_dep(name = "arm_none_eabi", version = "0.0.1")
+git_override(
+    module_name = "arm_none_eabi",
+    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
+    commit = "<commit>",
+)
 
-arm_none_eabi = use_extension("@arm_none_eabi//:extensions.bzl", "arm_none_eabi")
-arm_none_eabi.toolchain(version = "9.2.1")
+bazel_dep(name = "arm_none_eabi", version = "1.0.0")
+
+arm_none_eabi_gcc = use_extension("@arm_none_eabi//:extensions.bzl", "arm_none_eabi")
+arm_none_eabi_gcc.toolchain(version = "9.2.1")
 use_repo(
-    arm_none_eabi,
+    arm_none_eabi_gcc,
     "arm_none_eabi_darwin_x86_64",
     "arm_none_eabi_linux_aarch64",
     "arm_none_eabi_linux_x86_64",
