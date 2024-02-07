@@ -4,6 +4,23 @@ This module provides functions to register an arm-none-eabi toolchain
 
 load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
 
+tools = [
+    "as",
+    "ar",
+    "c++",
+    "cpp",
+    "g++",
+    "gcc",
+    "gdb",
+    "ld",
+    "nm",
+    "objcopy",
+    "objdump",
+    "readelf",
+    "strip",
+    "size",
+]
+
 compatible_cpus = {
     "arm": "@platforms//cpu:arm",
     "armv6-m": "@platforms//cpu:armv6-m",
@@ -20,12 +37,13 @@ hosts = {
     "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
 }
 
-def arm_none_eabi_toolchain(name, target_compatible_with = [], copts = [], linkopts = [], version = "9.2.1"):
+def arm_none_eabi_toolchain(name, gcc_tool = "gcc", target_compatible_with = [], copts = [], linkopts = [], version = "9.2.1"):
     """
     Create an arm-none-eabi toolchain with the given configuration.
 
     Args:
         name: The name of the toolchain.
+        gcc_tool: The gcc tool to use. Defaults to "gcc". [gcc, c++, cpp]
         target_compatible_with: A list of constraint values to apply to the toolchain.
         copts: A list of compiler options to apply to the toolchain.
         linkopts: A list of linker options to apply to the toolchain.
@@ -37,6 +55,7 @@ def arm_none_eabi_toolchain(name, target_compatible_with = [], copts = [], linko
             name = "config_{}_{}".format(host, name),
             gcc_repo = "arm_none_eabi_{}".format(host),
             gcc_version = version,
+            gcc_tool = gcc_tool,
             host_system_name = host,
             toolchain_identifier = "arm_none_eabi_{}_{}".format(host, name),
             toolchain_bins = "@arm_none_eabi_{}//:compiler_components".format(host),
