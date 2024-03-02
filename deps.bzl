@@ -1,7 +1,11 @@
 """deps.bzl"""
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@arm_none_eabi//toolchain:toolchain.bzl", "compatible_cpus", "register_arm_none_eabi_toolchain")
+load(
+    "@arm_none_eabi//toolchain:toolchain.bzl",
+    "target_constraints",
+    "register_arm_none_eabi_toolchain"
+)
 
 GCC = {
     "9.2.1": [
@@ -75,5 +79,5 @@ def arm_none_eabi_deps(version = "9.2.1", archives = GCC):
         http_archive(**attrs)
 
 def register_default_arm_none_eabi_toolchains():
-    for cpu in compatible_cpus:
+    for cpu in target_constraints['arm-none-eabi']:
         register_arm_none_eabi_toolchain("//toolchain:{}".format(cpu))

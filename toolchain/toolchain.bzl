@@ -21,13 +21,15 @@ tools = [
     "size",
 ]
 
-compatible_cpus = {
-    "arm": "@platforms//cpu:arm",
-    "armv6-m": "@platforms//cpu:armv6-m",
-    "armv7-m": "@platforms//cpu:armv7-m",
-    "armv7e-m": "@platforms//cpu:armv7e-m",
-    "armv7e-mf": "@platforms//cpu:armv7e-mf",
-    "armv8-m": "@platforms//cpu:armv8-m",
+target_constraints = {
+    "arm-none-eabi": {
+        "arm": ["@platforms//os:none", "@platforms//cpu:arm"],
+        "armv6-m": ["@platforms//os:none", "@platforms//cpu:armv6-m"],
+        "armv7-m": ["@platforms//os:none", "@platforms//cpu:armv7-m"],
+        "armv7e-m": ["@platforms//os:none", "@platforms//cpu:armv7e-m"],
+        "armv7e-mf": ["@platforms//os:none", "@platforms//cpu:armv7e-mf"],
+        "armv8-m": ["@platforms//os:none", "@platforms//cpu:armv8-m"],
+    },
 }
 
 hosts = {
