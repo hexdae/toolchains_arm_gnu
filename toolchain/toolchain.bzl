@@ -2,7 +2,7 @@
 This module provides functions to register an arm-none-eabi toolchain
 """
 
-load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
+load("@arm_gnu_toolchain//toolchain:config.bzl", "cc_arm_none_eabi_config")
 
 tools = [
     "as",

@@ -1,4 +1,4 @@
-load("@arm_none_eabi//toolchain:toolchain.bzl", "tools")
+load("@arm_gnu_toolchain//toolchain:toolchain.bzl", "tools")
 
 package(default_visibility = ["//visibility:public"])
 
