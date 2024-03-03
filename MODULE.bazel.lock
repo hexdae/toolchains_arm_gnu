@@ -833,14 +833,15 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_gnu": {
       "general": {
-        "bzlTransitiveDigest": "cQLWJ7ZNJyX372Ti24YE4I3NprTZm7cbvrcCtJ06Uaw=",
+        "bzlTransitiveDigest": "CmvPnbWE7ZzH8lS0quD4irCoo66D0ZNyU/DNZsxE1v0=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
           "arm_none_eabi_windows_x86_64": {
-            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
-            "ruleClassName": "http_archive",
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
             "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
               "name": "_main~arm_gnu~arm_none_eabi_windows_x86_64",
               "build_file": "@@//toolchain:compiler/win.BUILD",
               "sha256": "e4c964add8d0fdcc6b14f323e277a0946456082a84a1cc560da265b357762b62",
@@ -855,9 +856,10 @@
             }
           },
           "arm_none_eabi_linux_x86_64": {
-            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
-            "ruleClassName": "http_archive",
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
             "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
               "name": "_main~arm_gnu~arm_none_eabi_linux_x86_64",
               "sha256": "bcd840f839d5bf49279638e9f67890b2ef3a7c9c7a9b25271e83ec4ff41d177a",
               "build_file": "@@//toolchain:compiler/nix.BUILD",
@@ -866,9 +868,10 @@
             }
           },
           "arm_none_eabi_darwin_x86_64": {
-            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
-            "ruleClassName": "http_archive",
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
             "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
               "name": "_main~arm_gnu~arm_none_eabi_darwin_x86_64",
               "sha256": "1249f860d4155d9c3ba8f30c19e7a88c5047923cea17e0d08e633f12408f01f0",
               "build_file": "@@//toolchain:compiler/nix.BUILD",
@@ -877,9 +880,10 @@
             }
           },
           "arm_none_eabi_linux_aarch64": {
-            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
-            "ruleClassName": "http_archive",
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
             "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
               "name": "_main~arm_gnu~arm_none_eabi_linux_aarch64",
               "sha256": "1f5b9309006737950b2218250e6bb392e2d68d4f1a764fe66be96e2a78888d83",
               "build_file": "@@//toolchain:compiler/nix.BUILD",

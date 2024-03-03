@@ -5,11 +5,13 @@ package(default_visibility = ["//visibility:public"])
 # export the executable files to make them available for direct use.
 exports_files(glob(["**"], exclude_directories = 0))
 
+PREFIX = "%prefix%"
+
 # executables.
 [
     filegroup(
         name = tool,
-        srcs = ["bin/arm-none-eabi-{}.exe".format(tool)],
+        srcs = ["bin/{}-{}.exe".format(PREFIX, tool)],
     )
     for tool in tools
 ]
@@ -20,9 +22,9 @@ filegroup(
     srcs = glob([
         "bin/**",
         "libexec/**",
-        "arm-none-eabi/**",
+        "{}/**".format(PREFIX),
         "lib/**",
-        "lib/gcc/arm-none-eabi/**",
+        "lib/gcc/{}/**".format(PREFIX),
     ]),
 )
 

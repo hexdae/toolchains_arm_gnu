@@ -1,6 +1,5 @@
 """deps.bzl"""
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load(
     "@arm_gnu_toolchain//toolchain:toolchain.bzl",
     "target_constraints",
@@ -68,6 +67,32 @@ GCC = {
     ],
 }
 
+def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
+    """Defines a host-specific repository for the ARM GNU toolchain."""
+    repository_ctx.download_and_extract(
+      sha256=repository_ctx.attr.sha256,
+      url=repository_ctx.attr.url,
+      stripPrefix=repository_ctx.attr.strip_prefix,
+    )
+    repository_ctx.template(
+      "BUILD.bazel",
+      Label(repository_ctx.attr.build_file),
+      substitutions = {
+        "%prefix%": repository_ctx.attr.toolchain_prefix,
+      },
+    )
+
+arm_gnu_cross_hosted_platform_specific_repo = repository_rule(
+  implementation = _arm_gnu_cross_hosted_platform_specific_repo_impl,
+  attrs = {
+    'sha256': attr.string(mandatory=True),
+    'url': attr.string(mandatory=True),
+    'build_file': attr.label(mandatory=True),
+    'toolchain_prefix': attr.string(mandatory=True),
+    'strip_prefix': attr.string(),
+  },
+)
+
 def _arm_gnu_toolchain_repo_impl(repository_ctx):
     """Defines the top-level toolchain repository."""
     repository_ctx.template(
@@ -93,7 +118,10 @@ def arm_none_eabi_deps(version = "9.2.1", archives = GCC):
     """
     arm_gnu_toolchain_repo(name = "arm_none_eabi")
     for attrs in archives[version]:
-        http_archive(**attrs)
+        arm_gnu_cross_hosted_platform_specific_repo(
+            toolchain_prefix="arm-none-eabi",
+            **attrs,
+        )
 
 def register_default_arm_none_eabi_toolchains():
     for cpu in target_constraints['arm-none-eabi']:
