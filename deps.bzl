@@ -3,7 +3,7 @@
 load(
     "@arm_gnu_toolchain//toolchain:toolchain.bzl",
     "target_constraints",
-    "register_arm_none_eabi_toolchain"
+    "register_arm_gnu_toolchain",
 )
 
 GCC = {
@@ -125,4 +125,4 @@ def arm_none_eabi_deps(version = "9.2.1", archives = GCC):
 
 def register_default_arm_none_eabi_toolchains():
     for cpu in target_constraints['arm-none-eabi']:
-        register_arm_none_eabi_toolchain("//toolchain:{}".format(cpu))
+        register_arm_gnu_toolchain("//toolchain:{}".format(cpu))
