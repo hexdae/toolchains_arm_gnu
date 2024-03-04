@@ -22,7 +22,7 @@ TOOLS = tools + ["bin"]
     filegroup(
         name = tool,
         srcs = select({
-            host: ["@arm_none_eabi_{}//:{}".format(host, tool)]
+            host: ["@%toolchain_name%_{}//:{}".format(host, tool)]
             for host in hosts.keys()
         }),
     )

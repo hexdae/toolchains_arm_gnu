@@ -6,7 +6,7 @@ load(
     "register_arm_gnu_toolchain",
 )
 
-GCC = {
+GCC_ARM_NONE_EABI = {
     "9.2.1": [
         {
             "name": "arm_none_eabi_darwin_x86_64",
@@ -98,31 +98,60 @@ def _arm_gnu_toolchain_repo_impl(repository_ctx):
     repository_ctx.template(
       "BUILD",
       Label("@arm_gnu_toolchain//toolchain:top.BUILD"),
+      substitutions = {
+        "%toolchain_name%": repository_ctx.attr.toolchain_name,
+      },
     )
 
     repository_ctx.template(
       "toolchain/BUILD",
       Label("@arm_gnu_toolchain//toolchain:toolchain.BUILD"),
+      substitutions = {
+        "%toolchain_name%": repository_ctx.attr.toolchain_name,
+        "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
+      },
     )
 
 arm_gnu_toolchain_repo = repository_rule(
   implementation = _arm_gnu_toolchain_repo_impl,
+  attrs = {
+    'toolchain_name': attr.string(mandatory=True),
+    'toolchain_prefix': attr.string(mandatory=True),
+  },
 )
 
-def arm_none_eabi_deps(version = "9.2.1", archives = GCC):
+def arm_gnu_toolchain_deps(toolchain, toolchain_prefix, version, archives):
+    arm_gnu_toolchain_repo(
+        name = toolchain,
+        toolchain_name = toolchain,
+        toolchain_prefix = toolchain_prefix,
+    )
+
+    for attrs in archives[version]:
+        arm_gnu_cross_hosted_platform_specific_repo(
+            toolchain_prefix=toolchain_prefix,
+            **attrs,
+        )
+
+def register_default_arm_gnu_toolchains(toolchain_prefix):
+    for cpu in target_constraints[toolchain_prefix]:
+        register_arm_gnu_toolchain("//toolchain:{}".format(cpu))
+
+# arm-none-eabi
+
+def arm_none_eabi_deps(version = "9.2.1", archives = GCC_ARM_NONE_EABI):
     """Workspace dependencies for the arm none eabi gcc toolchain
 
     Args:
         version: The version of the toolchain to use. If None, the latest version is used.
         archives: A dictionary of version to archive attributes.
     """
-    arm_gnu_toolchain_repo(name = "arm_none_eabi")
-    for attrs in archives[version]:
-        arm_gnu_cross_hosted_platform_specific_repo(
-            toolchain_prefix="arm-none-eabi",
-            **attrs,
-        )
+    arm_gnu_toolchain_deps(
+        "arm_none_eabi",
+        "arm-none-eabi",
+        version,
+        archives
+    )
 
 def register_default_arm_none_eabi_toolchains():
-    for cpu in target_constraints['arm-none-eabi']:
-        register_arm_gnu_toolchain("//toolchain:{}".format(cpu))
+    register_default_arm_gnu_toolchains('arm-none-eabi')

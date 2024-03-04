@@ -833,7 +833,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_gnu": {
       "general": {
-        "bzlTransitiveDigest": "55dtwtm1aiXtPnZLcXPKGvRSFxlumnD+fMcrNcOrxRI=",
+        "bzlTransitiveDigest": "owkHZtCdsCQ2JdfDibLd2OtYWhm916XudZANlMpzRHc=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -852,7 +852,9 @@
             "bzlFile": "@@//:deps.bzl",
             "ruleClassName": "arm_gnu_toolchain_repo",
             "attributes": {
-              "name": "_main~arm_gnu~arm_none_eabi"
+              "name": "_main~arm_gnu~arm_none_eabi",
+              "toolchain_name": "arm_none_eabi",
+              "toolchain_prefix": "arm-none-eabi"
             }
           },
           "arm_none_eabi_linux_x86_64": {
