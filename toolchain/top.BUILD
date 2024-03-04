@@ -15,7 +15,7 @@ TOOLS = tools + ["bin"]
         name = host,
         constraint_values = constraint_values,
     )
-    for host, constraint_values in hosts.items()
+    for host, constraint_values in hosts['%toolchain_prefix%'].items()
 ]
 
 [
@@ -23,7 +23,7 @@ TOOLS = tools + ["bin"]
         name = tool,
         srcs = select({
             host: ["@%toolchain_name%_{}//:{}".format(host, tool)]
-            for host in hosts.keys()
+            for host in hosts['%toolchain_prefix%'].keys()
         }),
     )
     for tool in TOOLS

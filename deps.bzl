@@ -131,6 +131,7 @@ def _arm_gnu_toolchain_repo_impl(repository_ctx):
       Label("@arm_gnu_toolchain//toolchain:top.BUILD"),
       substitutions = {
         "%toolchain_name%": repository_ctx.attr.toolchain_name,
+        "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
       },
     )
 
