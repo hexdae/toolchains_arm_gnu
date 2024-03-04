@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "546696f9bdaf5b0852834ab773cd4ee12190f6dd02bd364f23a200d31020a81d",
+  "moduleFileHash": "83a3bf69a53475bc86fe8eb51a0e3b024ad186d35aad4d1d4b5d5b54a44c66e9",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -24,6 +24,7 @@
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [
         "@arm_none_eabi//toolchain:all",
+        "@arm_none_linux_gnueabihf//toolchain:all",
         "@arm_gnu_toolchain//examples/custom/toolchain:all"
       ],
       "extensionUsages": [
@@ -41,7 +42,11 @@
             "arm_none_eabi_darwin_x86_64": "arm_none_eabi_darwin_x86_64",
             "arm_none_eabi_linux_aarch64": "arm_none_eabi_linux_aarch64",
             "arm_none_eabi_linux_x86_64": "arm_none_eabi_linux_x86_64",
-            "arm_none_eabi_windows_x86_64": "arm_none_eabi_windows_x86_64"
+            "arm_none_eabi_windows_x86_64": "arm_none_eabi_windows_x86_64",
+            "arm_none_linux_gnueabihf": "arm_none_linux_gnueabihf",
+            "arm_none_linux_gnueabihf_linux_aarch64": "arm_none_linux_gnueabihf_linux_aarch64",
+            "arm_none_linux_gnueabihf_linux_x86_64": "arm_none_linux_gnueabihf_linux_x86_64",
+            "arm_none_linux_gnueabihf_windows_x86_64": "arm_none_linux_gnueabihf_windows_x86_64"
           },
           "devImports": [],
           "tags": [
@@ -55,6 +60,18 @@
                 "file": "@@//:MODULE.bazel",
                 "line": 10,
                 "column": 28
+              }
+            },
+            {
+              "tagName": "arm_none_linux_gnueabihf",
+              "attributeValues": {
+                "version": "13.2.1"
+              },
+              "devDependency": false,
+              "location": {
+                "file": "@@//:MODULE.bazel",
+                "line": 20,
+                "column": 39
               }
             }
           ],
@@ -848,6 +865,50 @@
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/gcc-arm-none-eabi-9-2019-q4-major-win32.zip?revision=20c5df9c-9870-47e2-b994-2a652fb99075&la=en&hash=347C07EEEB848CC8944F943D8E1EAAB55A6CA0BC"
             }
           },
+          "arm_none_linux_gnueabihf_linux_x86_64": {
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-linux-gnueabihf",
+              "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_linux_x86_64",
+              "sha256": "df0f4927a67d1fd366ff81e40bd8c385a9324fbdde60437a512d106215f257b3",
+              "build_file": "@@//toolchain:compiler/nix.BUILD",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-linux-gnueabihf",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-linux-gnueabihf.tar.xz?rev=adb0c0238c934aeeaa12c09609c5e6fc&hash=68DA67DE12CBAD82A0FA4B75247E866155C93053",
+              "patches": [
+                "@@//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"
+              ]
+            }
+          },
+          "arm_none_linux_gnueabihf_linux_aarch64": {
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-linux-gnueabihf",
+              "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_linux_aarch64",
+              "sha256": "8ad384bb328bccc44396d85c8f8113b7b8c5e11bcfef322e77cda3ebe7baadb5",
+              "build_file": "@@//toolchain:compiler/nix.BUILD",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-aarch64-arm-none-linux-gnueabihf",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-aarch64-arm-none-linux-gnueabihf.tar.xz?rev=fbdb67e76c8349e5ad27a7c40fb270c9&hash=8CD3EBFFDC5E211275B705F6F9BCC0F6F5B4A53E",
+              "patches": [
+                "@@//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"
+              ]
+            }
+          },
+          "arm_none_linux_gnueabihf_windows_x86_64": {
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-linux-gnueabihf",
+              "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_windows_x86_64",
+              "sha256": "047e72bcef8f7767691f36929a8c74ef66f717cf6264a31f48dd31bfb067f4c8",
+              "build_file": "@@//toolchain:compiler/win.BUILD",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-linux-gnueabihf.zip?rev=14b6dd20622a4beabb60a6ee41a4c141&hash=C1F9FA6DE8259B5ACA0211139F4304F2B942E489",
+              "patches": [
+                "@@//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"
+              ]
+            }
+          },
           "arm_none_eabi": {
             "bzlFile": "@@//:deps.bzl",
             "ruleClassName": "arm_gnu_toolchain_repo",
@@ -879,6 +940,15 @@
               "build_file": "@@//toolchain:compiler/nix.BUILD",
               "strip_prefix": "gcc-arm-none-eabi-9-2019-q4-major",
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/gcc-arm-none-eabi-9-2019-q4-major-mac.tar.bz2?revision=c2c4fe0e-c0b6-4162-97e6-7707e12f2b6e&la=en&hash=EC9D4B5F5B050267B924F876B306D72CDF3BDDC0"
+            }
+          },
+          "arm_none_linux_gnueabihf": {
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_toolchain_repo",
+            "attributes": {
+              "name": "_main~arm_toolchain~arm_none_linux_gnueabihf",
+              "toolchain_name": "arm_none_linux_gnueabihf",
+              "toolchain_prefix": "arm-none-linux-gnueabihf"
             }
           },
           "arm_none_eabi_linux_aarch64": {

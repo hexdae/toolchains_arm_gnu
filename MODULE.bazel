@@ -17,12 +17,22 @@ use_repo(
     "arm_none_eabi_windows_x86_64",
 )
 
+arm_toolchain.arm_none_linux_gnueabihf(version = "13.2.1")
+use_repo(
+    arm_toolchain,
+    "arm_none_linux_gnueabihf",
+    "arm_none_linux_gnueabihf_linux_aarch64",
+    "arm_none_linux_gnueabihf_linux_x86_64",
+    "arm_none_linux_gnueabihf_windows_x86_64",
+)
+
 # DEV ONLY (not needed for release)
 bazel_dep(name = "aspect_bazel_lib", version = "2.0.0", dev_dependency = True)
 bazel_dep(name = "bazel_skylib", version = "1.5.0", dev_dependency = True)
 
 register_toolchains(
     "@arm_none_eabi//toolchain:all",
+    "@arm_none_linux_gnueabihf//toolchain:all",
     dev_dependency = True,
 )
 
