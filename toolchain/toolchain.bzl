@@ -2,7 +2,7 @@
 This module provides functions to register an arm-none-eabi toolchain
 """
 
-load("@arm_gnu_toolchain//toolchain:config.bzl", "cc_arm_none_eabi_config")
+load("@arm_gnu_toolchain//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
 
 tools = [
     "as",
@@ -54,13 +54,15 @@ def arm_none_eabi_toolchain(name, gcc_tool = "gcc", target_compatible_with = [],
     """
 
     for host, exec_compatible_with in hosts.items():
-        cc_arm_none_eabi_config(
+        cc_arm_gnu_toolchain_config(
             name = "config_{}_{}".format(host, name),
             gcc_repo = "arm_none_eabi_{}".format(host),
             gcc_version = version,
             gcc_tool = gcc_tool,
+            abi_version = "eabi",
             host_system_name = host,
             toolchain_identifier = "arm_none_eabi_{}_{}".format(host, name),
+            toolchain_prefix = "arm-none-eabi",
             toolchain_bins = "@arm_none_eabi_{}//:compiler_components".format(host),
             include_path = [
                 "@arm_none_eabi_{}//:arm-none-eabi/include".format(host),

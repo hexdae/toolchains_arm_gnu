@@ -1,9 +1,9 @@
 load("@bazel_tools//tools/build_defs/cc:action_names.bzl", "ACTION_NAMES")
 load("@bazel_tools//tools/cpp:cc_toolchain_config_lib.bzl", "action_config", "feature", "flag_group", "flag_set")
 
-def _tool_path(bins, tool_name):
+def _tool_path(bins, toolchain_prefix, tool_name):
     for file in bins:
-        if file.basename.startswith("arm-none-eabi-{}".format(tool_name)):
+        if file.basename.startswith("{}-{}".format(toolchain_prefix, tool_name)):
             return file
 
     return None
@@ -15,7 +15,7 @@ def _action_configs(ctx, action_names, tool_name, implies = []):
             tools = [
                 struct(
                     type_name = "tool",
-                    tool = _tool_path(ctx.files.toolchain_bins, tool_name),
+                    tool = _tool_path(ctx.files.toolchain_bins, ctx.attr.toolchain_prefix, tool_name),
                 ),
             ],
             implies = implies,
@@ -128,11 +128,11 @@ def _impl(ctx):
         ctx = ctx,
         toolchain_identifier = ctx.attr.toolchain_identifier,
         host_system_name = ctx.attr.host_system_name,
-        target_system_name = "arm-none-eabi",
-        target_cpu = "arm-none-eabi",
+        target_system_name = ctx.attr.toolchain_prefix,
+        target_cpu = ctx.attr.toolchain_prefix,
         target_libc = "gcc",
         compiler = ctx.attr.gcc_repo,
-        abi_version = "eabi",
+        abi_version = ctx.attr.abi_version,
         abi_libc_version = ctx.attr.gcc_version,
         action_configs = action_configs,
         features = [
@@ -142,15 +142,17 @@ def _impl(ctx):
         ],
     )
 
-cc_arm_none_eabi_config = rule(
+cc_arm_gnu_toolchain_config = rule(
     implementation = _impl,
     attrs = {
         "toolchain_identifier": attr.string(default = ""),
+        "toolchain_prefix": attr.string(default = ""),
         "host_system_name": attr.string(default = ""),
         "toolchain_bins": attr.label(mandatory = True, allow_files = True),
         "gcc_repo": attr.string(default = ""),
         "gcc_version": attr.string(default = ""),
         "gcc_tool": attr.string(default = "gcc"),
+        "abi_version": attr.string(default = ""),
         "copts": attr.string_list(default = []),
         "linkopts": attr.string_list(default = []),
         "include_path": attr.label_list(default = [], allow_files = True),
