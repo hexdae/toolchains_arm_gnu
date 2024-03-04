@@ -30,11 +30,23 @@ target_constraints = {
         "armv7e-mf": ["@platforms//os:none", "@platforms//cpu:armv7e-mf"],
         "armv8-m": ["@platforms//os:none", "@platforms//cpu:armv8-m"],
     },
+
+    "arm-none-linux-gnueabihf": {
+        "arm": ["@platforms//os:linux", "@platforms//cpu:arm"],
+        "armv7": ["@platforms//os:linux", "@platforms//cpu:armv7"],
+    },
 }
 
 hosts = {
     "arm-none-eabi": {
         "darwin_x86_64": ["@platforms//os:macos"],  # Also runs on apple silicon
+        "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
+        "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
+        "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
+    },
+
+    "arm-none-linux-gnueabihf": {
+        # ARM has not provided an arm linux toolchain for darwin.
         "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
         "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
         "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
@@ -95,7 +107,7 @@ def _arm_gnu_toolchain(name, toolchain = "", toolchain_prefix = "",
             toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
         )
 
-def arm_none_eabi_toolchain(name, version = "9.2.1", **kwargs):
+def arm_none_eabi_toolchain(name, version = "9.2.1", copts = [], **kwargs):
     """
     Create an arm-none-eabi toolchain with the given configuration.
 
@@ -110,7 +122,24 @@ def arm_none_eabi_toolchain(name, version = "9.2.1", **kwargs):
     """
     _arm_gnu_toolchain(name, toolchain = "arm_none_eabi",
                        toolchain_prefix = "arm-none-eabi", version = version,
-                       abi_version = "eabi", **kwargs)
+                       abi_version = "eabi", copts = ["-nostdinc"] + copts,
+                       **kwargs)
+
+def arm_none_linux_gnueabihf_toolchain(name, version = "13.2.1", **kwargs):
+    """
+    Create an arm-none-linux-gnueabihf toolchain with the given configuration.
+
+    Args:
+        name: The name of the toolchain.
+        gcc_tool: The gcc tool to use. Defaults to "gcc". [gcc, c++, cpp]
+        target_compatible_with: A list of constraint values to apply to the toolchain.
+        copts: A list of compiler options to apply to the toolchain.
+        linkopts: A list of linker options to apply to the toolchain.
+        version: The version of the gcc toolchain.
+    """
+    _arm_gnu_toolchain(name, toolchain = "arm_none_linux_gnueabihf",
+                       toolchain_prefix = "arm-none-linux-gnueabihf",
+                       version = version, abi_version = "gnueabihf", **kwargs)
 
 def register_arm_gnu_toolchain(name):
     for host in hosts:

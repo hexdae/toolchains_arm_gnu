@@ -67,6 +67,34 @@ GCC_ARM_NONE_EABI = {
     ],
 }
 
+GCC_ARM_NONE_LINUX_GNUEABIHF = {
+    "13.2.1": [
+        {
+            "name": "arm_none_linux_gnueabihf_linux_x86_64",
+            "sha256": "df0f4927a67d1fd366ff81e40bd8c385a9324fbdde60437a512d106215f257b3",
+            "build_file": "@arm_gnu_toolchain//toolchain:compiler/nix.BUILD",
+            "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-linux-gnueabihf",
+            "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-linux-gnueabihf.tar.xz?rev=adb0c0238c934aeeaa12c09609c5e6fc&hash=68DA67DE12CBAD82A0FA4B75247E866155C93053",
+            "patches": ["@arm_gnu_toolchain//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"],
+        },
+        {
+            "name": "arm_none_linux_gnueabihf_linux_aarch64",
+            "sha256": "8ad384bb328bccc44396d85c8f8113b7b8c5e11bcfef322e77cda3ebe7baadb5",
+            "build_file": "@arm_gnu_toolchain//toolchain:compiler/nix.BUILD",
+            "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-aarch64-arm-none-linux-gnueabihf",
+            "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-aarch64-arm-none-linux-gnueabihf.tar.xz?rev=fbdb67e76c8349e5ad27a7c40fb270c9&hash=8CD3EBFFDC5E211275B705F6F9BCC0F6F5B4A53E",
+            "patches": ["@arm_gnu_toolchain//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"],
+        },
+        {
+            "name": "arm_none_linux_gnueabihf_windows_x86_64",
+            "sha256": "047e72bcef8f7767691f36929a8c74ef66f717cf6264a31f48dd31bfb067f4c8",
+            "build_file": "@arm_gnu_toolchain//toolchain:compiler/win.BUILD",
+            "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-linux-gnueabihf.zip?rev=14b6dd20622a4beabb60a6ee41a4c141&hash=C1F9FA6DE8259B5ACA0211139F4304F2B942E489",
+            "patches": ["@arm_gnu_toolchain//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"],
+        },
+    ],
+}
+
 def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
     """Defines a host-specific repository for the ARM GNU toolchain."""
     repository_ctx.download_and_extract(
@@ -81,6 +109,8 @@ def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
         "%prefix%": repository_ctx.attr.toolchain_prefix,
       },
     )
+    for patch in repository_ctx.attr.patches:
+      repository_ctx.patch(patch, strip=1)
 
 arm_gnu_cross_hosted_platform_specific_repo = repository_rule(
   implementation = _arm_gnu_cross_hosted_platform_specific_repo_impl,
@@ -90,6 +120,7 @@ arm_gnu_cross_hosted_platform_specific_repo = repository_rule(
     'build_file': attr.label(mandatory=True),
     'toolchain_prefix': attr.string(mandatory=True),
     'strip_prefix': attr.string(),
+    'patches': attr.label_list(),
   },
 )
 
@@ -155,3 +186,22 @@ def arm_none_eabi_deps(version = "9.2.1", archives = GCC_ARM_NONE_EABI):
 
 def register_default_arm_none_eabi_toolchains():
     register_default_arm_gnu_toolchains('arm-none-eabi')
+
+# arm-none-linux-gnueabihf
+
+def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = GCC_ARM_NONE_LINUX_GNUEABIHF):
+    """Workspace dependencies for the arm linux gcc toolchain
+
+    Args:
+        version: The version of the toolchain to use. If None, the latest version is used.
+        archives: A dictionary of the version to archive attributes.
+    """
+    arm_gnu_toolchain_deps(
+        "arm_none_linux_gnueabihf",
+        "arm-none-linux-gnueabihf",
+        version,
+        archives,
+    )
+
+def register_default_arm_none_linux_gnueabihf_toolchains():
+    register_default_arm_gnu_toolchains('arm-none-linux-gnueabihf')
