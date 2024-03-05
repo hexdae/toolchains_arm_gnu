@@ -4,6 +4,8 @@ rendered into the //toolchain package of the generated toolchain repository.
 For example, "@arm_none_eabi//toolchain:*"
 """
 
+package(default_visibility = ["//visibility:public"])
+
 load(
     "@arm_gnu_toolchain//toolchain:toolchain.bzl",
     "%toolchain_name%_toolchain",
