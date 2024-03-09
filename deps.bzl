@@ -140,6 +140,7 @@ def _arm_gnu_toolchain_repo_impl(repository_ctx):
       Label("@arm_gnu_toolchain//toolchain:toolchain.BUILD"),
       substitutions = {
         "%toolchain_name%": repository_ctx.attr.toolchain_name,
+        "%version%": repository_ctx.attr.version,
         "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
       },
     )
@@ -149,6 +150,7 @@ arm_gnu_toolchain_repo = repository_rule(
   attrs = {
     'toolchain_name': attr.string(mandatory=True),
     'toolchain_prefix': attr.string(mandatory=True),
+    'version': attr.string(mandatory=True),
   },
 )
 
@@ -157,6 +159,7 @@ def arm_gnu_toolchain_deps(toolchain, toolchain_prefix, version, archives):
         name = toolchain,
         toolchain_name = toolchain,
         toolchain_prefix = toolchain_prefix,
+        version = version,
     )
 
     for attrs in archives[version]:

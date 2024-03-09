@@ -15,6 +15,7 @@ load(
 [
     %toolchain_name%_toolchain(
         name = name,
+        version = "%version%",
         target_compatible_with = constraints,
     )
     for name, constraints in target_constraints['%toolchain_prefix%'].items()
