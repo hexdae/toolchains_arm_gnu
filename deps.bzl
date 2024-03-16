@@ -37,7 +37,7 @@ GCC_ARM_NONE_EABI = {
         {
             "name": "arm_none_eabi_darwin_x86_64",
             "sha256": "075faa4f3e8eb45e59144858202351a28706f54a6ec17eedd88c9fb9412372cc",
-            "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi",
+            "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-darwin-x86_64-arm-none-eabi",
             "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-darwin-x86_64-arm-none-eabi.tar.xz?rev=a3d8c87bb0af4c40b7d7e0e291f6541b&hash=10927356ACA904E1A0122794E036E8DDE7D8435D",
         },
         {
@@ -55,6 +55,7 @@ GCC_ARM_NONE_EABI = {
         {
             "name": "arm_none_eabi_windows_x86_64",
             "sha256": "51d933f00578aa28016c5e3c84f94403274ea7915539f8e56c13e2196437d18f",
+            "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi",
             "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-eabi.zip?rev=93fda279901c4c0299e03e5c4899b51f&hash=A3C5FF788BE90810E121091C873E3532336C8D46",
             "bin_extension": ".exe",
         },
@@ -98,7 +99,8 @@ def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
       "BUILD.bazel",
       Label("@arm_gnu_toolchain//toolchain:templates/compiler.BUILD"),
       substitutions = {
-        "%prefix%": repository_ctx.attr.toolchain_prefix,
+        "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
+        "%version%": repository_ctx.attr.version,
         "%bin_extension%": repository_ctx.attr.bin_extension,
       },
     )
@@ -111,6 +113,7 @@ arm_gnu_cross_hosted_platform_specific_repo = repository_rule(
     'sha256': attr.string(mandatory=True),
     'url': attr.string(mandatory=True),
     'toolchain_prefix': attr.string(mandatory=True),
+    'version': attr.string(mandatory=True),
     'strip_prefix': attr.string(),
     'patches': attr.label_list(),
     'bin_extension': attr.string(default = ""),
@@ -124,6 +127,7 @@ def _arm_gnu_toolchain_repo_impl(repository_ctx):
       Label("@arm_gnu_toolchain//toolchain:templates/top.BUILD"),
       substitutions = {
         "%toolchain_name%": repository_ctx.attr.toolchain_name,
+        "%version%": repository_ctx.attr.version,
         "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
       },
     )
@@ -158,6 +162,7 @@ def arm_gnu_toolchain_deps(toolchain, toolchain_prefix, version, archives):
     for attrs in archives[version]:
         arm_gnu_cross_hosted_platform_specific_repo(
             toolchain_prefix=toolchain_prefix,
+            version = version,
             **attrs,
         )
 

@@ -10,7 +10,8 @@ package(default_visibility = ["//visibility:public"])
 # export the executable files to make them available for direct use.
 exports_files(glob(["**"], exclude_directories = 0))
 
-PREFIX = "%prefix%"
+PREFIX = "%toolchain_prefix%"
+VERSION = "%version%"
 
 # executables.
 [
@@ -21,7 +22,27 @@ PREFIX = "%prefix%"
     for tool in tools
 ]
 
-# libraries and headers.
+filegroup(
+    name = "include_path",
+    srcs = [
+      "{}/include".format(PREFIX),
+      "lib/gcc/{}/{}/include".format(PREFIX, VERSION),
+      "lib/gcc/{}/{}/include-fixed".format(PREFIX, VERSION),
+      "{}/include/c++/{}".format(PREFIX, VERSION),
+      "{}/include/c++/{}/{}".format(PREFIX, VERSION, PREFIX),
+    ],
+)
+
+# Just the components to add to the library path.
+filegroup(
+    name = "library_path",
+    srcs = [
+      PREFIX,
+      "{}/lib".format(PREFIX),
+    ] + glob(["lib/gcc/{}/*".format(PREFIX)]),
+)
+
+# libraries, headers and executables.
 filegroup(
     name = "compiler_pieces",
     srcs = glob([
