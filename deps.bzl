@@ -81,6 +81,7 @@ GCC_ARM_NONE_LINUX_GNUEABIHF = {
         {
             "name": "arm_none_linux_gnueabihf_windows_x86_64",
             "sha256": "047e72bcef8f7767691f36929a8c74ef66f717cf6264a31f48dd31bfb067f4c8",
+            "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-linux-gnueabihf",
             "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-linux-gnueabihf.zip?rev=14b6dd20622a4beabb60a6ee41a4c141&hash=C1F9FA6DE8259B5ACA0211139F4304F2B942E489",
             "patches": ["@arm_gnu_toolchain//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"],
             "bin_extension": ".exe",
