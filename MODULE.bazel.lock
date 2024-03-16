@@ -850,7 +850,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_toolchain": {
       "general": {
-        "bzlTransitiveDigest": "nABIo5MPqdeY9ulas4PTAWCcl835IUiTJpM/wuIMWnw=",
+        "bzlTransitiveDigest": "LtrsY8GJj9yBjTo2/9Z5KEDpQjsbDVxhbPOUN4dHknA=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -860,9 +860,9 @@
             "attributes": {
               "toolchain_prefix": "arm-none-eabi",
               "name": "_main~arm_toolchain~arm_none_eabi_windows_x86_64",
-              "build_file": "@@//toolchain:compiler/win.BUILD",
               "sha256": "51d933f00578aa28016c5e3c84f94403274ea7915539f8e56c13e2196437d18f",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-eabi.zip?rev=93fda279901c4c0299e03e5c4899b51f&hash=A3C5FF788BE90810E121091C873E3532336C8D46"
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-eabi.zip?rev=93fda279901c4c0299e03e5c4899b51f&hash=A3C5FF788BE90810E121091C873E3532336C8D46",
+              "bin_extension": ".exe"
             }
           },
           "arm_none_linux_gnueabihf_linux_x86_64": {
@@ -872,11 +872,10 @@
               "toolchain_prefix": "arm-none-linux-gnueabihf",
               "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_linux_x86_64",
               "sha256": "df0f4927a67d1fd366ff81e40bd8c385a9324fbdde60437a512d106215f257b3",
-              "build_file": "@@//toolchain:compiler/nix.BUILD",
               "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-linux-gnueabihf",
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-linux-gnueabihf.tar.xz?rev=adb0c0238c934aeeaa12c09609c5e6fc&hash=68DA67DE12CBAD82A0FA4B75247E866155C93053",
               "patches": [
-                "@@//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"
+                "@@//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
               ]
             }
           },
@@ -887,11 +886,10 @@
               "toolchain_prefix": "arm-none-linux-gnueabihf",
               "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_linux_aarch64",
               "sha256": "8ad384bb328bccc44396d85c8f8113b7b8c5e11bcfef322e77cda3ebe7baadb5",
-              "build_file": "@@//toolchain:compiler/nix.BUILD",
               "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-aarch64-arm-none-linux-gnueabihf",
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-aarch64-arm-none-linux-gnueabihf.tar.xz?rev=fbdb67e76c8349e5ad27a7c40fb270c9&hash=8CD3EBFFDC5E211275B705F6F9BCC0F6F5B4A53E",
               "patches": [
-                "@@//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"
+                "@@//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
               ]
             }
           },
@@ -902,11 +900,11 @@
               "toolchain_prefix": "arm-none-linux-gnueabihf",
               "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_windows_x86_64",
               "sha256": "047e72bcef8f7767691f36929a8c74ef66f717cf6264a31f48dd31bfb067f4c8",
-              "build_file": "@@//toolchain:compiler/win.BUILD",
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-linux-gnueabihf.zip?rev=14b6dd20622a4beabb60a6ee41a4c141&hash=C1F9FA6DE8259B5ACA0211139F4304F2B942E489",
               "patches": [
-                "@@//toolchain:compiler/0001-Resolve-libc-relative-to-sysroot.patch"
-              ]
+                "@@//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
+              ],
+              "bin_extension": ".exe"
             }
           },
           "arm_none_eabi": {
@@ -926,7 +924,6 @@
               "toolchain_prefix": "arm-none-eabi",
               "name": "_main~arm_toolchain~arm_none_eabi_linux_x86_64",
               "sha256": "6cd1bbc1d9ae57312bcd169ae283153a9572bd6a8e4eeae2fedfbc33b115fdbb",
-              "build_file": "@@//toolchain:compiler/nix.BUILD",
               "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi",
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz?rev=e434b9ea4afc4ed7998329566b764309&hash=688C370BF08399033CA9DE3C1CC8CF8E31D8C441"
             }
@@ -938,7 +935,6 @@
               "toolchain_prefix": "arm-none-eabi",
               "name": "_main~arm_toolchain~arm_none_eabi_darwin_x86_64",
               "sha256": "075faa4f3e8eb45e59144858202351a28706f54a6ec17eedd88c9fb9412372cc",
-              "build_file": "@@//toolchain:compiler/nix.BUILD",
               "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi",
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-darwin-x86_64-arm-none-eabi.tar.xz?rev=a3d8c87bb0af4c40b7d7e0e291f6541b&hash=10927356ACA904E1A0122794E036E8DDE7D8435D"
             }
@@ -960,7 +956,6 @@
               "toolchain_prefix": "arm-none-eabi",
               "name": "_main~arm_toolchain~arm_none_eabi_linux_aarch64",
               "sha256": "8fd8b4a0a8d44ab2e195ccfbeef42223dfb3ede29d80f14dcf2183c34b8d199a",
-              "build_file": "@@//toolchain:compiler/nix.BUILD",
               "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-aarch64-arm-none-eabi",
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-aarch64-arm-none-eabi.tar.xz?rev=17baf091942042768d55c9a304610954&hash=7F32B9E3ADFAFC4F8F74C30EBBBFECEB1AC96B60"
             }
@@ -1001,7 +996,13 @@
             }
           }
         },
-        "recordedRepoMappingEntries": []
+        "recordedRepoMappingEntries": [
+          [
+            "apple_support~1.5.0",
+            "bazel_tools",
+            "bazel_tools"
+          ]
+        ]
       }
     },
     "@@aspect_bazel_lib~2.0.0//lib:extensions.bzl%toolchains": {
@@ -1457,25 +1458,6 @@
             "bazel_tools"
           ]
         ]
-      }
-    },
-    "@@bazel_tools//tools/osx:xcode_configure.bzl%xcode_configure_extension": {
-      "general": {
-        "bzlTransitiveDigest": "Qh2bWTU6QW6wkrd87qrU4YeY+SG37Nvw3A0PR4Y0L2Y=",
-        "accumulatedFileDigests": {},
-        "envVariables": {},
-        "generatedRepoSpecs": {
-          "local_config_xcode": {
-            "bzlFile": "@@bazel_tools//tools/osx:xcode_configure.bzl",
-            "ruleClassName": "xcode_autoconf",
-            "attributes": {
-              "name": "bazel_tools~xcode_configure_extension~local_config_xcode",
-              "xcode_locator": "@bazel_tools//tools/osx:xcode_locator.m",
-              "remote_xcode": ""
-            }
-          }
-        },
-        "recordedRepoMappingEntries": []
       }
     },
     "@@bazel_tools//tools/sh:sh_configure.bzl%sh_configure_extension": {
