@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "cc7772f488e471a657eb70ac10d6e02215a54e58fa654a90b9fdfbf5e0cfb2e3",
+  "moduleFileHash": "7a22bcb260999b65ca598fd8196b09500aeb275609a9832ba19cf6385b9fd48a",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -25,7 +25,7 @@
       "toolchainsToRegister": [
         "@arm_none_eabi//toolchain:all",
         "@arm_none_linux_gnueabihf//toolchain:all",
-        "@arm_gnu_toolchain//examples/custom/toolchain:all"
+        "@arm_gnu_toolchain//examples/arm-none/custom/toolchain:all"
       ],
       "extensionUsages": [
         {

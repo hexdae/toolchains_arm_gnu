@@ -41,6 +41,6 @@ register_toolchains(
 )
 
 register_toolchains(
-    "@arm_gnu_toolchain//examples/custom/toolchain:all",
+    "@arm_gnu_toolchain//examples/arm-none/custom/toolchain:all",
     dev_dependency = True,
 )
