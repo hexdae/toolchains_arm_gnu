@@ -100,7 +100,7 @@ git_override(
 bazel_dep(name = "arm_none_eabi", version = "1.0.0")
 
 arm_toolchain = use_extension("@arm_gnu_toolchain//:extensions.bzl", "arm_toolchain")
-arm_toolchain.arm_none_eabi(version = "9.2.1")
+arm_toolchain.arm_none_eabi(version = "13.2.1")
 use_repo(
     arm_toolchain,
     "arm_none_eabi",

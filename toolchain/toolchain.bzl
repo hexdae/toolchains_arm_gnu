@@ -102,7 +102,7 @@ def _arm_gnu_toolchain(name, toolchain = "", toolchain_prefix = "",
             toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
         )
 
-def arm_none_eabi_toolchain(name, version = "9.2.1", copts = [], **kwargs):
+def arm_none_eabi_toolchain(name, version = "13.2.1", copts = [], **kwargs):
     """
     Create an arm-none-eabi toolchain with the given configuration.
 

@@ -173,7 +173,7 @@ def register_default_arm_gnu_toolchains(toolchain_prefix):
 
 # arm-none-eabi
 
-def arm_none_eabi_deps(version = "9.2.1", archives = GCC_ARM_NONE_EABI):
+def arm_none_eabi_deps(version = "13.2.1", archives = GCC_ARM_NONE_EABI):
     """Workspace dependencies for the arm none eabi gcc toolchain
 
     Args:
