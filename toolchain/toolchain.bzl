@@ -3,6 +3,7 @@ This module provides functions to register an arm-none-eabi toolchain
 """
 
 load("@arm_gnu_toolchain//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
+load("@rules_cc//cc:defs.bzl", "cc_toolchain")
 
 tools = [
     "as",
@@ -79,7 +80,7 @@ def _arm_gnu_toolchain(name, toolchain = "", toolchain_prefix = "",
             include_std = include_std,
         )
 
-        native.cc_toolchain(
+        cc_toolchain(
             name = "cc_toolchain_{}_{}".format(host, name),
             all_files = "@{}_{}//:compiler_pieces".format(toolchain, host),
             ar_files = "@{}_{}//:ar_files".format(toolchain, host),
