@@ -1,19 +1,14 @@
 #include "library.h"
 #include <vector>
 
-uint16_t baz(int a)
-{
-    return a * 2;
-}
+uint16_t baz(uint8_t a) { return a * 2; }
 
-uint32_t foo()
-{
+uint32_t foo() {
     static constexpr int k = 5;
     return baz(k);
 }
 
-uint16_t foobaz()
-{
+uint16_t foobaz() {
     std::vector<uint8_t> vec(10);
     vec.push_back(1);
     return vec[0];

@@ -120,7 +120,8 @@ def arm_none_eabi_toolchain(name, version = "9.2.1", copts = [], **kwargs):
                        abi_version = "eabi", copts = ["-nostdinc"] + copts,
                        **kwargs)
 
-def arm_none_linux_gnueabihf_toolchain(name, version = "13.2.1", **kwargs):
+def arm_none_linux_gnueabihf_toolchain(name, version = "13.2.1", linkopts = [],
+                                       **kwargs):
     """
     Create an arm-none-linux-gnueabihf toolchain with the given configuration.
 
@@ -134,7 +135,8 @@ def arm_none_linux_gnueabihf_toolchain(name, version = "13.2.1", **kwargs):
     """
     _arm_gnu_toolchain(name, toolchain = "arm_none_linux_gnueabihf",
                        toolchain_prefix = "arm-none-linux-gnueabihf",
-                       version = version, abi_version = "gnueabihf", **kwargs)
+                       version = version, abi_version = "gnueabihf",
+                       linkopts = ["-lc", "-lstdc++"] + linkopts, **kwargs)
 
 def register_arm_gnu_toolchain(name):
     for host in hosts:

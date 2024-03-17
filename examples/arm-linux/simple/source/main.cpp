@@ -1,5 +1,8 @@
-// The simplest possible main function
+#include <iostream>
+#include <library.h>
 
-int main(){
-    return 0;
+int main() {
+    std::cout << "baz(4) -> " << baz(4) << "\n";
+    std::cout << "foo=" << foo() << "\n";
+    std::cout << "foobaz=" << foobaz() << "\n";
 }
