@@ -37,7 +37,7 @@ hosts = {
     "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
 }
 
-def arm_none_eabi_toolchain(name, gcc_tool = "gcc", target_compatible_with = [], copts = [], linkopts = [], version = "9.2.1"):
+def arm_none_eabi_toolchain(name, gcc_tool = "gcc", target_compatible_with = [], copts = [], linkopts = [], version = "9.2.1", include_std = False):
     """
     Create an arm-none-eabi toolchain with the given configuration.
 
@@ -48,6 +48,7 @@ def arm_none_eabi_toolchain(name, gcc_tool = "gcc", target_compatible_with = [],
         copts: A list of compiler options to apply to the toolchain.
         linkopts: A list of linker options to apply to the toolchain.
         version: The version of the gcc toolchain.
+        include_std: Whether to include the standard library in the include path.
     """
 
     for host, exec_compatible_with in hosts.items():
@@ -72,6 +73,7 @@ def arm_none_eabi_toolchain(name, gcc_tool = "gcc", target_compatible_with = [],
             ],
             copts = copts,
             linkopts = linkopts,
+            include_std = include_std,
         )
 
         native.cc_toolchain(
