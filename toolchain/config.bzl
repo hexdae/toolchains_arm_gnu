@@ -29,6 +29,15 @@ def _impl(ctx):
     # Action -> binary mappings from Pigweed:
     # https://github.com/google/pigweed/blob/aac7fab/pw_toolchain_bazel/cc_toolchain/private/cc_toolchain.bzl#L19
 
+    default_compiler_flags = [
+        "-fno-canonical-system-headers",
+        "-no-canonical-prefixes",
+    ]
+    if not ctx.attr.include_std:
+        default_compiler_flags.append("-nostdinc")
+        if ctx.attr.gcc_tool == "g++":
+            default_compiler_flags.append("-nostdinc++")
+
     action_configs += _action_configs(
         ctx,
         [
@@ -83,11 +92,7 @@ def _impl(ctx):
                 ],
                 flag_groups = [
                     flag_group(flags = ["-I" + include.path for include in ctx.files.include_path]),
-                    flag_group(flags = ctx.attr.copts + [
-                        "-fno-canonical-system-headers",
-                        "-no-canonical-prefixes",
-                        "-nostdinc",
-                    ]),
+                    flag_group(flags = ctx.attr.copts + default_compiler_flags),
                 ],
             ),
         ],
@@ -150,6 +155,7 @@ cc_arm_none_eabi_config = rule(
         "linkopts": attr.string_list(default = []),
         "include_path": attr.label_list(default = [], allow_files = True),
         "library_path": attr.label_list(default = [], allow_files = True),
+        "include_std": attr.bool(default = False),
     },
     provides = [CcToolchainConfigInfo],
 )
