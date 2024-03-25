@@ -136,7 +136,8 @@ def arm_none_linux_gnueabihf_toolchain(name, version = "13.2.1", linkopts = [],
     _arm_gnu_toolchain(name, toolchain = "arm_none_linux_gnueabihf",
                        toolchain_prefix = "arm-none-linux-gnueabihf",
                        version = version, abi_version = "gnueabihf",
-                       linkopts = ["-lc", "-lstdc++"] + linkopts, **kwargs)
+                       linkopts = ["-lc", "-lstdc++"] + linkopts,
+                       include_std = True, **kwargs)
 
 def register_arm_gnu_toolchain(name):
     for host in hosts:
