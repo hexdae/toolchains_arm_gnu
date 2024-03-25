@@ -57,7 +57,7 @@ And this to your `.bazelrc`
 
 # Build using platforms by default
 build --incompatible_enable_cc_toolchain_resolution
-build --platforms=@arm_none_eabi//platforms:arm_none_generic
+build --platforms=@arm_gnu_toolchain//platforms:arm_none_generic
 ```
 
 ## WORKSPACE
@@ -76,7 +76,7 @@ git_repository(
     shallow_since = "<value>",
 )
 
-load("@arm_none_eabi//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_none_eabi_toolchains")
+load("@arm_gnu_toolchain//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_none_eabi_toolchains")
 
 arm_none_eabi_deps()
 
@@ -99,10 +99,11 @@ git_override(
 
 bazel_dep(name = "arm_none_eabi", version = "1.0.0")
 
-arm_none_eabi_gcc = use_extension("@arm_none_eabi//:extensions.bzl", "arm_none_eabi")
-arm_none_eabi_gcc.toolchain(version = "9.2.1")
+arm_toolchain = use_extension("@arm_gnu_toolchain//:extensions.bzl", "arm_toolchain")
+arm_toolchain.arm_none_eabi(version = "13.2.1")
 use_repo(
-    arm_none_eabi_gcc,
+    arm_toolchain,
+    "arm_none_eabi",
     "arm_none_eabi_darwin_x86_64",
     "arm_none_eabi_linux_aarch64",
     "arm_none_eabi_linux_x86_64",
@@ -124,7 +125,7 @@ In a BUILD file:
 ```python
 # path/to/toolchains/BUILD
 
-load("@arm_none_eabi//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
+load("@arm_gnu_toolchain//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
 arm_none_eabi_toolchain(
     name = "custom_toolchain",
     target_compatible_with = [
@@ -181,3 +182,16 @@ genrule(
 ## Remote execution
 
 This toolchain is compatible with remote execution, see [`remote.yml`](.github/workflows/remote.yml)
+## Building with the ARM Linux toolchain on Windows
+
+The Windows maximum path length limitation may cause build failures with the
+`arm-none-linux-gnueabihf` toolchain. In some cases, it's enough to avoid this
+by setting a shorter output directory. Add this to your `.bazelrc` file:
+
+```
+startup --output_user_root=C:/tmp
+```
+
+See [avoid long path issues][1] for more information.
+
+[1]: https://bazel.build/configure/windows#long-path-issues

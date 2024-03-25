@@ -2,7 +2,8 @@
 This module provides functions to register an arm-none-eabi toolchain
 """
 
-load("@arm_none_eabi//toolchain:config.bzl", "cc_arm_none_eabi_config")
+load("@arm_gnu_toolchain//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
+load("@rules_cc//cc:defs.bzl", "cc_toolchain")
 
 tools = [
     "as",
@@ -21,23 +22,87 @@ tools = [
     "size",
 ]
 
-compatible_cpus = {
-    "arm": "@platforms//cpu:arm",
-    "armv6-m": "@platforms//cpu:armv6-m",
-    "armv7-m": "@platforms//cpu:armv7-m",
-    "armv7e-m": "@platforms//cpu:armv7e-m",
-    "armv7e-mf": "@platforms//cpu:armv7e-mf",
-    "armv8-m": "@platforms//cpu:armv8-m",
+target_constraints = {
+    "arm-none-eabi": {
+        "arm": ["@platforms//os:none", "@platforms//cpu:arm"],
+        "armv6-m": ["@platforms//os:none", "@platforms//cpu:armv6-m"],
+        "armv7-m": ["@platforms//os:none", "@platforms//cpu:armv7-m"],
+        "armv7e-m": ["@platforms//os:none", "@platforms//cpu:armv7e-m"],
+        "armv7e-mf": ["@platforms//os:none", "@platforms//cpu:armv7e-mf"],
+        "armv8-m": ["@platforms//os:none", "@platforms//cpu:armv8-m"],
+    },
+
+    "arm-none-linux-gnueabihf": {
+        "arm": ["@platforms//os:linux", "@platforms//cpu:arm"],
+        "armv7": ["@platforms//os:linux", "@platforms//cpu:armv7"],
+    },
 }
 
 hosts = {
-    "darwin_x86_64": ["@platforms//os:macos"],  # Also runs on apple silicon
-    "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
-    "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
-    "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
+    "arm-none-eabi": {
+        "darwin_x86_64": ["@platforms//os:macos"],  # Also runs on apple silicon
+        "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
+        "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
+        "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
+    },
+
+    "arm-none-linux-gnueabihf": {
+        # ARM has not provided an arm linux toolchain for darwin.
+        "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
+        "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
+        "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
+    },
 }
 
-def arm_none_eabi_toolchain(name, gcc_tool = "gcc", target_compatible_with = [], copts = [], linkopts = [], version = "9.2.1", include_std = False):
+def _arm_gnu_toolchain(name, toolchain = "", toolchain_prefix = "",
+                       gcc_tool = "gcc", abi_version = "",
+                       target_compatible_with = [], copts = [],
+                       linkopts = [], version = "", include_std = False):
+    for host, exec_compatible_with in hosts[toolchain_prefix].items():
+        cc_arm_gnu_toolchain_config(
+            name = "config_{}_{}".format(host, name),
+            gcc_repo = "{}_{}".format(toolchain, host),
+            gcc_version = version,
+            gcc_tool = gcc_tool,
+            abi_version = abi_version,
+            host_system_name = host,
+            toolchain_prefix = toolchain_prefix,
+            toolchain_identifier = "{}_{}_{}".format(toolchain, host, name),
+            toolchain_bins = "@{}_{}//:compiler_components".format(toolchain, host),
+            include_path = [
+                "@{}_{}//:include_path".format(toolchain, host),
+            ],
+            library_path = [
+                "@{}_{}//:library_path".format(toolchain, host),
+            ],
+            copts = copts,
+            linkopts = linkopts,
+            include_std = include_std,
+        )
+
+        cc_toolchain(
+            name = "cc_toolchain_{}_{}".format(host, name),
+            all_files = "@{}_{}//:compiler_pieces".format(toolchain, host),
+            ar_files = "@{}_{}//:ar_files".format(toolchain, host),
+            compiler_files = "@{}_{}//:compiler_files".format(toolchain, host),
+            dwp_files = ":empty",
+            linker_files = "@{}_{}//:linker_files".format(toolchain, host),
+            objcopy_files = "@{}_{}//:objcopy".format(toolchain, host),
+            strip_files = "@{}_{}//:strip".format(toolchain, host),
+            supports_param_files = 0,
+            toolchain_config = ":config_{}_{}".format(host, name),
+            toolchain_identifier = "{}_{}_{}".format(toolchain, host, name),
+        )
+
+        native.toolchain(
+            name = "{}_{}".format(name, host),
+            exec_compatible_with = exec_compatible_with,
+            target_compatible_with = target_compatible_with,
+            toolchain = ":cc_toolchain_{}_{}".format(host, name),
+            toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+        )
+
+def arm_none_eabi_toolchain(name, version = "13.2.1", copts = [], **kwargs):
     """
     Create an arm-none-eabi toolchain with the given configuration.
 
@@ -50,54 +115,30 @@ def arm_none_eabi_toolchain(name, gcc_tool = "gcc", target_compatible_with = [],
         version: The version of the gcc toolchain.
         include_std: Whether to include the standard library in the include path.
     """
+    _arm_gnu_toolchain(name, toolchain = "arm_none_eabi",
+                       toolchain_prefix = "arm-none-eabi", version = version,
+                       abi_version = "eabi", copts = ["-nostdinc"] + copts,
+                       **kwargs)
 
-    for host, exec_compatible_with in hosts.items():
-        cc_arm_none_eabi_config(
-            name = "config_{}_{}".format(host, name),
-            gcc_repo = "arm_none_eabi_{}".format(host),
-            gcc_version = version,
-            gcc_tool = gcc_tool,
-            host_system_name = host,
-            toolchain_identifier = "arm_none_eabi_{}_{}".format(host, name),
-            toolchain_bins = "@arm_none_eabi_{}//:compiler_components".format(host),
-            include_path = [
-                "@arm_none_eabi_{}//:arm-none-eabi/include".format(host),
-                "@arm_none_eabi_{}//:lib/gcc/arm-none-eabi/{}/include".format(host, version),
-                "@arm_none_eabi_{}//:lib/gcc/arm-none-eabi/{}/include-fixed".format(host, version),
-                "@arm_none_eabi_{}//:arm-none-eabi/include/c++/{}".format(host, version),
-                "@arm_none_eabi_{}//:arm-none-eabi/include/c++/{}/arm-none-eabi".format(host, version),
-            ],
-            library_path = [
-                "@arm_none_eabi_{}//:arm-none-eabi/lib".format(host),
-                "@arm_none_eabi_{}//:lib/gcc/arm-none-eabi/{}".format(host, version),
-            ],
-            copts = copts,
-            linkopts = linkopts,
-            include_std = include_std,
-        )
+def arm_none_linux_gnueabihf_toolchain(name, version = "13.2.1", linkopts = [],
+                                       **kwargs):
+    """
+    Create an arm-none-linux-gnueabihf toolchain with the given configuration.
 
-        native.cc_toolchain(
-            name = "cc_toolchain_{}_{}".format(host, name),
-            all_files = "@arm_none_eabi_{}//:compiler_pieces".format(host),
-            ar_files = "@arm_none_eabi_{}//:ar_files".format(host),
-            compiler_files = "@arm_none_eabi_{}//:compiler_files".format(host),
-            dwp_files = ":empty",
-            linker_files = "@arm_none_eabi_{}//:linker_files".format(host),
-            objcopy_files = "@arm_none_eabi_{}//:objcopy".format(host),
-            strip_files = "@arm_none_eabi_{}//:strip".format(host),
-            supports_param_files = 0,
-            toolchain_config = ":config_{}_{}".format(host, name),
-            toolchain_identifier = "arm_none_eabi_{}_{}".format(host, name),
-        )
+    Args:
+        name: The name of the toolchain.
+        gcc_tool: The gcc tool to use. Defaults to "gcc". [gcc, c++, cpp]
+        target_compatible_with: A list of constraint values to apply to the toolchain.
+        copts: A list of compiler options to apply to the toolchain.
+        linkopts: A list of linker options to apply to the toolchain.
+        version: The version of the gcc toolchain.
+    """
+    _arm_gnu_toolchain(name, toolchain = "arm_none_linux_gnueabihf",
+                       toolchain_prefix = "arm-none-linux-gnueabihf",
+                       version = version, abi_version = "gnueabihf",
+                       linkopts = ["-lc", "-lstdc++"] + linkopts,
+                       include_std = True, **kwargs)
 
-        native.toolchain(
-            name = "{}_{}".format(name, host),
-            exec_compatible_with = exec_compatible_with,
-            target_compatible_with = target_compatible_with,
-            toolchain = ":cc_toolchain_{}_{}".format(host, name),
-            toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-        )
-
-def register_arm_none_eabi_toolchain(name):
+def register_arm_gnu_toolchain(name):
     for host in hosts:
         native.register_toolchains("{}_{}".format(name, host))

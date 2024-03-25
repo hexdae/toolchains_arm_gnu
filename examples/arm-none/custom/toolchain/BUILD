@@ -1,4 +1,4 @@
-load("@arm_none_eabi//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
+load("@arm_gnu_toolchain//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
 
 # Cortex-M3 toolchain
 arm_none_eabi_toolchain(
@@ -18,7 +18,7 @@ arm_none_eabi_toolchain(
     ],
     target_compatible_with = [
         "@platforms//os:none",
-        "//examples/custom/cpu:cortex_m3",
+        "//examples/arm-none/custom/cpu:cortex_m3",
     ],
 )
 
@@ -41,6 +41,6 @@ arm_none_eabi_toolchain(
     ],
     target_compatible_with = [
         "@platforms//os:none",
-        "//examples/custom/cpu:cortex_m4",
+        "//examples/arm-none/custom/cpu:cortex_m4",
     ],
 )

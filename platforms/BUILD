@@ -9,3 +9,11 @@ platform(
         "@platforms//os:none",
     ],
 )
+
+platform(
+    name = "arm_linux",
+    constraint_values = [
+        "@platforms//cpu:arm",
+        "@platforms//os:linux",
+    ],
+)
