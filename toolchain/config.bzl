@@ -2,13 +2,14 @@ load("@bazel_tools//tools/build_defs/cc:action_names.bzl", "ACTION_NAMES")
 load("@rules_cc//cc:cc_toolchain_config_lib.bzl", "action_config", "feature", "flag_group", "flag_set")
 
 def _tool_path(bins, toolchain_prefix, tool_name):
+    """Generate tool paths for GCC"""
     for file in bins:
         if file.basename.startswith("{}-{}".format(toolchain_prefix, tool_name)):
             return file
-
     return None
 
 def _action_configs(ctx, action_names, tool_name, implies = []):
+    """Generate action configs"""
     return [
         action_config(
             action_name = action_name,
@@ -23,20 +24,30 @@ def _action_configs(ctx, action_names, tool_name, implies = []):
         for action_name in action_names
     ]
 
-def _impl(ctx):
-    action_configs = []
-
-    # Action -> binary mappings from Pigweed:
-    # https://github.com/google/pigweed/blob/aac7fab/pw_toolchain_bazel/cc_toolchain/private/cc_toolchain.bzl#L19
-
-    default_compiler_flags = [
+def _default_compiler_flags(ctx):
+    """Default compiler flags for GCC bazel toolchains"""
+    compiler_flags = [
         "-fno-canonical-system-headers",
         "-no-canonical-prefixes",
     ]
+
     if not ctx.attr.include_std:
-        default_compiler_flags.append("-nostdinc")
+        compiler_flags.append("-nostdinc")
         if ctx.attr.gcc_tool == "g++":
-            default_compiler_flags.append("-nostdinc++")
+            compiler_flags.append("-nostdinc++")
+
+    return compiler_flags
+
+def _default_linker_flags(_ctx):
+    """Default linker flags for GCC bazel toolchains"""
+    return [
+        "-no-canonical-prefixes",
+    ]
+
+def _impl(ctx):
+    default_compiler_flags = _default_compiler_flags(ctx)
+    default_linker_flags = _default_linker_flags(ctx)
+    action_configs = []
 
     action_configs += _action_configs(
         ctx,
@@ -118,7 +129,7 @@ def _impl(ctx):
             flag_set(
                 actions = [ACTION_NAMES.cpp_link_executable],
                 flag_groups = [
-                    flag_group(flags = ctx.attr.linkopts + ["-no-canonical-prefixes"]),
+                    flag_group(flags = ctx.attr.linkopts + default_linker_flags),
                 ],
             ),
         ],

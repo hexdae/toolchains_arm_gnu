@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "c7170efca44f6b8567f05e4e870c613665b4c9c1d64094b4c2d5a88f835c14f4",
+  "moduleFileHash": "c0a43adc8d819d05548ee11c1626bc70609ceb229901cdcd5165fb621b97dafc",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -18,7 +18,7 @@
   "moduleDepGraph": {
     "<root>": {
       "name": "arm_gnu_toolchain",
-      "version": "1.0.0",
+      "version": "0.0.1",
       "key": "<root>",
       "repoName": "arm_gnu_toolchain",
       "executionPlatformsToRegister": [],
@@ -34,12 +34,13 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 10,
+            "line": 12,
             "column": 30
           },
           "imports": {
             "arm_none_eabi": "arm_none_eabi",
             "arm_none_eabi_darwin_x86_64": "arm_none_eabi_darwin_x86_64",
+            "arm_none_eabi_darwin_arm64": "arm_none_eabi_darwin_arm64",
             "arm_none_eabi_linux_aarch64": "arm_none_eabi_linux_aarch64",
             "arm_none_eabi_linux_x86_64": "arm_none_eabi_linux_x86_64",
             "arm_none_eabi_windows_x86_64": "arm_none_eabi_windows_x86_64",
@@ -58,7 +59,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 15,
+                "line": 17,
                 "column": 28
               }
             },
@@ -70,7 +71,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 25,
+                "line": 28,
                 "column": 39
               }
             }
@@ -851,7 +852,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_toolchain": {
       "general": {
-        "bzlTransitiveDigest": "klsTYDJI5Guz2L2xgvg3B2+skQyF7NHTyVM/D104jm4=",
+        "bzlTransitiveDigest": "XTUk8QYXs+IEFlvQa29tynbkCSF3Ug39T1gqL4Y8Mb8=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -881,6 +882,18 @@
               "patches": [
                 "@@//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
               ]
+            }
+          },
+          "arm_none_eabi_darwin_arm64": {
+            "bzlFile": "@@//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
+              "version": "13.2.1",
+              "name": "_main~arm_toolchain~arm_none_eabi_darwin_arm64",
+              "sha256": "39c44f8af42695b7b871df42e346c09fee670ea8dfc11f17083e296ea2b0d279",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-darwin-arm64-arm-none-eabi",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-darwin-arm64-arm-none-eabi.tar.xz?rev=73e10891de3d41e29e95ac2878742b74&hash=6036196A3358CB5AD85FC01DFD0FEC02A"
             }
           },
           "arm_none_linux_gnueabihf_linux_aarch64": {

@@ -1,6 +1,8 @@
+"""ARM cross compilation toolchains for bazel"""
+
 module(
     name = "arm_gnu_toolchain",
-    version = "1.0.0",
+    version = "0.0.1",
     compatibility_level = 1,
 )
 
@@ -17,6 +19,7 @@ use_repo(
     arm_toolchain,
     "arm_none_eabi",
     "arm_none_eabi_darwin_x86_64",
+    "arm_none_eabi_darwin_arm64",
     "arm_none_eabi_linux_aarch64",
     "arm_none_eabi_linux_x86_64",
     "arm_none_eabi_windows_x86_64",
