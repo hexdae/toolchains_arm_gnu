@@ -3,6 +3,11 @@
 load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_filegroup")
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
+config_setting(
+    name = "macos", # no compiler on macos (yet)
+    constraint_values = ["@platforms//os:macos"],
+)
+
 cc_library(
     name = "arm_library",
     srcs = ["source/library.cpp"],
@@ -28,9 +33,14 @@ cc_binary(
     deps = [":arm_library"],
 )
 
+
 platform_transition_filegroup(
     name = "elf",
     srcs = [":arm_elf"],
+    target_compatible_with = select({
+        ":macos": ["@platforms//:incompatible"],
+        "//conditions:default": [],
+    }),
     target_platform = "//platforms:arm_linux",
 )
 
