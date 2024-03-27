@@ -5,8 +5,8 @@ load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
 cc_library(
     name = "arm_library",
-    srcs = ["source/library.cpp"],
-    hdrs = ["includes/library.h"],
+    srcs = ["library.cpp"],
+    hdrs = ["library.h"],
     copts = [
         "-mcpu=cortex-a5",
         "-mthumb",
@@ -20,7 +20,7 @@ cc_library(
 
 cc_binary(
     name = "arm_elf",
-    srcs = ["source/main.cpp"],
+    srcs = ["main.cpp"],
     copts = [
         "-mcpu=cortex-a5",
         "-mthumb",
@@ -39,17 +39,10 @@ platform_transition_filegroup(
 )
 
 genrule(
-    name = "bin",
-    srcs = [":elf"],
-    outs = ["mock.bin"],
-    cmd = "$(execpath @arm_none_eabi//:objcopy) -O binary $< $@",
-    tools = ["@arm_none_eabi//:objcopy"],
-)
-
-genrule(
     name = "hex",
     srcs = [":elf"],
     outs = ["mock.hex"],
     cmd = "$(execpath @arm_none_eabi//:objcopy) -O ihex $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
+    visibility = ["//visibility:public"],
 )
