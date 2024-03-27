@@ -21,8 +21,5 @@ jobs:
         [
           ".",
           "e2e/workspace"
-        ]
-      exclude: |
-        [
-          {"folder": "e2e/workspace", "bzlmodEnabled": false}
+          "e2e/smoke"
         ]
