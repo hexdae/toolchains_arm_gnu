@@ -19,7 +19,10 @@ jobs:
     with:
       folders: |
         [
-          ".",
           "e2e/workspace"
-          "e2e/smoke"
+          "e2e/bzlmod"
+        ]
+      exclude: |
+        [
+          {"folder": "e2e/workspace", "bzlmodEnabled": false}
         ]
