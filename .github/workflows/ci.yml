@@ -11,7 +11,7 @@ concurrency:
     # Cancel previous actions from the same PR or branch except 'main' branch.
     # See https://docs.github.com/en/actions/using-jobs/using-concurrency and https://docs.github.com/en/actions/learn-github-actions/contexts for more info.
     group: concurrency-group::${{ github.workflow }}::${{ github.event.pull_request.number > 0 && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}${{ github.ref_name == 'main' && format('::{0}', github.run_id) || ''}}
-    cancel-in-progress: ${{ github.ref_name != 'main' }}
+    cancel-in-progress: ${{ github.ref_name != 'master' }}
 
 jobs:
   test:
@@ -20,9 +20,9 @@ jobs:
       folders: |
         [
           ".",
-          "e2e/smoke"
+          "e2e/workspace"
         ]
       exclude: |
         [
-          {"folder": ".", "bzlmodEnabled": false}
+          {"folder": "e2e/workspace", "bzlmodEnabled": false}
         ]
