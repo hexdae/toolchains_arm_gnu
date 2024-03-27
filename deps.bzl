@@ -2,8 +2,8 @@
 
 load(
     "@arm_gnu_toolchain//toolchain:toolchain.bzl",
-    "target_constraints",
     "register_arm_gnu_toolchain",
+    "target_constraints",
 )
 
 GCC_ARM_NONE_EABI = {
@@ -104,64 +104,64 @@ GCC_ARM_NONE_LINUX_GNUEABIHF = {
 def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
     """Defines a host-specific repository for the ARM GNU toolchain."""
     repository_ctx.download_and_extract(
-      sha256=repository_ctx.attr.sha256,
-      url=repository_ctx.attr.url,
-      stripPrefix=repository_ctx.attr.strip_prefix,
+        sha256 = repository_ctx.attr.sha256,
+        url = repository_ctx.attr.url,
+        stripPrefix = repository_ctx.attr.strip_prefix,
     )
     repository_ctx.template(
-      "BUILD.bazel",
-      Label("@arm_gnu_toolchain//toolchain:templates/compiler.BUILD"),
-      substitutions = {
-        "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
-        "%version%": repository_ctx.attr.version,
-        "%bin_extension%": repository_ctx.attr.bin_extension,
-      },
+        "BUILD.bazel",
+        Label("@arm_gnu_toolchain//toolchain:templates/compiler.BUILD"),
+        substitutions = {
+            "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
+            "%version%": repository_ctx.attr.version,
+            "%bin_extension%": repository_ctx.attr.bin_extension,
+        },
     )
     for patch in repository_ctx.attr.patches:
-      repository_ctx.patch(patch, strip=1)
+        repository_ctx.patch(patch, strip = 1)
 
 arm_gnu_cross_hosted_platform_specific_repo = repository_rule(
-  implementation = _arm_gnu_cross_hosted_platform_specific_repo_impl,
-  attrs = {
-    'sha256': attr.string(mandatory=True),
-    'url': attr.string(mandatory=True),
-    'toolchain_prefix': attr.string(mandatory=True),
-    'version': attr.string(mandatory=True),
-    'strip_prefix': attr.string(),
-    'patches': attr.label_list(),
-    'bin_extension': attr.string(default = ""),
-  },
+    implementation = _arm_gnu_cross_hosted_platform_specific_repo_impl,
+    attrs = {
+        "sha256": attr.string(mandatory = True),
+        "url": attr.string(mandatory = True),
+        "toolchain_prefix": attr.string(mandatory = True),
+        "version": attr.string(mandatory = True),
+        "strip_prefix": attr.string(),
+        "patches": attr.label_list(),
+        "bin_extension": attr.string(default = ""),
+    },
 )
 
 def _arm_gnu_toolchain_repo_impl(repository_ctx):
     """Defines the top-level toolchain repository."""
     repository_ctx.template(
-      "BUILD",
-      Label("@arm_gnu_toolchain//toolchain:templates/top.BUILD"),
-      substitutions = {
-        "%toolchain_name%": repository_ctx.attr.toolchain_name,
-        "%version%": repository_ctx.attr.version,
-        "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
-      },
+        "BUILD",
+        Label("@arm_gnu_toolchain//toolchain:templates/top.BUILD"),
+        substitutions = {
+            "%toolchain_name%": repository_ctx.attr.toolchain_name,
+            "%version%": repository_ctx.attr.version,
+            "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
+        },
     )
 
     repository_ctx.template(
-      "toolchain/BUILD",
-      Label("@arm_gnu_toolchain//toolchain:templates/toolchain.BUILD"),
-      substitutions = {
-        "%toolchain_name%": repository_ctx.attr.toolchain_name,
-        "%version%": repository_ctx.attr.version,
-        "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
-      },
+        "toolchain/BUILD",
+        Label("@arm_gnu_toolchain//toolchain:templates/toolchain.BUILD"),
+        substitutions = {
+            "%toolchain_name%": repository_ctx.attr.toolchain_name,
+            "%version%": repository_ctx.attr.version,
+            "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
+        },
     )
 
 arm_gnu_toolchain_repo = repository_rule(
-  implementation = _arm_gnu_toolchain_repo_impl,
-  attrs = {
-    'toolchain_name': attr.string(mandatory=True),
-    'toolchain_prefix': attr.string(mandatory=True),
-    'version': attr.string(mandatory=True),
-  },
+    implementation = _arm_gnu_toolchain_repo_impl,
+    attrs = {
+        "toolchain_name": attr.string(mandatory = True),
+        "toolchain_prefix": attr.string(mandatory = True),
+        "version": attr.string(mandatory = True),
+    },
 )
 
 def arm_gnu_toolchain_deps(toolchain, toolchain_prefix, version, archives):
@@ -174,9 +174,9 @@ def arm_gnu_toolchain_deps(toolchain, toolchain_prefix, version, archives):
 
     for attrs in archives[version]:
         arm_gnu_cross_hosted_platform_specific_repo(
-            toolchain_prefix=toolchain_prefix,
+            toolchain_prefix = toolchain_prefix,
             version = version,
-            **attrs,
+            **attrs
         )
 
 def register_default_arm_gnu_toolchains(toolchain_prefix):
@@ -196,11 +196,11 @@ def arm_none_eabi_deps(version = "13.2.1", archives = GCC_ARM_NONE_EABI):
         "arm_none_eabi",
         "arm-none-eabi",
         version,
-        archives
+        archives,
     )
 
 def register_default_arm_none_eabi_toolchains():
-    register_default_arm_gnu_toolchains('arm-none-eabi')
+    register_default_arm_gnu_toolchains("arm-none-eabi")
 
 # arm-none-linux-gnueabihf
 
@@ -219,4 +219,4 @@ def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = GCC_ARM_NONE_LI
     )
 
 def register_default_arm_none_linux_gnueabihf_toolchains():
-    register_default_arm_gnu_toolchains('arm-none-linux-gnueabihf')
+    register_default_arm_gnu_toolchains("arm-none-linux-gnueabihf")

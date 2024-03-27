@@ -14,29 +14,29 @@ def compare_versions(left, right):
       0 if left == right
       1 if left > right
     """
-    left_parts = [int(i) for i in left.split('.')]
-    right_parts = [int(i) for i in right.split('.')]
+    left_parts = [int(i) for i in left.split(".")]
+    right_parts = [int(i) for i in right.split(".")]
     for i in range(3):
-      if left_parts[0] < right_parts[0]:
-        return -1
+        if left_parts[0] < right_parts[0]:
+            return -1
 
-      if left_parts[0] > right_parts[0]:
-        return 1
+        if left_parts[0] > right_parts[0]:
+            return 1
 
     return 0
 
 def minimum_supported_version(versions):
     """Obtains the minimum version from the list of version strings."""
     if not len(versions):
-      return None
+        return None
 
     if 1 == len(versions):
-      return versions[0]
+        return versions[0]
 
     minimum = versions[0]
     for version in versions[1:]:
-      if compare_versions(minimum, version) > 0:
-        minimum = version
+        if compare_versions(minimum, version) > 0:
+            minimum = version
 
     return minimum
 
@@ -54,7 +54,7 @@ def _arm_toolchain_impl(ctx):
         get_toolchain_versions(
             ctx,
             lambda mod: mod.tags.arm_none_eabi,
-        )
+        ),
     )
     if selected_baremetal_version:
         arm_none_eabi_deps(version = selected_baremetal_version)
@@ -63,7 +63,7 @@ def _arm_toolchain_impl(ctx):
         get_toolchain_versions(
             ctx,
             lambda mod: mod.tags.arm_none_linux_gnueabihf,
-        )
+        ),
     )
     if selected_linux_version:
         arm_none_linux_gnueabihf_deps(version = selected_linux_version)
