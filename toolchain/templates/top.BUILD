@@ -25,6 +25,12 @@ TOOLS = tools + ["bin"]
             host: ["@%toolchain_name%_{}//:{}".format(host, tool)]
             for host in hosts['%toolchain_prefix%'].keys()
         }),
+        target_compatible_with = select({
+            host: constraint_values
+            for host, constraint_values in hosts['%toolchain_prefix%'].items()
+        } | {
+            "//conditions:default": ["@platforms//:incompatible"],
+        }),
     )
     for tool in TOOLS
 ]

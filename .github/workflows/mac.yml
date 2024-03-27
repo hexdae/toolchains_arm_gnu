@@ -10,12 +10,21 @@ jobs:
 
   macos:
     name: Build
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+          include:
+            - os: macos-latest
+              env:
+                TARGET: "aarch64-apple-darwin"
+            - os: macos-latest
+              env:
+                TARGET: "x86_64-apple-darwin"
     steps:
       - uses: actions/checkout@v2
       - name: Build examples
         run: |
-          bazelisk build //examples/arm-none/...
+          bazelisk build //examples/...
       - name: Bazel backwards compatibility
         run: |
-          USE_BAZEL_VERSION=6.4.0 bazelisk build //examples/arm-none/...
+          USE_BAZEL_VERSION=6.4.0 bazelisk build //examples/...
