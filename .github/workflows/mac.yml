@@ -10,7 +10,16 @@ jobs:
 
   macos:
     name: Build
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+          include:
+            - os: macos-latest
+              env:
+                TARGET: "aarch64-apple-darwin"
+            - os: macos-latest
+              env:
+                TARGET: "x86_64-apple-darwin"
     steps:
       - uses: actions/checkout@v2
       - name: Build examples
