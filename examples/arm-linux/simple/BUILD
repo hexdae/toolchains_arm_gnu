@@ -4,7 +4,7 @@ load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_filegroup")
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
 config_setting(
-    name = "macos", # no compiler on macos (yet)
+    name = "macos",  # no compiler on macos (yet)
     constraint_values = ["@platforms//os:macos"],
 )
 
@@ -32,7 +32,6 @@ cc_binary(
     ],
     deps = [":arm_library"],
 )
-
 
 platform_transition_filegroup(
     name = "elf",

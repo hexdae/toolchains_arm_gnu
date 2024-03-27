@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "c0a43adc8d819d05548ee11c1626bc70609ceb229901cdcd5165fb621b97dafc",
+  "moduleFileHash": "ed5cd105d6c57c5c6b6d2e1cb1857ca9dc85b7fee26e38e294fcba6fd3d5a344",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -39,8 +39,8 @@
           },
           "imports": {
             "arm_none_eabi": "arm_none_eabi",
-            "arm_none_eabi_darwin_x86_64": "arm_none_eabi_darwin_x86_64",
             "arm_none_eabi_darwin_arm64": "arm_none_eabi_darwin_arm64",
+            "arm_none_eabi_darwin_x86_64": "arm_none_eabi_darwin_x86_64",
             "arm_none_eabi_linux_aarch64": "arm_none_eabi_linux_aarch64",
             "arm_none_eabi_linux_x86_64": "arm_none_eabi_linux_x86_64",
             "arm_none_eabi_windows_x86_64": "arm_none_eabi_windows_x86_64",
@@ -59,7 +59,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 17,
+                "line": 18,
                 "column": 28
               }
             },
@@ -852,7 +852,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_toolchain": {
       "general": {
-        "bzlTransitiveDigest": "XTUk8QYXs+IEFlvQa29tynbkCSF3Ug39T1gqL4Y8Mb8=",
+        "bzlTransitiveDigest": "Z10bsFWgZgT7bjXcBHlEbWh3jQUUB2bhEZ5hU/sItJo=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
