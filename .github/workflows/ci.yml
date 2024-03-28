@@ -13,14 +13,20 @@ concurrency:
 
 jobs:
   e2e-test-multi-bazel:
-    name: ${{matrix.os}} ${{matrix.cpu}} Bazel ${{matrix.bazel-version}}
+    name: ${{matrix.os}} Bazel ${{matrix.bazel-version}}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         bazel-version: ["6.x", "7.x"]
-        os: [ubuntu-latest, macos-latest]
-        cpu: ["x86_64", "aarch64"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            env:
+              TARGET: "aarch64-unknown-linux"
+          - os: macos-latest
+            env:
+              TARGET: "aarch64-apple-darwin"
 
     env:
       USE_BAZEL_VERSION: ${{matrix.bazel-version}}
