@@ -26,7 +26,7 @@ bazel_dep(name = "arm_gnu_toolchain", version = "${TAG:1}")
 
 # Toolchains: arm-none-eabi
 arm_toolchain = use_extension("@arm_gnu_toolchain//:extensions.bzl", "arm_toolchain")
-arm_toolchain.arm_none_eabi(version = "9.2.1")
+arm_toolchain.arm_none_eabi(version = "13.2.1")
 use_repo(
     arm_toolchain,
     "arm_none_eabi",
@@ -52,6 +52,3 @@ use_repo(
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 \`\`\`
 EOF
-
-awk 'f;/--SNIP--/{f=1}' e2e/smoke/WORKSPACE.bazel
-echo "\`\`\`"
