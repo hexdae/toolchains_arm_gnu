@@ -1,4 +1,4 @@
-name: Windows
+name: CI
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
 
   windows:
-    name: Build
+    name: x86_64-pc-windows
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2

@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         bazel-version: ["6.x", "7.x"]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
         include:
           - os: ubuntu-latest
             env:
@@ -33,9 +33,6 @@ jobs:
           - os: macos-latest
             env:
               TARGET: "aarch64-apple-darwin"
-          # - os: windows-latest TODO(enable)
-          #   env:
-          #     TARGET: "x86_64-pc-windows"
 
     env:
       USE_BAZEL_VERSION: ${{matrix.bazel-version}}
