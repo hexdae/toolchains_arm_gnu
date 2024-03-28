@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  e2e-unix:
+  integration:
     name: ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -24,20 +24,24 @@ jobs:
             target: "x86_64-apple-darwin"
           - os: macos-14
             target: "aarch64-apple-darwin"
-          - os: windows-latest
-            target: "x86_64-pc-windows"
-            opts: "--output_user_root=C:/bzl"
-
     env:
       USE_BAZEL_VERSION: "7.x"
-
     steps:
       - uses: actions/checkout@v2
-
       - name: WORKSPACE
         working-directory: e2e/workspace
-        run: bazel ${{ matrix.opts }} test //...
-
+        run: bazel test //...
       - name: MODULE
         working-directory: e2e/bzlmod
-        run: bazel ${{ matrix.opts }} test //...
+        run: bazel test //...
+
+  windows:
+    name: "x86_64-pc-windows"
+    runs-on: "windows-latest"
+    env:
+      USE_BAZEL_VERSION: "7.x"
+    steps:
+      - uses: actions/checkout@v2
+      - name: build examples - windows
+        run: |
+          bazel --output_user_root=C:/bzl build //...
