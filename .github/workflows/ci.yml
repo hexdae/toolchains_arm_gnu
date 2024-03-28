@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [master]
   workflow_dispatch:
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
@@ -42,6 +43,5 @@ jobs:
       USE_BAZEL_VERSION: "7.x"
     steps:
       - uses: actions/checkout@v2
-      - name: build examples - windows
-        run: |
-          bazel --output_user_root=C:/bzl build //...
+      - name: BUILD
+        run: bazel --output_user_root=C:/bzl build //...
