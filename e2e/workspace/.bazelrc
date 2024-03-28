@@ -1,2 +1,5 @@
+common --enable_platform_specific_config
+windows:startup --output_user_root=C:/tmp
+
 build --incompatible_enable_cc_toolchain_resolution
 build --enable_bzlmod=false

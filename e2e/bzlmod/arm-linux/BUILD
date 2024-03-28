@@ -8,6 +8,14 @@ config_setting(
     constraint_values = ["@platforms//os:macos"],
 )
 
+platform(
+    name = "arm_linux_gnueabihf",
+    constraint_values = [
+        "@platforms//cpu:arm",
+        "@platforms//os:linux",
+    ],
+)
+
 cc_library(
     name = "arm_library",
     srcs = ["library.cpp"],
@@ -40,7 +48,7 @@ platform_transition_filegroup(
         ":macos": ["@platforms//:incompatible"],
         "//conditions:default": [],
     }),
-    target_platform = "@arm_gnu_toolchain//platforms:arm_linux",
+    target_platform = ":arm_linux_gnueabihf",
 )
 
 genrule(

@@ -28,6 +28,9 @@ jobs:
           - os: macos-14
             env:
               TARGET: "aarch64-apple-darwin"
+          - os: windows-latest
+            env:
+              TARGET: "x86_64-pc-windows"
 
     env:
       USE_BAZEL_VERSION: "7.x"
@@ -44,23 +47,3 @@ jobs:
         working-directory: e2e/bzlmod
         run: |
           bazel test //...
-
-  e2e-windows:
-    name: ${{ matrix.env.TARGET }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: windows-latest
-            env:
-              TARGET: "x86_64-pc-windows"
-    env:
-      USE_BAZEL_VERSION: "7.x"
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: build examples - windows
-        run: |
-          bazel --output_user_root=C:/bzl build //examples/...

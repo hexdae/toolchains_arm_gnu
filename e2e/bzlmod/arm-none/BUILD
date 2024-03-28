@@ -3,6 +3,14 @@
 load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_filegroup")
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
+platform(
+    name = "arm_none_eabi",
+    constraint_values = [
+        "@platforms//cpu:arm",
+        "@platforms//os:none",
+    ],
+)
+
 cc_library(
     name = "arm_library",
     srcs = ["library.cpp"],
@@ -35,7 +43,7 @@ cc_binary(
 platform_transition_filegroup(
     name = "elf",
     srcs = [":arm_elf"],
-    target_platform = "@arm_gnu_toolchain//platforms:arm_none_eabi",
+    target_platform = ":arm_none_eabi",
 )
 
 genrule(

@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  linux:
+  remote-execution:
     name: Bazel Remote Execution
     runs-on: ubuntu-latest
 
