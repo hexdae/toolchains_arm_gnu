@@ -12,55 +12,36 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  e2e-unix:
-    name: ${{ matrix.env.TARGET }}
+  integration:
+    name: ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
-            env:
-              TARGET: "x86_64-unknown-linux-gnu"
+            target: "x86_64-unknown-linux-gnu"
           - os: macos-12
-            env:
-              TARGET: "x86_64-apple-darwin"
+            target: "x86_64-apple-darwin"
           - os: macos-14
-            env:
-              TARGET: "aarch64-apple-darwin"
-
+            target: "aarch64-apple-darwin"
     env:
       USE_BAZEL_VERSION: "7.x"
-
     steps:
       - uses: actions/checkout@v2
+      - name: WORKSPACE
+        working-directory: examples/workspace
+        run: bazel test //...
+      - name: MODULE
+        working-directory: examples/bzlmod
+        run: bazel test //...
 
-      - name: run e2e tests - workspace
-        working-directory: e2e/workspace
-        run: |
-          bazel test //...
-
-      - name: run e2e tests - bzlmod
-        working-directory: e2e/bzlmod
-        run: |
-          bazel test //...
-
-  e2e-windows:
-    name: ${{ matrix.env.TARGET }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: windows-latest
-            env:
-              TARGET: "x86_64-pc-windows"
+  windows:
+    name: "x86_64-pc-windows"
+    runs-on: "windows-latest"
     env:
       USE_BAZEL_VERSION: "7.x"
-
     steps:
       - uses: actions/checkout@v2
-
-      - name: build examples - windows
-        run: |
-          bazel --output_user_root=C:/bzl build //examples/...
+      - name: BUILD
+        run: bazel --output_user_root=C:/bzl build //...

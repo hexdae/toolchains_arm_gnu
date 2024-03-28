@@ -28,12 +28,13 @@
 
 </p>
 
-
-The goal of the project is to illustrate how to use a custom arm-none-eabi embedded toolchain with Bazel.
+The goal of the project is to make arm cross compilation toolchains readily
+available (and customizable) for bazel developers.
 
 If this project was useful to you, give it a ⭐️ and I'll keep improving it!
 
-You can follow the post [Bazel for ARM embedded toolchains](https://asnaghi.me/post/embedded-bazel/) to get more details about this code.
+You might also like another, similar, toolchain project for `bazel`
+[RISCV toolchains](https://github.com/hexdae/bazel-riscv-none-elf)
 
 ## Features
 
@@ -41,6 +42,7 @@ You can follow the post [Bazel for ARM embedded toolchains](https://asnaghi.me/p
 - [WORKSPACE support](#workspace)
 - [Direct access to gcc tools](#direct-access-to-gcc-tools)
 - [Custom toolchain support](#custom-toolchain)
+- [Examples](#examples)
 - Remote execution support
 
 ## Use the toolchain from this repo
@@ -54,9 +56,11 @@ And this to your `.bazelrc`
 
 # Build using platforms by default
 build --incompatible_enable_cc_toolchain_resolution
-build --platforms=@arm_gnu_toolchain//platforms:arm_none_generic
 ```
 
+## Examples
+
+Please look at the [`examples`](./examples/) folder for reference usage
 
 ## Bzlmod
 
@@ -157,7 +161,7 @@ arm_none_eabi_toolchain(
 )
 ```
 
-And in your WORKSPACE:
+And in your WORKSPACE / MODULE file:
 
 ```python
 register_toolchains("@//path/to/toolchains:all")
@@ -199,6 +203,7 @@ genrule(
 ## Remote execution
 
 This toolchain is compatible with remote execution, see [`remote.yml`](.github/workflows/remote.yml)
+
 ## Building with the ARM Linux toolchain on Windows
 
 The Windows maximum path length limitation may cause build failures with the

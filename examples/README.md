@@ -1,3 +1,3 @@
-# Examples
+# ARM toolchain examples
 
-These examples can be used to understand the different features of this toolchain
+This folder aims to showcase how to use different ARM toolchains with bazel
