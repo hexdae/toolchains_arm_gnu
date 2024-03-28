@@ -34,4 +34,5 @@ use_repo(
 register_toolchains(
     "@arm_none_eabi//toolchain:all",
     "@arm_none_linux_gnueabihf//toolchain:all",
+    "//custom/toolchain:all",
 )

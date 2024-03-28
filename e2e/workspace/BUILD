@@ -13,3 +13,11 @@ build_test(
     name = "arm_none_test",
     targets = ["//arm-none:hex"],
 )
+
+build_test(
+    name = "custom_toolchain_test",
+    targets = [
+        "//custom:cortex_m4_elf",
+        "//custom:cortex_m3_elf",
+    ],
+)

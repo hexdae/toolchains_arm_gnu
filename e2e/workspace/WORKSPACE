@@ -35,3 +35,6 @@ register_default_arm_none_eabi_toolchains()
 arm_none_linux_gnueabihf_deps()
 
 register_default_arm_none_linux_gnueabihf_toolchains()
+
+# Custom toolchain
+register_toolchains("//custom/toolchain:all")
