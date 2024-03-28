@@ -18,7 +18,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        bazel-version: ["7.x"]
         include:
           - os: ubuntu-latest
             env:
@@ -34,7 +33,7 @@ jobs:
               TARGET: "aarch64-apple-darwin"
 
     env:
-      USE_BAZEL_VERSION: ${{matrix.bazel-version}}
+      USE_BAZEL_VERSION: "7.x"
 
     steps:
       - uses: actions/checkout@v2
