@@ -11,28 +11,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  multiplatform:
-    name: ${{ matrix.dir }} / ${{ matrix.os }}
+  e2e-unix:
+    name: ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        dir: ["e2e/bzlmod", "e2e/workspace"]
-        os: [ubuntu-latest, macos-12, macos-14]
-    env:
-      USE_BAZEL_VERSION: "7.x"
-    steps:
-      - uses: actions/checkout@v2
-      - name: test - ${{ matrix.dir }}
-        working-directory: ${{ matrix.dir }}
-        run: bazel test //...
+        include:
+          - os: ubuntu-latest
+            target: "x86_64-unknown-linux-gnu"
+          - os: macos-12
+            target: "x86_64-apple-darwin"
+          - os: macos-14
+            target: "aarch64-apple-darwin"
+          - os: windows-latest
+            target: "x86_64-pc-windows"
+            opts: "--output_user_root=C:/bzl"
 
-  windows:
-    name: root / windows
-    runs-on: windows-latest
     env:
       USE_BAZEL_VERSION: "7.x"
+
     steps:
       - uses: actions/checkout@v2
-      - name: windows build
-        run: bazel --output_user_root=C:/bzl build //...
+
+      - name: WORKSPACE
+        working-directory: e2e/workspace
+        run: bazel ${{ matrix.opts }} test //...
+
+      - name: MODULE
+        working-directory: e2e/bzlmod
+        run: bazel ${{ matrix.opts }} test //...
