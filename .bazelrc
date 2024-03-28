@@ -11,4 +11,3 @@ build:remote --remote_instance_name=main
 build:remote --remote_cache=grpc://127.0.0.1:50051
 build:remote --remote_executor=grpc://127.0.0.1:50051
 build:remote --remote_default_exec_properties=cpu_count=1
-build:remote --extra_execution_platforms=//bre:worker
