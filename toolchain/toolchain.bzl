@@ -67,8 +67,8 @@ def _arm_gnu_toolchain(
     for host, exec_compatible_with in hosts[toolchain_prefix].items():
         fix_linkopts = []
 
-        # macOS on apple silicon rejects the relative path LTO plugin
-        if version == "13.2.1" and host == "darwin_arm64":
+        # macOS on apple rejects the relative path LTO plugin
+        if version == "13.2.1" and "darwin" in host:
             fix_linkopts.append("-fno-lto")
 
         cc_arm_gnu_toolchain_config(
