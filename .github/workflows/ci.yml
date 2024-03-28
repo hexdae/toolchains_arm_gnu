@@ -8,21 +8,30 @@ on:
   workflow_dispatch:
 
 concurrency:
-    # Cancel previous actions from the same PR or branch except 'main' branch.
-    # See https://docs.github.com/en/actions/using-jobs/using-concurrency and https://docs.github.com/en/actions/learn-github-actions/contexts for more info.
-    group: concurrency-group::${{ github.workflow }}::${{ github.event.pull_request.number > 0 && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}${{ github.ref_name == 'main' && format('::{0}', github.run_id) || ''}}
-    cancel-in-progress: ${{ github.ref_name != 'master' }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
 
 jobs:
-  test:
-    uses: bazel-contrib/.github/.github/workflows/bazel.yaml@v6
-    with:
-      folders: |
-        [
-          "e2e/workspace"
-          "e2e/bzlmod"
-        ]
-      exclude: |
-        [
-          {"folder": "e2e/workspace", "bzlmodEnabled": false}
-        ]
+  e2e-test-multi-bazel:
+    name: E2E - Bazel ${{matrix.bazel-version}}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        bazel-version: ["6.x", "7.x"]
+
+    env:
+      USE_BAZEL_VERSION: ${{matrix.bazel-version}}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: run e2e tests - workspace
+        working-directory: e2e/workspace
+        run: |
+          bazel test //...
+
+      - name: run e2e tests - bzlmod
+        working-directory: e2e/bzlmod
+        run: |
+          bazel test //...
