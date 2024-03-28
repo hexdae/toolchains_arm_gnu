@@ -6,44 +6,33 @@ on:
   pull_request:
     branches: [master]
   workflow_dispatch:
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 jobs:
-  e2e-unix:
-    name: ${{ matrix.env.TARGET }}
+  multiplatform:
+    name: ${{ matrix.dir }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-latest
-            env:
-              TARGET: "x86_64-unknown-linux-gnu"
-          - os: macos-12
-            env:
-              TARGET: "x86_64-apple-darwin"
-          - os: macos-14
-            env:
-              TARGET: "aarch64-apple-darwin"
-          - os: windows-latest
-            env:
-              TARGET: "x86_64-pc-windows"
-
+        dir: ["e2e/bzlmod", "e2e/workspace"]
+        os: [ubuntu-latest, macos-12, macos-14]
     env:
       USE_BAZEL_VERSION: "7.x"
-
     steps:
       - uses: actions/checkout@v2
+      - name: test - ${{ matrix.dir }}
+        working-directory: ${{ matrix.dir }}
+        run: bazel test //...
 
-      - name: run e2e tests - workspace
-        working-directory: e2e/workspace
-        run: |
-          bazel test //...
-
-      - name: run e2e tests - bzlmod
-        working-directory: e2e/bzlmod
-        run: |
-          bazel test //...
+  windows:
+    name: root / windows
+    runs-on: windows-latest
+    env:
+      USE_BAZEL_VERSION: "7.x"
+    steps:
+      - uses: actions/checkout@v2
+      - name: windows build
+        run: bazel --output_user_root=C:/bzl build //...
