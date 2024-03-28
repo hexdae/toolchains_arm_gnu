@@ -1,0 +1,12 @@
+{
+    "homepage": "https://github.com/hexdae/bazel_arm_toolchains",
+    "maintainers": {
+        "name": "Davide Asnaghi",
+        "github": "hexdae"
+    },
+    "repository": [
+        "github:hexdae/bazel_arm_toolchains"
+    ],
+    "versions": [],
+    "yanked_versions": {}
+}
