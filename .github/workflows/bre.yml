@@ -22,8 +22,8 @@ jobs:
       - name: run nativelink
         run: |
           cargo install --git https://github.com/TraceMachina/nativelink --tag v0.2.0
-          (nativelink .github/bre/basic_cas.json &)
+          (nativelink bre/basic_cas.json &)
 
       - name: remote execution
         run: |
-          bazelisk build --config=remote --config=linux //examples/...
+          bazel build --config=remote //bre/...
