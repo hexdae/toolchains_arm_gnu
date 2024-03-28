@@ -36,6 +36,7 @@ jobs:
           - os: windows-latest
             env:
               TARGET: "x86_64-pc-windows"
+              OPTS: "--output_user_root=C:/bzl"
 
     env:
       USE_BAZEL_VERSION: ${{matrix.bazel-version}}
@@ -43,12 +44,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: run e2e tests - workspace
-      #   working-directory: e2e/workspace
-      #   run: |
-      #     bazel test //...
+      - name: run e2e tests - workspace
+        working-directory: e2e/workspace
+        run: |
+          bazel $OPTS test //...
 
       - name: run e2e tests - bzlmod
         working-directory: e2e/bzlmod
         run: |
-          bazel test //...
+          bazel $OPTS test //...
