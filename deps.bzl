@@ -179,9 +179,12 @@ def arm_gnu_toolchain_deps(toolchain, toolchain_prefix, version, archives):
             **attrs
         )
 
-def register_default_arm_gnu_toolchains(toolchain_prefix):
+def register_default_arm_gnu_toolchains(repo, toolchain_prefix):
     for cpu in target_constraints[toolchain_prefix]:
-        register_arm_gnu_toolchain("//toolchain:{}".format(cpu))
+        register_arm_gnu_toolchain(
+            name = "@{}//toolchain:{}".format(repo, cpu),
+            prefix = toolchain_prefix,
+        )
 
 # arm-none-eabi
 
@@ -200,7 +203,10 @@ def arm_none_eabi_deps(version = "13.2.1", archives = GCC_ARM_NONE_EABI):
     )
 
 def register_default_arm_none_eabi_toolchains():
-    register_default_arm_gnu_toolchains("arm-none-eabi")
+    register_default_arm_gnu_toolchains(
+        repo = "arm_none_eabi",
+        toolchain_prefix = "arm-none-eabi",
+    )
 
 # arm-none-linux-gnueabihf
 
@@ -219,4 +225,7 @@ def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = GCC_ARM_NONE_LI
     )
 
 def register_default_arm_none_linux_gnueabihf_toolchains():
-    register_default_arm_gnu_toolchains("arm-none-linux-gnueabihf")
+    register_default_arm_gnu_toolchains(
+        repo = "arm_none_linux_gnueabihf",
+        toolchain_prefix = "arm-none-linux-gnueabihf",
+    )

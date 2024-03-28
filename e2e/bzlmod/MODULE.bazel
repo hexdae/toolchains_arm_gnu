@@ -1,20 +1,21 @@
 """ARM cross compilation toolchains for bazel"""
 
 module(
-    name = "arm_gnu_toolchain",
-    compatibility_level = 1,
+    name = "smoke",
     version = "0.0.1",
 )
 
-bazel_dep(name = "platforms", version = "0.0.8")
-bazel_dep(name = "rules_cc", version = "0.0.9")
+bazel_dep(name = "aspect_bazel_lib", version = "2.0.0")
+bazel_dep(name = "bazel_skylib", version = "1.5.0")
+bazel_dep(name = "arm_gnu_toolchain")
+
+local_path_override(
+    module_name = "arm_gnu_toolchain",
+    path = "../..",
+)
 
 arm_toolchain = use_extension("@arm_gnu_toolchain//:extensions.bzl", "arm_toolchain")
 
-# NOTE: It's important that we update these versions whenever a new toolchain
-# version is added--otherwise the Minimum Selected Version algorithm in the
-# module extension will select the version here if a consumer attempts to use
-# the newer toolchain.
 arm_toolchain.arm_none_eabi(version = "13.2.1")
 
 use_repo(
@@ -37,17 +38,8 @@ use_repo(
     "arm_none_linux_gnueabihf_windows_x86_64",
 )
 
-# DEV ONLY (not needed for release)
-bazel_dep(name = "aspect_bazel_lib", dev_dependency = True, version = "2.0.0")
-bazel_dep(name = "bazel_skylib", dev_dependency = True, version = "1.5.0")
-
 register_toolchains(
     "@arm_none_eabi//toolchain:all",
     "@arm_none_linux_gnueabihf//toolchain:all",
-    dev_dependency = True,
-)
-
-register_toolchains(
-    "@arm_gnu_toolchain//examples/arm-none/custom/toolchain:all",
-    dev_dependency = True,
+    "//custom/toolchain:all",
 )

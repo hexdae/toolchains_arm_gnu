@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  e2e-test-multi-bazel:
+    name: ${{ matrix.env.TARGET }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            env:
+              TARGET: "x86_64-unknown-linux-gnu"
+          - os: ubuntu-latest
+            env:
+              TARGET: "aarch64-unknown-linux-gnu"
+          - os: macos-latest
+            env:
+              TARGET: "x86_64-apple-darwin"
+          - os: macos-latest
+            env:
+              TARGET: "aarch64-apple-darwin"
+
+    env:
+      USE_BAZEL_VERSION: "7.x"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: run e2e tests - workspace
+        working-directory: e2e/workspace
+        run: |
+          bazel test //...
+
+      - name: run e2e tests - bzlmod
+        working-directory: e2e/bzlmod
+        run: |
+          bazel test //...

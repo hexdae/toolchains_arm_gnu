@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "09f82e87dea5b4ecc93c7db5d0c366060879f633ace2884341d504f70324da5a",
+  "moduleFileHash": "9c6251b67e6515216e4cb0342235a5bddb92bf1709fd91977d865d5fc786df98",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -13,19 +13,20 @@
     "compatibilityMode": "ERROR"
   },
   "localOverrideHashes": {
+    "arm_gnu_toolchain": "ed5cd105d6c57c5c6b6d2e1cb1857ca9dc85b7fee26e38e294fcba6fd3d5a344",
     "bazel_tools": "922ea6752dc9105de5af957f7a99a6933c0a6a712d23df6aad16a9c399f7e787"
   },
   "moduleDepGraph": {
     "<root>": {
-      "name": "arm_gnu_toolchain",
+      "name": "smoke",
       "version": "0.0.1",
       "key": "<root>",
-      "repoName": "arm_gnu_toolchain",
+      "repoName": "smoke",
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [
         "@arm_none_eabi//toolchain:all",
         "@arm_none_linux_gnueabihf//toolchain:all",
-        "@arm_gnu_toolchain//examples/arm-none/custom/toolchain:all"
+        "//custom/toolchain:all"
       ],
       "extensionUsages": [
         {
@@ -34,7 +35,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 12,
+            "line": 14,
             "column": 30
           },
           "imports": {
@@ -59,7 +60,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 18,
+                "line": 15,
                 "column": 28
               }
             },
@@ -71,7 +72,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 30,
+                "line": 25,
                 "column": 39
               }
             }
@@ -81,90 +82,11 @@
         }
       ],
       "deps": {
-        "platforms": "platforms@0.0.8",
-        "rules_cc": "rules_cc@0.0.9",
         "aspect_bazel_lib": "aspect_bazel_lib@2.0.0",
         "bazel_skylib": "bazel_skylib@1.5.0",
+        "arm_gnu_toolchain": "arm_gnu_toolchain@_",
         "bazel_tools": "bazel_tools@_",
         "local_config_platform": "local_config_platform@_"
-      }
-    },
-    "platforms@0.0.8": {
-      "name": "platforms",
-      "version": "0.0.8",
-      "key": "platforms@0.0.8",
-      "repoName": "platforms",
-      "executionPlatformsToRegister": [],
-      "toolchainsToRegister": [],
-      "extensionUsages": [],
-      "deps": {
-        "rules_license": "rules_license@0.0.7",
-        "bazel_tools": "bazel_tools@_",
-        "local_config_platform": "local_config_platform@_"
-      },
-      "repoSpec": {
-        "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
-        "ruleClassName": "http_archive",
-        "attributes": {
-          "name": "platforms",
-          "urls": [
-            "https://github.com/bazelbuild/platforms/releases/download/0.0.8/platforms-0.0.8.tar.gz"
-          ],
-          "integrity": "sha256-gVBAZgU4ns7LbaB8vLUJ1WN6OrmiS8abEQFTE2fYnXQ=",
-          "strip_prefix": "",
-          "remote_patches": {},
-          "remote_patch_strip": 0
-        }
-      }
-    },
-    "rules_cc@0.0.9": {
-      "name": "rules_cc",
-      "version": "0.0.9",
-      "key": "rules_cc@0.0.9",
-      "repoName": "rules_cc",
-      "executionPlatformsToRegister": [],
-      "toolchainsToRegister": [
-        "@local_config_cc_toolchains//:all"
-      ],
-      "extensionUsages": [
-        {
-          "extensionBzlFile": "@bazel_tools//tools/cpp:cc_configure.bzl",
-          "extensionName": "cc_configure_extension",
-          "usingModule": "rules_cc@0.0.9",
-          "location": {
-            "file": "https://bcr.bazel.build/modules/rules_cc/0.0.9/MODULE.bazel",
-            "line": 9,
-            "column": 29
-          },
-          "imports": {
-            "local_config_cc_toolchains": "local_config_cc_toolchains"
-          },
-          "devImports": [],
-          "tags": [],
-          "hasDevUseExtension": false,
-          "hasNonDevUseExtension": true
-        }
-      ],
-      "deps": {
-        "platforms": "platforms@0.0.8",
-        "bazel_tools": "bazel_tools@_",
-        "local_config_platform": "local_config_platform@_"
-      },
-      "repoSpec": {
-        "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
-        "ruleClassName": "http_archive",
-        "attributes": {
-          "name": "rules_cc~0.0.9",
-          "urls": [
-            "https://github.com/bazelbuild/rules_cc/releases/download/0.0.9/rules_cc-0.0.9.tar.gz"
-          ],
-          "integrity": "sha256-IDeHW5pEVtzkp50RKorohbvEqtlo5lh9ym5k86CQDN8=",
-          "strip_prefix": "rules_cc-0.0.9",
-          "remote_patches": {
-            "https://bcr.bazel.build/modules/rules_cc/0.0.9/patches/module_dot_bazel_version.patch": "sha256-mM+qzOI0SgAdaJBlWOSMwMPKpaA9b7R37Hj/tp5bb4g="
-          },
-          "remote_patch_strip": 0
-        }
       }
     },
     "aspect_bazel_lib@2.0.0": {
@@ -337,6 +259,73 @@
         }
       }
     },
+    "arm_gnu_toolchain@_": {
+      "name": "arm_gnu_toolchain",
+      "version": "0.0.1",
+      "key": "arm_gnu_toolchain@_",
+      "repoName": "arm_gnu_toolchain",
+      "executionPlatformsToRegister": [],
+      "toolchainsToRegister": [],
+      "extensionUsages": [
+        {
+          "extensionBzlFile": "@arm_gnu_toolchain//:extensions.bzl",
+          "extensionName": "arm_toolchain",
+          "usingModule": "arm_gnu_toolchain@_",
+          "location": {
+            "file": "@@arm_gnu_toolchain~override//:MODULE.bazel",
+            "line": 12,
+            "column": 30
+          },
+          "imports": {
+            "arm_none_eabi": "arm_none_eabi",
+            "arm_none_eabi_darwin_arm64": "arm_none_eabi_darwin_arm64",
+            "arm_none_eabi_darwin_x86_64": "arm_none_eabi_darwin_x86_64",
+            "arm_none_eabi_linux_aarch64": "arm_none_eabi_linux_aarch64",
+            "arm_none_eabi_linux_x86_64": "arm_none_eabi_linux_x86_64",
+            "arm_none_eabi_windows_x86_64": "arm_none_eabi_windows_x86_64",
+            "arm_none_linux_gnueabihf": "arm_none_linux_gnueabihf",
+            "arm_none_linux_gnueabihf_linux_aarch64": "arm_none_linux_gnueabihf_linux_aarch64",
+            "arm_none_linux_gnueabihf_linux_x86_64": "arm_none_linux_gnueabihf_linux_x86_64",
+            "arm_none_linux_gnueabihf_windows_x86_64": "arm_none_linux_gnueabihf_windows_x86_64"
+          },
+          "devImports": [],
+          "tags": [
+            {
+              "tagName": "arm_none_eabi",
+              "attributeValues": {
+                "version": "13.2.1"
+              },
+              "devDependency": false,
+              "location": {
+                "file": "@@arm_gnu_toolchain~override//:MODULE.bazel",
+                "line": 18,
+                "column": 28
+              }
+            },
+            {
+              "tagName": "arm_none_linux_gnueabihf",
+              "attributeValues": {
+                "version": "13.2.1"
+              },
+              "devDependency": false,
+              "location": {
+                "file": "@@arm_gnu_toolchain~override//:MODULE.bazel",
+                "line": 28,
+                "column": 39
+              }
+            }
+          ],
+          "hasDevUseExtension": false,
+          "hasNonDevUseExtension": true
+        }
+      ],
+      "deps": {
+        "platforms": "platforms@0.0.8",
+        "rules_cc": "rules_cc@0.0.9",
+        "bazel_tools": "bazel_tools@_",
+        "local_config_platform": "local_config_platform@_"
+      }
+    },
     "bazel_tools@_": {
       "name": "bazel_tools",
       "version": "",
@@ -484,15 +473,16 @@
         "bazel_tools": "bazel_tools@_"
       }
     },
-    "rules_license@0.0.7": {
-      "name": "rules_license",
-      "version": "0.0.7",
-      "key": "rules_license@0.0.7",
-      "repoName": "rules_license",
+    "platforms@0.0.8": {
+      "name": "platforms",
+      "version": "0.0.8",
+      "key": "platforms@0.0.8",
+      "repoName": "platforms",
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [],
       "extensionUsages": [],
       "deps": {
+        "rules_license": "rules_license@0.0.7",
         "bazel_tools": "bazel_tools@_",
         "local_config_platform": "local_config_platform@_"
       },
@@ -500,11 +490,11 @@
         "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
         "ruleClassName": "http_archive",
         "attributes": {
-          "name": "rules_license~0.0.7",
+          "name": "platforms",
           "urls": [
-            "https://github.com/bazelbuild/rules_license/releases/download/0.0.7/rules_license-0.0.7.tar.gz"
+            "https://github.com/bazelbuild/platforms/releases/download/0.0.8/platforms-0.0.8.tar.gz"
           ],
-          "integrity": "sha256-RTHezLkTY5ww5cdRKgVNXYdWmNrrddjPkPKEN1/nw2A=",
+          "integrity": "sha256-gVBAZgU4ns7LbaB8vLUJ1WN6OrmiS8abEQFTE2fYnXQ=",
           "strip_prefix": "",
           "remote_patches": {},
           "remote_patch_strip": 0
@@ -537,6 +527,56 @@
           "integrity": "sha256-7FcTnkZvquVj8vw5YJ2klIpHm7UbbWeu3X2bG4BZxDM=",
           "strip_prefix": "",
           "remote_patches": {},
+          "remote_patch_strip": 0
+        }
+      }
+    },
+    "rules_cc@0.0.9": {
+      "name": "rules_cc",
+      "version": "0.0.9",
+      "key": "rules_cc@0.0.9",
+      "repoName": "rules_cc",
+      "executionPlatformsToRegister": [],
+      "toolchainsToRegister": [
+        "@local_config_cc_toolchains//:all"
+      ],
+      "extensionUsages": [
+        {
+          "extensionBzlFile": "@bazel_tools//tools/cpp:cc_configure.bzl",
+          "extensionName": "cc_configure_extension",
+          "usingModule": "rules_cc@0.0.9",
+          "location": {
+            "file": "https://bcr.bazel.build/modules/rules_cc/0.0.9/MODULE.bazel",
+            "line": 9,
+            "column": 29
+          },
+          "imports": {
+            "local_config_cc_toolchains": "local_config_cc_toolchains"
+          },
+          "devImports": [],
+          "tags": [],
+          "hasDevUseExtension": false,
+          "hasNonDevUseExtension": true
+        }
+      ],
+      "deps": {
+        "platforms": "platforms@0.0.8",
+        "bazel_tools": "bazel_tools@_",
+        "local_config_platform": "local_config_platform@_"
+      },
+      "repoSpec": {
+        "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
+        "ruleClassName": "http_archive",
+        "attributes": {
+          "name": "rules_cc~0.0.9",
+          "urls": [
+            "https://github.com/bazelbuild/rules_cc/releases/download/0.0.9/rules_cc-0.0.9.tar.gz"
+          ],
+          "integrity": "sha256-IDeHW5pEVtzkp50RKorohbvEqtlo5lh9ym5k86CQDN8=",
+          "strip_prefix": "rules_cc-0.0.9",
+          "remote_patches": {
+            "https://bcr.bazel.build/modules/rules_cc/0.0.9/patches/module_dot_bazel_version.patch": "sha256-mM+qzOI0SgAdaJBlWOSMwMPKpaA9b7R37Hj/tp5bb4g="
+          },
           "remote_patch_strip": 0
         }
       }
@@ -636,6 +676,33 @@
             "https://github.com/bazelbuild/rules_java/releases/download/7.1.0/rules_java-7.1.0.tar.gz"
           ],
           "integrity": "sha256-o3pOX2OrgnFuXdau75iO2EYcegC46TYnImKJn1h81OE=",
+          "strip_prefix": "",
+          "remote_patches": {},
+          "remote_patch_strip": 0
+        }
+      }
+    },
+    "rules_license@0.0.7": {
+      "name": "rules_license",
+      "version": "0.0.7",
+      "key": "rules_license@0.0.7",
+      "repoName": "rules_license",
+      "executionPlatformsToRegister": [],
+      "toolchainsToRegister": [],
+      "extensionUsages": [],
+      "deps": {
+        "bazel_tools": "bazel_tools@_",
+        "local_config_platform": "local_config_platform@_"
+      },
+      "repoSpec": {
+        "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
+        "ruleClassName": "http_archive",
+        "attributes": {
+          "name": "rules_license~0.0.7",
+          "urls": [
+            "https://github.com/bazelbuild/rules_license/releases/download/0.0.7/rules_license-0.0.7.tar.gz"
+          ],
+          "integrity": "sha256-RTHezLkTY5ww5cdRKgVNXYdWmNrrddjPkPKEN1/nw2A=",
           "strip_prefix": "",
           "remote_patches": {},
           "remote_patch_strip": 0
@@ -850,164 +917,6 @@
     }
   },
   "moduleExtensions": {
-    "//:extensions.bzl%arm_toolchain": {
-      "general": {
-        "bzlTransitiveDigest": "4DuJK6/ndJVyOcV6Amk1hmFh/FsSO0YOLrT01McMGP8=",
-        "accumulatedFileDigests": {},
-        "envVariables": {},
-        "generatedRepoSpecs": {
-          "arm_none_eabi_windows_x86_64": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
-            "attributes": {
-              "toolchain_prefix": "arm-none-eabi",
-              "version": "13.2.1",
-              "name": "_main~arm_toolchain~arm_none_eabi_windows_x86_64",
-              "sha256": "51d933f00578aa28016c5e3c84f94403274ea7915539f8e56c13e2196437d18f",
-              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-eabi.zip?rev=93fda279901c4c0299e03e5c4899b51f&hash=A3C5FF788BE90810E121091C873E3532336C8D46",
-              "bin_extension": ".exe"
-            }
-          },
-          "arm_none_linux_gnueabihf_linux_x86_64": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
-            "attributes": {
-              "toolchain_prefix": "arm-none-linux-gnueabihf",
-              "version": "13.2.1",
-              "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_linux_x86_64",
-              "sha256": "df0f4927a67d1fd366ff81e40bd8c385a9324fbdde60437a512d106215f257b3",
-              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-linux-gnueabihf",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-linux-gnueabihf.tar.xz?rev=adb0c0238c934aeeaa12c09609c5e6fc&hash=68DA67DE12CBAD82A0FA4B75247E866155C93053",
-              "patches": [
-                "@@//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
-              ]
-            }
-          },
-          "arm_none_eabi_darwin_arm64": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
-            "attributes": {
-              "toolchain_prefix": "arm-none-eabi",
-              "version": "13.2.1",
-              "name": "_main~arm_toolchain~arm_none_eabi_darwin_arm64",
-              "sha256": "39c44f8af42695b7b871df42e346c09fee670ea8dfc11f17083e296ea2b0d279",
-              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-darwin-arm64-arm-none-eabi",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-darwin-arm64-arm-none-eabi.tar.xz?rev=73e10891de3d41e29e95ac2878742b74&hash=6036196A3358CB5AD85FC01DFD0FEC02A"
-            }
-          },
-          "arm_none_linux_gnueabihf_linux_aarch64": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
-            "attributes": {
-              "toolchain_prefix": "arm-none-linux-gnueabihf",
-              "version": "13.2.1",
-              "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_linux_aarch64",
-              "sha256": "8ad384bb328bccc44396d85c8f8113b7b8c5e11bcfef322e77cda3ebe7baadb5",
-              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-aarch64-arm-none-linux-gnueabihf",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-aarch64-arm-none-linux-gnueabihf.tar.xz?rev=fbdb67e76c8349e5ad27a7c40fb270c9&hash=8CD3EBFFDC5E211275B705F6F9BCC0F6F5B4A53E",
-              "patches": [
-                "@@//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
-              ]
-            }
-          },
-          "arm_none_linux_gnueabihf_windows_x86_64": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
-            "attributes": {
-              "toolchain_prefix": "arm-none-linux-gnueabihf",
-              "version": "13.2.1",
-              "name": "_main~arm_toolchain~arm_none_linux_gnueabihf_windows_x86_64",
-              "sha256": "047e72bcef8f7767691f36929a8c74ef66f717cf6264a31f48dd31bfb067f4c8",
-              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-linux-gnueabihf",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-linux-gnueabihf.zip?rev=14b6dd20622a4beabb60a6ee41a4c141&hash=C1F9FA6DE8259B5ACA0211139F4304F2B942E489",
-              "patches": [
-                "@@//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
-              ],
-              "bin_extension": ".exe"
-            }
-          },
-          "arm_none_eabi": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_toolchain_repo",
-            "attributes": {
-              "name": "_main~arm_toolchain~arm_none_eabi",
-              "toolchain_name": "arm_none_eabi",
-              "toolchain_prefix": "arm-none-eabi",
-              "version": "13.2.1"
-            }
-          },
-          "arm_none_eabi_linux_x86_64": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
-            "attributes": {
-              "toolchain_prefix": "arm-none-eabi",
-              "version": "13.2.1",
-              "name": "_main~arm_toolchain~arm_none_eabi_linux_x86_64",
-              "sha256": "6cd1bbc1d9ae57312bcd169ae283153a9572bd6a8e4eeae2fedfbc33b115fdbb",
-              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz?rev=e434b9ea4afc4ed7998329566b764309&hash=688C370BF08399033CA9DE3C1CC8CF8E31D8C441"
-            }
-          },
-          "arm_none_eabi_darwin_x86_64": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
-            "attributes": {
-              "toolchain_prefix": "arm-none-eabi",
-              "version": "13.2.1",
-              "name": "_main~arm_toolchain~arm_none_eabi_darwin_x86_64",
-              "sha256": "075faa4f3e8eb45e59144858202351a28706f54a6ec17eedd88c9fb9412372cc",
-              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-darwin-x86_64-arm-none-eabi",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-darwin-x86_64-arm-none-eabi.tar.xz?rev=a3d8c87bb0af4c40b7d7e0e291f6541b&hash=10927356ACA904E1A0122794E036E8DDE7D8435D"
-            }
-          },
-          "arm_none_linux_gnueabihf": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_toolchain_repo",
-            "attributes": {
-              "name": "_main~arm_toolchain~arm_none_linux_gnueabihf",
-              "toolchain_name": "arm_none_linux_gnueabihf",
-              "toolchain_prefix": "arm-none-linux-gnueabihf",
-              "version": "13.2.1"
-            }
-          },
-          "arm_none_eabi_linux_aarch64": {
-            "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
-            "attributes": {
-              "toolchain_prefix": "arm-none-eabi",
-              "version": "13.2.1",
-              "name": "_main~arm_toolchain~arm_none_eabi_linux_aarch64",
-              "sha256": "8fd8b4a0a8d44ab2e195ccfbeef42223dfb3ede29d80f14dcf2183c34b8d199a",
-              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-aarch64-arm-none-eabi",
-              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-aarch64-arm-none-eabi.tar.xz?rev=17baf091942042768d55c9a304610954&hash=7F32B9E3ADFAFC4F8F74C30EBBBFECEB1AC96B60"
-            }
-          }
-        },
-        "recordedRepoMappingEntries": [
-          [
-            "",
-            "arm_gnu_toolchain",
-            ""
-          ],
-          [
-            "",
-            "bazel_tools",
-            "bazel_tools"
-          ],
-          [
-            "",
-            "rules_cc",
-            "rules_cc~0.0.9"
-          ],
-          [
-            "rules_cc~0.0.9",
-            "bazel_tools",
-            "bazel_tools"
-          ]
-        ]
-      }
-    },
     "@@apple_support~1.5.0//crosstool:setup.bzl%apple_cc_configure_extension": {
       "general": {
         "bzlTransitiveDigest": "pMLFCYaRPkgXPQ8vtuNkMfiHfPmRBy6QJfnid4sWfv0=",
@@ -1032,6 +941,164 @@
         "recordedRepoMappingEntries": [
           [
             "apple_support~1.5.0",
+            "bazel_tools",
+            "bazel_tools"
+          ]
+        ]
+      }
+    },
+    "@@arm_gnu_toolchain~override//:extensions.bzl%arm_toolchain": {
+      "general": {
+        "bzlTransitiveDigest": "4DuJK6/ndJVyOcV6Amk1hmFh/FsSO0YOLrT01McMGP8=",
+        "accumulatedFileDigests": {},
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "arm_none_eabi_windows_x86_64": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
+              "version": "13.2.1",
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_eabi_windows_x86_64",
+              "sha256": "51d933f00578aa28016c5e3c84f94403274ea7915539f8e56c13e2196437d18f",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-eabi.zip?rev=93fda279901c4c0299e03e5c4899b51f&hash=A3C5FF788BE90810E121091C873E3532336C8D46",
+              "bin_extension": ".exe"
+            }
+          },
+          "arm_none_linux_gnueabihf_linux_x86_64": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-linux-gnueabihf",
+              "version": "13.2.1",
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_linux_gnueabihf_linux_x86_64",
+              "sha256": "df0f4927a67d1fd366ff81e40bd8c385a9324fbdde60437a512d106215f257b3",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-linux-gnueabihf",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-linux-gnueabihf.tar.xz?rev=adb0c0238c934aeeaa12c09609c5e6fc&hash=68DA67DE12CBAD82A0FA4B75247E866155C93053",
+              "patches": [
+                "@@arm_gnu_toolchain~override//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
+              ]
+            }
+          },
+          "arm_none_eabi_darwin_arm64": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
+              "version": "13.2.1",
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_eabi_darwin_arm64",
+              "sha256": "39c44f8af42695b7b871df42e346c09fee670ea8dfc11f17083e296ea2b0d279",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-darwin-arm64-arm-none-eabi",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-darwin-arm64-arm-none-eabi.tar.xz?rev=73e10891de3d41e29e95ac2878742b74&hash=6036196A3358CB5AD85FC01DFD0FEC02A"
+            }
+          },
+          "arm_none_linux_gnueabihf_linux_aarch64": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-linux-gnueabihf",
+              "version": "13.2.1",
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_linux_gnueabihf_linux_aarch64",
+              "sha256": "8ad384bb328bccc44396d85c8f8113b7b8c5e11bcfef322e77cda3ebe7baadb5",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-aarch64-arm-none-linux-gnueabihf",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-aarch64-arm-none-linux-gnueabihf.tar.xz?rev=fbdb67e76c8349e5ad27a7c40fb270c9&hash=8CD3EBFFDC5E211275B705F6F9BCC0F6F5B4A53E",
+              "patches": [
+                "@@arm_gnu_toolchain~override//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
+              ]
+            }
+          },
+          "arm_none_linux_gnueabihf_windows_x86_64": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-linux-gnueabihf",
+              "version": "13.2.1",
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_linux_gnueabihf_windows_x86_64",
+              "sha256": "047e72bcef8f7767691f36929a8c74ef66f717cf6264a31f48dd31bfb067f4c8",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-linux-gnueabihf",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-linux-gnueabihf.zip?rev=14b6dd20622a4beabb60a6ee41a4c141&hash=C1F9FA6DE8259B5ACA0211139F4304F2B942E489",
+              "patches": [
+                "@@arm_gnu_toolchain~override//toolchain:patches/0001-Resolve-libc-relative-to-sysroot.patch"
+              ],
+              "bin_extension": ".exe"
+            }
+          },
+          "arm_none_eabi": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_toolchain_repo",
+            "attributes": {
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_eabi",
+              "toolchain_name": "arm_none_eabi",
+              "toolchain_prefix": "arm-none-eabi",
+              "version": "13.2.1"
+            }
+          },
+          "arm_none_eabi_linux_x86_64": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
+              "version": "13.2.1",
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_eabi_linux_x86_64",
+              "sha256": "6cd1bbc1d9ae57312bcd169ae283153a9572bd6a8e4eeae2fedfbc33b115fdbb",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz?rev=e434b9ea4afc4ed7998329566b764309&hash=688C370BF08399033CA9DE3C1CC8CF8E31D8C441"
+            }
+          },
+          "arm_none_eabi_darwin_x86_64": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
+              "version": "13.2.1",
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_eabi_darwin_x86_64",
+              "sha256": "075faa4f3e8eb45e59144858202351a28706f54a6ec17eedd88c9fb9412372cc",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-darwin-x86_64-arm-none-eabi",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-darwin-x86_64-arm-none-eabi.tar.xz?rev=a3d8c87bb0af4c40b7d7e0e291f6541b&hash=10927356ACA904E1A0122794E036E8DDE7D8435D"
+            }
+          },
+          "arm_none_linux_gnueabihf": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_toolchain_repo",
+            "attributes": {
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_linux_gnueabihf",
+              "toolchain_name": "arm_none_linux_gnueabihf",
+              "toolchain_prefix": "arm-none-linux-gnueabihf",
+              "version": "13.2.1"
+            }
+          },
+          "arm_none_eabi_linux_aarch64": {
+            "bzlFile": "@@arm_gnu_toolchain~override//:deps.bzl",
+            "ruleClassName": "arm_gnu_cross_hosted_platform_specific_repo",
+            "attributes": {
+              "toolchain_prefix": "arm-none-eabi",
+              "version": "13.2.1",
+              "name": "arm_gnu_toolchain~override~arm_toolchain~arm_none_eabi_linux_aarch64",
+              "sha256": "8fd8b4a0a8d44ab2e195ccfbeef42223dfb3ede29d80f14dcf2183c34b8d199a",
+              "strip_prefix": "arm-gnu-toolchain-13.2.Rel1-aarch64-arm-none-eabi",
+              "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-aarch64-arm-none-eabi.tar.xz?rev=17baf091942042768d55c9a304610954&hash=7F32B9E3ADFAFC4F8F74C30EBBBFECEB1AC96B60"
+            }
+          }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "arm_gnu_toolchain~override",
+            "arm_gnu_toolchain",
+            "arm_gnu_toolchain~override"
+          ],
+          [
+            "arm_gnu_toolchain~override",
+            "bazel_tools",
+            "bazel_tools"
+          ],
+          [
+            "arm_gnu_toolchain~override",
+            "rules_cc",
+            "rules_cc~0.0.9"
+          ],
+          [
+            "rules_cc~0.0.9",
             "bazel_tools",
             "bazel_tools"
           ]

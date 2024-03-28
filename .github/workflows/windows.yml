@@ -1,4 +1,4 @@
-name: Windows
+name: PC
 
 on:
   push:
@@ -6,10 +6,14 @@ on:
   pull_request:
     branches: [ master ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
 
   windows:
-    name: Build
+    name: x86_64-pc-windows
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2

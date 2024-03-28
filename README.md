@@ -13,15 +13,11 @@
 </a>
 
 <a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
-    <img alt="Linux" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Linux/badge.svg">
+    <img alt="CI" src="https://github.com/hexdae/bazel-arm-none-eabi/actions/workflows/ci.yml/badge.svg">
 </a>
 
 <a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
-    <img alt="macOS" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/macOS/badge.svg">
-</a>
-
-<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
-    <img alt="Widnows" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Windows/badge.svg">
+    <img alt="Windows" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Windows/badge.svg">
 </a>
 
 </p>
@@ -41,7 +37,8 @@ You can follow the post [Bazel for ARM embedded toolchains](https://asnaghi.me/p
 
 ## Features
 
-- Simple integration with WORKSPACE / MODULE [experimental]
+- [MODULE support](#bzlmod)
+- [WORKSPACE support](#workspace)
 - [Direct access to gcc tools](#direct-access-to-gcc-tools)
 - [Custom toolchain support](#custom-toolchain)
 - Remote execution support
@@ -65,12 +62,13 @@ build --platforms=@arm_gnu_toolchain//platforms:arm_none_generic
 
 ```python
 # MODULE.bazel
+
 bazel_dep(name = "arm_gnu_toolchain", version = "0.0.1")
 
 git_override(
     module_name = "arm_gnu_toolchain",
     remote = "https://github.com/hexdae/bazel-arm-none-eabi",
-    commit = "<commit>", # <-- Change this to the commit you want
+    branch = "master",
 )
 
 # Toolchains: arm-none-eabi
@@ -101,7 +99,7 @@ use_repo(
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 ```
 
-## WORKSPACE [soon to be deprecated]
+## WORKSPACE
 
 Add this git repository to your WORKSPACE to use the compiler
 
@@ -111,16 +109,26 @@ Add this git repository to your WORKSPACE to use the compiler
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
-    name = "arm_none_eabi",
-    commit = "<commit>",
-    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
+    name = "rules_cc",
+    remote = "https://github.com/bazelbuild/rules_cc",
+    branch = "main",
 )
 
+git_repository(
+    name = "arm_none_eabi",
+    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
+    branch = "master",
+)
+
+# Toolchain: arm-none-eabi
 load("@arm_gnu_toolchain//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_none_eabi_toolchains")
-
 arm_none_eabi_deps()
-
 register_default_arm_none_eabi_toolchains()
+
+# Toolchain arm-none-linux-gnueabihf
+load("@arm_gnu_toolchain//:deps.bzl", "arm_none_linux_gnueabihf_deps", "register_default_arm_none_linux_gnueabihf_toolchains")
+arm_none_linux_gnueabihf_deps()
+register_default_arm_none_linux_gnueabihf_toolchains()
 ```
 
 Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler.

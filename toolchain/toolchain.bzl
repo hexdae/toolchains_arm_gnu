@@ -153,6 +153,6 @@ def arm_none_linux_gnueabihf_toolchain(
         **kwargs
     )
 
-def register_arm_gnu_toolchain(name):
-    for host in hosts:
+def register_arm_gnu_toolchain(name, prefix):
+    for host in hosts[prefix]:
         native.register_toolchains("{}_{}".format(name, host))

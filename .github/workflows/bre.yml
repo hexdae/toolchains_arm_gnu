@@ -1,20 +1,29 @@
-name: Remote
+name: BRE
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
 
 jobs:
-
   linux:
     name: Bazel Remote Execution
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
-      - name: remote execution
+
+      - name: run nativelink
         run: |
           cargo install --git https://github.com/TraceMachina/nativelink --tag v0.2.0
           (nativelink .github/bre/basic_cas.json &)
+
+      - name: remote execution
+        run: |
           bazelisk build --config=remote --config=linux //examples/...
