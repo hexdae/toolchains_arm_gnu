@@ -1,11 +1,11 @@
 {
-    "homepage": "https://github.com/hexdae/bazel_arm_toolchains",
+    "homepage": "https://github.com/hexdae/bazel-arm-none-eabi",
     "maintainers": {
         "name": "Davide Asnaghi",
         "github": "hexdae"
     },
     "repository": [
-        "github:hexdae/bazel_arm_toolchains"
+        "github:hexdae/bazel-arm-none-eabi"
     ],
     "versions": [],
     "yanked_versions": {}
