@@ -1,2 +1,6 @@
+common --enable_platform_specific_config
+
 build --incompatible_enable_cc_toolchain_resolution
 build --enable_bzlmod=true
+
+build:windows --output_user_root=C:/bz
