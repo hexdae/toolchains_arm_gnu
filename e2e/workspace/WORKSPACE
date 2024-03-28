@@ -15,7 +15,7 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
     name = "rules_cc",
-    branch = "main",
+    commit = "4a62c693309887664cb733245d1c74f17a992942",
     remote = "https://github.com/bazelbuild/rules_cc",
 )
 

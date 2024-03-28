@@ -1,4 +1,3 @@
-
 platform(
     name = "worker",
     constraint_values = [
