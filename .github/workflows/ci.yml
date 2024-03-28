@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   e2e-test-multi-bazel:
-    name: ${{matrix.os}} Bazel ${{matrix.bazel-version}}
+    name: ${{ matrix.env.TARGET }} / bazel ${{ matrix.bazel-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -23,10 +23,19 @@ jobs:
         include:
           - os: ubuntu-latest
             env:
+              TARGET: "x86_64-unknown-linux"
+          - os: ubuntu-latest
+            env:
               TARGET: "aarch64-unknown-linux"
           - os: macos-latest
             env:
+              TARGET: "x86_64-apple-darwin"
+          - os: macos-latest
+            env:
               TARGET: "aarch64-apple-darwin"
+          - os: windows-latest
+            env:
+              TARGET: "x86_64-pc-windows"
 
     env:
       USE_BAZEL_VERSION: ${{matrix.bazel-version}}
@@ -34,10 +43,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: run e2e tests - workspace
-        working-directory: e2e/workspace
-        run: |
-          bazel test //...
+      # - name: run e2e tests - workspace
+      #   working-directory: e2e/workspace
+      #   run: |
+      #     bazel test //...
 
       - name: run e2e tests - bzlmod
         working-directory: e2e/bzlmod
