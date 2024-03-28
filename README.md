@@ -60,7 +60,7 @@ build --incompatible_enable_cc_toolchain_resolution
 
 ## Examples
 
-Please look at the [`e2e`](./e2e/) folder for reference usage
+Please look at the [`examples`](./examples/) folder for reference usage
 
 ## Bzlmod
 

@@ -30,10 +30,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: WORKSPACE
-        working-directory: e2e/workspace
+        working-directory: examples/workspace
         run: bazel test //...
       - name: MODULE
-        working-directory: e2e/bzlmod
+        working-directory: examples/bzlmod
         run: bazel test //...
 
   windows:
