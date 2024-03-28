@@ -27,4 +27,3 @@ platform_transition_filegroup(
     target_platform = "//custom/platform:cortex_m4",
     visibility = ["//visibility:public"],
 )
-

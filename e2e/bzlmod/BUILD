@@ -21,4 +21,3 @@ build_test(
         "//custom:cortex_m3_elf",
     ],
 )
-

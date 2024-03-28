@@ -2,8 +2,8 @@
 
 module(
     name = "arm_gnu_toolchain",
-    version = "0.0.1",
     compatibility_level = 1,
+    version = "0.0.1",
 )
 
 bazel_dep(name = "platforms", version = "0.0.8")
@@ -16,6 +16,7 @@ arm_toolchain = use_extension("@arm_gnu_toolchain//:extensions.bzl", "arm_toolch
 # module extension will select the version here if a consumer attempts to use
 # the newer toolchain.
 arm_toolchain.arm_none_eabi(version = "13.2.1")
+
 use_repo(
     arm_toolchain,
     "arm_none_eabi",
@@ -25,7 +26,9 @@ use_repo(
     "arm_none_eabi_linux_x86_64",
     "arm_none_eabi_windows_x86_64",
 )
+
 arm_toolchain.arm_none_linux_gnueabihf(version = "13.2.1")
+
 use_repo(
     arm_toolchain,
     "arm_none_linux_gnueabihf",
@@ -35,8 +38,8 @@ use_repo(
 )
 
 # DEV ONLY (not needed for release)
-bazel_dep(name = "aspect_bazel_lib", version = "2.0.0", dev_dependency = True)
-bazel_dep(name = "bazel_skylib", version = "1.5.0", dev_dependency = True)
+bazel_dep(name = "aspect_bazel_lib", dev_dependency = True, version = "2.0.0")
+bazel_dep(name = "bazel_skylib", dev_dependency = True, version = "1.5.0")
 
 register_toolchains(
     "@arm_none_eabi//toolchain:all",
