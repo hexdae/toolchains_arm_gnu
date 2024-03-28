@@ -19,23 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         bazel-version: ["6.x", "7.x"]
-        include:
-          - os: ubuntu-latest
-            cpu: "x86_64"
-            env:
-              TARGET: "x86_64-unknown-linux-gnu"
-          - os: ubuntu-latest
-            cpu: "aarch64"
-            env:
-              TARGET: "aarch64-unknown-linux-gnu"
-          - os: macos-latest
-            cpu: "aarch64"
-            env:
-              TARGET: "aarch64-apple-darwin"
-          - os: macos-latest
-            cpu: "x86_64"
-            env:
-              TARGET: "x86_64-apple-darwin"
+        os: [ubuntu-latest, macos-latest]
+        cpu: ["x86_64", "aarch64"]
 
     env:
       USE_BAZEL_VERSION: ${{matrix.bazel-version}}
