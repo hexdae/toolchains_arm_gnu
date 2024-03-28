@@ -19,7 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         bazel-version: ["6.x", "7.x"]
-        os: [ubuntu-latest, macos-latest]
         include:
           - os: ubuntu-latest
             env:

@@ -13,15 +13,11 @@
 </a>
 
 <a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
-    <img alt="Linux" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Linux/badge.svg">
+    <img alt="CI" src="https://github.com/hexdae/bazel-arm-none-eabi/actions/workflows/ci.yml/badge.svg">
 </a>
 
 <a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
-    <img alt="macOS" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/macOS/badge.svg">
-</a>
-
-<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
-    <img alt="Widnows" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Windows/badge.svg">
+    <img alt="Windows" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Windows/badge.svg">
 </a>
 
 </p>
