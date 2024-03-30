@@ -67,16 +67,16 @@ Please look at the [`examples`](./examples/) folder for reference usage
 ```python
 # MODULE.bazel
 
-bazel_dep(name = "arm_gnu_toolchain", version = "0.0.1")
+bazel_dep(name = "toolchains_arm_gnu", version = "0.0.1")
 
 git_override(
-    module_name = "arm_gnu_toolchain",
+    module_name = "toolchains_arm_gnu",
     remote = "https://github.com/hexdae/bazel-arm-none-eabi",
     branch = "master",
 )
 
 # Toolchains: arm-none-eabi
-arm_toolchain = use_extension("@arm_gnu_toolchain//:extensions.bzl", "arm_toolchain")
+arm_toolchain = use_extension("@toolchains_arm_gnu//:extensions.bzl", "arm_toolchain")
 arm_toolchain.arm_none_eabi(version = "9.2.1")
 use_repo(
     arm_toolchain,
@@ -125,12 +125,12 @@ git_repository(
 )
 
 # Toolchain: arm-none-eabi
-load("@arm_gnu_toolchain//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_none_eabi_toolchains")
+load("@toolchains_arm_gnu//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_none_eabi_toolchains")
 arm_none_eabi_deps()
 register_default_arm_none_eabi_toolchains()
 
 # Toolchain arm-none-linux-gnueabihf
-load("@arm_gnu_toolchain//:deps.bzl", "arm_none_linux_gnueabihf_deps", "register_default_arm_none_linux_gnueabihf_toolchains")
+load("@toolchains_arm_gnu//:deps.bzl", "arm_none_linux_gnueabihf_deps", "register_default_arm_none_linux_gnueabihf_toolchains")
 arm_none_linux_gnueabihf_deps()
 register_default_arm_none_linux_gnueabihf_toolchains()
 ```
@@ -146,7 +146,7 @@ In a BUILD file:
 ```python
 # path/to/toolchains/BUILD
 
-load("@arm_gnu_toolchain//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
+load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
 arm_none_eabi_toolchain(
     name = "custom_toolchain",
     target_compatible_with = [

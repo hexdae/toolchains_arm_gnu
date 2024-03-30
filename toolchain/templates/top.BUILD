@@ -4,7 +4,7 @@ repository, i.e., the targets defined here appear in the workspace as
 "@arm_none_eabi//:*" for arm-none-eabi toolchains.
 """
 
-load("@arm_gnu_toolchain//toolchain:toolchain.bzl", "hosts", "tools")
+load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "hosts", "tools")
 
 package(default_visibility = ["//visibility:public"])
 

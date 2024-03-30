@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "0bb6ed08d84140248cc36b08a8d24b2ee5d2c841af64ff7b75ccd0f224449204",
+  "moduleFileHash": "26d1bc5070c1e33727ca25c5b2274f1371d7cfc9d663ec6662036c9a8d053a0e",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -17,10 +17,10 @@
   },
   "moduleDepGraph": {
     "<root>": {
-      "name": "arm_gnu_toolchain",
+      "name": "toolchains_arm_gnu",
       "version": "0.0.1",
       "key": "<root>",
-      "repoName": "arm_gnu_toolchain",
+      "repoName": "toolchains_arm_gnu",
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [
         "@arm_none_eabi//toolchain:all",
@@ -28,7 +28,7 @@
       ],
       "extensionUsages": [
         {
-          "extensionBzlFile": "@arm_gnu_toolchain//:extensions.bzl",
+          "extensionBzlFile": "@toolchains_arm_gnu//:extensions.bzl",
           "extensionName": "arm_toolchain",
           "usingModule": "<root>",
           "location": {
@@ -851,7 +851,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_toolchain": {
       "general": {
-        "bzlTransitiveDigest": "68x6OPYnfiqMUJFpsDTaan+3xQVMbwI/Jq2kLITElzM=",
+        "bzlTransitiveDigest": "pdhTMi3AXP4Bw6DTqBvDsEE26W7dV7bGF266MQn5KdU=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -928,7 +928,7 @@
           },
           "arm_none_eabi": {
             "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_toolchain_repo",
+            "ruleClassName": "toolchains_arm_gnu_repo",
             "attributes": {
               "name": "_main~arm_toolchain~arm_none_eabi",
               "toolchain_name": "arm_none_eabi",
@@ -962,7 +962,7 @@
           },
           "arm_none_linux_gnueabihf": {
             "bzlFile": "@@//:deps.bzl",
-            "ruleClassName": "arm_gnu_toolchain_repo",
+            "ruleClassName": "toolchains_arm_gnu_repo",
             "attributes": {
               "name": "_main~arm_toolchain~arm_none_linux_gnueabihf",
               "toolchain_name": "arm_none_linux_gnueabihf",
@@ -986,11 +986,6 @@
         "recordedRepoMappingEntries": [
           [
             "",
-            "arm_gnu_toolchain",
-            ""
-          ],
-          [
-            "",
             "bazel_tools",
             "bazel_tools"
           ],
@@ -998,6 +993,11 @@
             "",
             "rules_cc",
             "rules_cc~0.0.9"
+          ],
+          [
+            "",
+            "toolchains_arm_gnu",
+            ""
           ],
           [
             "rules_cc~0.0.9",

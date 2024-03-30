@@ -1,5 +1,5 @@
 load(
-    "@arm_gnu_toolchain//:deps.bzl",
+    "@toolchains_arm_gnu//:deps.bzl",
     "arm_none_eabi_deps",
     "arm_none_linux_gnueabihf_deps",
 )

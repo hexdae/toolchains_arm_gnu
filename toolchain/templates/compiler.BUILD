@@ -3,7 +3,7 @@ This BUILD file marks the top of the host-specific cross-toolchain repository.
 If the host needs @arm_none_eabi_linux_x86_64, this is the build file at the
 top of that repository.
 """
-load("@arm_gnu_toolchain//toolchain:toolchain.bzl", "tools")
+load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "tools")
 
 package(default_visibility = ["//visibility:public"])
 
