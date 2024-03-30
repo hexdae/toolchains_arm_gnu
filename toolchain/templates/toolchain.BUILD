@@ -7,7 +7,7 @@ For example, "@arm_none_eabi//toolchain:*"
 package(default_visibility = ["//visibility:public"])
 
 load(
-    "@arm_gnu_toolchain//toolchain:toolchain.bzl",
+    "@toolchains_arm_gnu//toolchain:toolchain.bzl",
     "%toolchain_name%_toolchain",
     "target_constraints",
 )

@@ -22,10 +22,10 @@ cat << EOF
 2. Add to your \`MODULE.bazel\` file:
 
 \`\`\`starlark
-bazel_dep(name = "arm_gnu_toolchain", version = "${TAG:1}")
+bazel_dep(name = "toolchains_arm_gnu", version = "${TAG:1}")
 
 # Toolchains: arm-none-eabi
-arm_toolchain = use_extension("@arm_gnu_toolchain//:extensions.bzl", "arm_toolchain")
+arm_toolchain = use_extension("@toolchains_arm_gnu//:extensions.bzl", "arm_toolchain")
 arm_toolchain.arm_none_eabi(version = "13.2.1")
 use_repo(
     arm_toolchain,

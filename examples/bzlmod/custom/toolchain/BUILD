@@ -1,4 +1,4 @@
-load("@arm_gnu_toolchain//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
+load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
 
 # Cortex-M3 toolchain
 arm_none_eabi_toolchain(

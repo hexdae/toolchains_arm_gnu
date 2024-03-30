@@ -13,7 +13,7 @@
     "compatibilityMode": "ERROR"
   },
   "localOverrideHashes": {
-    "arm_gnu_toolchain": "9a1aced68749934422568fffb9081a7b1fdf4710f5b8881852008b4c480309c3",
+    "toolchains_arm_gnu": "9a1aced68749934422568fffb9081a7b1fdf4710f5b8881852008b4c480309c3",
     "bazel_tools": "1ae69322ac3823527337acf02016e8ee95813d8d356f47060255b8956fa642f0"
   },
   "moduleDepGraph": {
@@ -30,7 +30,7 @@
       ],
       "extensionUsages": [
         {
-          "extensionBzlFile": "@arm_gnu_toolchain//:extensions.bzl",
+          "extensionBzlFile": "@toolchains_arm_gnu//:extensions.bzl",
           "extensionName": "arm_toolchain",
           "usingModule": "<root>",
           "location": {
@@ -84,7 +84,7 @@
       "deps": {
         "aspect_bazel_lib": "aspect_bazel_lib@2.0.0",
         "bazel_skylib": "bazel_skylib@1.5.0",
-        "arm_gnu_toolchain": "arm_gnu_toolchain@_",
+        "toolchains_arm_gnu": "toolchains_arm_gnu@_",
         "bazel_tools": "bazel_tools@_",
         "local_config_platform": "local_config_platform@_"
       }
@@ -257,20 +257,20 @@
         }
       }
     },
-    "arm_gnu_toolchain@_": {
-      "name": "arm_gnu_toolchain",
+    "toolchains_arm_gnu@_": {
+      "name": "toolchains_arm_gnu",
       "version": "0.0.1",
-      "key": "arm_gnu_toolchain@_",
-      "repoName": "arm_gnu_toolchain",
+      "key": "toolchains_arm_gnu@_",
+      "repoName": "toolchains_arm_gnu",
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [],
       "extensionUsages": [
         {
-          "extensionBzlFile": "@arm_gnu_toolchain//:extensions.bzl",
+          "extensionBzlFile": "@toolchains_arm_gnu//:extensions.bzl",
           "extensionName": "arm_toolchain",
-          "usingModule": "arm_gnu_toolchain@_",
+          "usingModule": "toolchains_arm_gnu@_",
           "location": {
-            "file": "@@arm_gnu_toolchain~//:MODULE.bazel",
+            "file": "@@toolchains_arm_gnu~//:MODULE.bazel",
             "line": 12,
             "column": 30
           },
@@ -295,7 +295,7 @@
               },
               "devDependency": false,
               "location": {
-                "file": "@@arm_gnu_toolchain~//:MODULE.bazel",
+                "file": "@@toolchains_arm_gnu~//:MODULE.bazel",
                 "line": 18,
                 "column": 28
               }
@@ -307,7 +307,7 @@
               },
               "devDependency": false,
               "location": {
-                "file": "@@arm_gnu_toolchain~//:MODULE.bazel",
+                "file": "@@toolchains_arm_gnu~//:MODULE.bazel",
                 "line": 30,
                 "column": 39
               }

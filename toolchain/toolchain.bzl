@@ -2,7 +2,7 @@
 This module provides functions to register an arm-none-eabi toolchain
 """
 
-load("@arm_gnu_toolchain//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
+load("@toolchains_arm_gnu//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
 load("@rules_cc//cc:defs.bzl", "cc_toolchain")
 
 tools = [
@@ -117,7 +117,7 @@ def arm_none_eabi_toolchain(name, version = "13.2.1", **kwargs):
     Args:
         name: The name of the toolchain.
         version: The version of the gcc toolchain.
-        **kwargs: same as arm_gnu_toolchain
+        **kwargs: same as toolchains_arm_gnu
     """
     _arm_gnu_toolchain(
         name,
