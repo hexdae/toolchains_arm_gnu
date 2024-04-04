@@ -851,7 +851,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_toolchain": {
       "general": {
-        "bzlTransitiveDigest": "vVLbMp7KKsm27vV6ej3jinCYCZ198Kc5G5a1T5A0zac=",
+        "bzlTransitiveDigest": "Rc3YugGZVxwcl2xJna7qnUnN74MeOpLOeYh9sCeKweI=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
