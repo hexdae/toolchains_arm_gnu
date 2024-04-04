@@ -1,7 +1,7 @@
 """deps.bzl"""
 
-load("@toolchains_arm_gnu//archive:arm_none_eabi.bzl", "ARM_NONE_EABI")
-load("@toolchains_arm_gnu//archive:arm_none_linux_gnueabihf.bzl", "ARM_NONE_LINUX_GNUEABIHF")
+load("@toolchains_arm_gnu//toolchain/archives:arm_none_eabi.bzl", "ARM_NONE_EABI")
+load("@toolchains_arm_gnu//toolchain/archives:arm_none_linux_gnueabihf.bzl", "ARM_NONE_LINUX_GNUEABIHF")
 load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "register_arm_gnu_toolchain", "target_constraints")
 
 def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
@@ -16,7 +16,7 @@ def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
         Label("@toolchains_arm_gnu//toolchain:templates/compiler.BUILD"),
         substitutions = {
             "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
-            "%version%": repository_ctx.attr.version,
+            "%version%": repository_ctx.attr.version.split("-")[0],
             "%bin_extension%": repository_ctx.attr.bin_extension,
         },
     )
