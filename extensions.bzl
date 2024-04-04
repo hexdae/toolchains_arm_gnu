@@ -14,9 +14,9 @@ def compare_versions(left, right):
       0 if left == right
       1 if left > right
     """
-    left_parts = [int(i) for i in left.split(".")]
-    right_parts = [int(i) for i in right.split(".")]
-    for i in range(3):
+    left_parts = [int(i.split("-")[0]) for i in left.split(".")]
+    right_parts = [int(i.split("-")[0]) for i in right.split(".")]
+    for _ in range(3):
         if left_parts[0] < right_parts[0]:
             return -1
 
