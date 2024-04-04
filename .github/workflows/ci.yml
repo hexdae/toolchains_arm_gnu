@@ -45,3 +45,16 @@ jobs:
       - uses: actions/checkout@v2
       - name: BUILD
         run: bazel --output_user_root=C:/bzl build //...
+
+  remote-execution:
+    name: Bazel Remote Execution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: run nativelink
+        run: |
+          cargo install --git https://github.com/TraceMachina/nativelink --tag v0.2.0
+          (nativelink test/basic_cas.json &)
+      - name: remote execution
+        run: |
+          bazel test --config=remote //...
