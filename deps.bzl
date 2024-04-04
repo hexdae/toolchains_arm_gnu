@@ -16,7 +16,7 @@ def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
         substitutions = {
             "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
             "%version%": repository_ctx.attr.version.split("-")[0],
-            "%bin_extension%": repository_ctx.attr.bin_extension,
+            "%bin_extension%": ".exe" if "windows" in repository_ctx.name else "",
         },
     )
     for patch in repository_ctx.attr.patches:
@@ -31,7 +31,6 @@ arm_gnu_cross_hosted_platform_specific_repo = repository_rule(
         "version": attr.string(mandatory = True),
         "strip_prefix": attr.string(),
         "patches": attr.label_list(),
-        "bin_extension": attr.string(default = ""),
     },
 )
 
