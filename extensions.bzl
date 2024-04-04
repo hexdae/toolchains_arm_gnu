@@ -15,6 +15,13 @@ def _semver(version):
         patch = parts[2],
     )
 
+def _module_toolchain(tag, deps):
+    """Return a module toolchain."""
+    return struct(
+        tag = tag,
+        deps = deps,
+    )
+
 def _compare_versions(left, right):
     """Compare two semantic versions."""
     left = _semver(left)
@@ -37,16 +44,24 @@ def _minimal_supported_version(versions):
     return minimum
 
 def _arm_toolchain_impl(ctx):
-    tag_deps = {
-        lambda mod: mod.tags.arm_none_eabi: arm_none_eabi_deps,
-        lambda mod: mod.tags.arm_none_linux_gnueabihf: arm_none_linux_gnueabihf_deps,
-    }
+    """Implement the module extension."""
 
-    for tag, deps in tag_deps.items():
-        versions = [attr.version for mod in ctx.modules for attr in tag(mod)]
+    available_toolchains = [
+        _module_toolchain(
+            tag = lambda mod: mod.tags.arm_none_eabi,
+            deps = arm_none_eabi_deps,
+        ),
+        _module_toolchain(
+            tag = lambda mod: mod.tags.arm_none_linux_gnueabihf,
+            deps = arm_none_linux_gnueabihf_deps,
+        ),
+    ]
+
+    for toolchain in available_toolchains:
+        versions = [attr.version for mod in ctx.modules for attr in toolchain.tag(mod)]
         selected = _minimal_supported_version(versions)
         if selected:
-            deps(version = selected)
+            toolchain.deps(version = selected)
 
 _toolchain = tag_class(attrs = {
     "version": attr.string(),
