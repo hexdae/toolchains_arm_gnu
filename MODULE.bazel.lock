@@ -851,7 +851,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_toolchain": {
       "general": {
-        "bzlTransitiveDigest": "WRMAqOz//e6lnKFC57b1rFgPnOGEhRGGOS0zGQCw1sM=",
+        "bzlTransitiveDigest": "5uCK07Csa3uEOK6aGuYNpT97C+qTU4KuIVR/EzZ3vXk=",
         "accumulatedFileDigests": {},
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -990,23 +990,8 @@
         "recordedRepoMappingEntries": [
           [
             "",
-            "bazel_tools",
-            "bazel_tools"
-          ],
-          [
-            "",
-            "rules_cc",
-            "rules_cc~0.0.9"
-          ],
-          [
-            "",
             "toolchains_arm_gnu",
             ""
-          ],
-          [
-            "rules_cc~0.0.9",
-            "bazel_tools",
-            "bazel_tools"
           ]
         ]
       }

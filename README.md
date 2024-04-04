@@ -42,8 +42,9 @@ You might also like another, similar, toolchain project for `bazel`
 - [WORKSPACE support](#workspace)
 - [Direct access to gcc tools](#direct-access-to-gcc-tools)
 - [Custom toolchain support](#custom-toolchain)
-- [Examples](#examples)
+- [Examples](./examples)
 - Remote execution support
+- Linux, MacOS, Windows
 
 ## Use the toolchain from this repo
 
@@ -58,26 +59,14 @@ And this to your `.bazelrc`
 build --incompatible_enable_cc_toolchain_resolution
 ```
 
-## Examples
-
-Please look at the [`examples`](./examples/) folder for reference usage
-
 ## Bzlmod
 
 ```python
-# MODULE.bazel
-
 bazel_dep(name = "toolchains_arm_gnu", version = "0.0.1")
-
-git_override(
-    module_name = "toolchains_arm_gnu",
-    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
-    branch = "master",
-)
 
 # Toolchains: arm-none-eabi
 arm_toolchain = use_extension("@toolchains_arm_gnu//:extensions.bzl", "arm_toolchain")
-arm_toolchain.arm_none_eabi(version = "9.2.1")
+arm_toolchain.arm_none_eabi(version = "13.2.1")
 use_repo(
     arm_toolchain,
     "arm_none_eabi",
@@ -108,8 +97,6 @@ register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 Add this git repository to your WORKSPACE to use the compiler
 
 ```python
-# WORKSPACE.bazel
-
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
@@ -125,14 +112,13 @@ git_repository(
 )
 
 # Toolchain: arm-none-eabi
-load("@toolchains_arm_gnu//:deps.bzl", "arm_none_eabi_deps", "register_default_arm_none_eabi_toolchains")
+load("@toolchains_arm_gnu//:deps.bzl", "arm_none_eabi_deps", "arm_none_linux_gnueabihf_deps")
 arm_none_eabi_deps()
-register_default_arm_none_eabi_toolchains()
+register_toolchains("@arm_none_eabi//toolchain:all")
 
 # Toolchain arm-none-linux-gnueabihf
-load("@toolchains_arm_gnu//:deps.bzl", "arm_none_linux_gnueabihf_deps", "register_default_arm_none_linux_gnueabihf_toolchains")
 arm_none_linux_gnueabihf_deps()
-register_default_arm_none_linux_gnueabihf_toolchains()
+register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 ```
 
 Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler.

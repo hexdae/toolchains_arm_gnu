@@ -2,7 +2,6 @@
 
 load("@toolchains_arm_gnu//toolchain/archives:arm_none_eabi.bzl", "ARM_NONE_EABI")
 load("@toolchains_arm_gnu//toolchain/archives:arm_none_linux_gnueabihf.bzl", "ARM_NONE_LINUX_GNUEABIHF")
-load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "register_arm_gnu_toolchain", "target_constraints")
 
 def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
     """Defines a host-specific repository for the ARM GNU toolchain."""
@@ -82,15 +81,6 @@ def toolchains_arm_gnu_deps(toolchain, toolchain_prefix, version, archives):
             **attrs
         )
 
-def register_default_arm_gnu_toolchains(repo, toolchain_prefix):
-    for cpu in target_constraints[toolchain_prefix]:
-        register_arm_gnu_toolchain(
-            name = "@{}//toolchain:{}".format(repo, cpu),
-            prefix = toolchain_prefix,
-        )
-
-# arm-none-eabi
-
 def arm_none_eabi_deps(version = "13.2.1", archives = ARM_NONE_EABI):
     """Workspace dependencies for the arm none eabi gcc toolchain
 
@@ -105,14 +95,6 @@ def arm_none_eabi_deps(version = "13.2.1", archives = ARM_NONE_EABI):
         archives,
     )
 
-def register_default_arm_none_eabi_toolchains():
-    register_default_arm_gnu_toolchains(
-        repo = "arm_none_eabi",
-        toolchain_prefix = "arm-none-eabi",
-    )
-
-# arm-none-linux-gnueabihf
-
 def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = ARM_NONE_LINUX_GNUEABIHF):
     """Workspace dependencies for the arm linux gcc toolchain
 
@@ -125,10 +107,4 @@ def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = ARM_NONE_LINUX_
         "arm-none-linux-gnueabihf",
         version,
         archives,
-    )
-
-def register_default_arm_none_linux_gnueabihf_toolchains():
-    register_default_arm_gnu_toolchains(
-        repo = "arm_none_linux_gnueabihf",
-        toolchain_prefix = "arm-none-linux-gnueabihf",
     )
