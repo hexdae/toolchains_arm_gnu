@@ -37,11 +37,13 @@ def _compare_versions(left, right):
 
 def _minimal_supported_version(versions):
     """Obtains the minimum version from the list of version strings."""
-    minimum = versions.pop(0)
-    for version in versions:
-        if _compare_versions(minimum, version) > 0:
-            minimum = version
-    return minimum
+    if versions:
+        minimum = versions.pop(0)
+        for version in versions:
+            if _compare_versions(minimum, version) > 0:
+                minimum = version
+        return minimum
+    return None
 
 def _arm_toolchain_impl(ctx):
     """Implement the module extension."""
