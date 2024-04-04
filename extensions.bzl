@@ -1,72 +1,67 @@
+"""Module extension for toolchains"""
+
 load(
     "@toolchains_arm_gnu//:deps.bzl",
     "arm_none_eabi_deps",
     "arm_none_linux_gnueabihf_deps",
 )
 
-def compare_versions(left, right):
-    """
-    Compare two version strings, assuming that they're both of the form
-    major.minor.patch.
+def _semver(version):
+    """Parse a semantic version string into a list of integers."""
+    parts = [int(i.split("-")[0]) for i in version.split(".")]
+    return struct(
+        major = parts[0],
+        minor = parts[1],
+        patch = parts[2],
+    )
 
-    Returns:
-      -1 if left < right
-      0 if left == right
-      1 if left > right
-    """
-    left_parts = [int(i.split("-")[0]) for i in left.split(".")]
-    right_parts = [int(i.split("-")[0]) for i in right.split(".")]
-    for _ in range(3):
-        if left_parts[0] < right_parts[0]:
-            return -1
+def _module_toolchain(tag, deps):
+    """Return a module toolchain."""
+    return struct(
+        tag = tag,
+        deps = deps,
+    )
 
-        if left_parts[0] > right_parts[0]:
-            return 1
+def _compare_versions(left, right):
+    """Compare two semantic versions."""
+    left = _semver(left)
+    right = _semver(right)
 
-    return 0
+    # (a < b): -1, (a > b): 1, (a == b): 0.
+    compare = lambda a, b: int(a > b) - int(a < b)
 
-def minimum_supported_version(versions):
+    return compare(left.major, right.major) or \
+           compare(left.minor, right.minor) or \
+           compare(left.patch, right.patch) or \
+           0
+
+def _minimal_supported_version(versions):
     """Obtains the minimum version from the list of version strings."""
-    if not len(versions):
-        return None
-
-    if 1 == len(versions):
-        return versions[0]
-
-    minimum = versions[0]
-    for version in versions[1:]:
-        if compare_versions(minimum, version) > 0:
+    minimum = versions.pop(0)
+    for version in versions:
+        if _compare_versions(minimum, version) > 0:
             minimum = version
-
     return minimum
 
-def get_toolchain_versions(module_ctx, tag_class):
-    """Extract toolchain versions from tag classes obtained by evaluating
-    the lambda on each module."""
-    versions = []
-    for mod in module_ctx.modules:
-        for attr in tag_class(mod):
-            versions.append(attr.version)
-    return versions
-
 def _arm_toolchain_impl(ctx):
-    selected_baremetal_version = minimum_supported_version(
-        get_toolchain_versions(
-            ctx,
-            lambda mod: mod.tags.arm_none_eabi,
-        ),
-    )
-    if selected_baremetal_version:
-        arm_none_eabi_deps(version = selected_baremetal_version)
+    """Implement the module extension."""
 
-    selected_linux_version = minimum_supported_version(
-        get_toolchain_versions(
-            ctx,
-            lambda mod: mod.tags.arm_none_linux_gnueabihf,
+    available_toolchains = [
+        _module_toolchain(
+            tag = lambda mod: mod.tags.arm_none_eabi,
+            deps = arm_none_eabi_deps,
         ),
-    )
-    if selected_linux_version:
-        arm_none_linux_gnueabihf_deps(version = selected_linux_version)
+        _module_toolchain(
+            tag = lambda mod: mod.tags.arm_none_linux_gnueabihf,
+            deps = arm_none_linux_gnueabihf_deps,
+        ),
+    ]
+
+    for toolchain in available_toolchains:
+        versions = [attr.version for mod in ctx.modules for attr in toolchain.tag(mod)]
+        selected = _minimal_supported_version(versions)
+        if selected:
+            toolchain.deps(version = selected)
 
 _toolchain = tag_class(attrs = {
     "version": attr.string(),
