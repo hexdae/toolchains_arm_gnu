@@ -15,26 +15,12 @@ local_path_override(
 
 arm_toolchain = use_extension("@toolchains_arm_gnu//:extensions.bzl", "arm_toolchain")
 arm_toolchain.arm_none_eabi(version = "13.2.1")
-use_repo(
-    arm_toolchain,
-    "arm_none_eabi",
-    "arm_none_eabi_darwin_arm64",
-    "arm_none_eabi_darwin_x86_64",
-    "arm_none_eabi_linux_aarch64",
-    "arm_none_eabi_linux_x86_64",
-    "arm_none_eabi_windows_x86_64",
-)
+use_repo(arm_toolchain, "arm_none_eabi")
 arm_toolchain.arm_none_linux_gnueabihf(version = "13.2.1")
-use_repo(
-    arm_toolchain,
-    "arm_none_linux_gnueabihf",
-    "arm_none_linux_gnueabihf_linux_aarch64",
-    "arm_none_linux_gnueabihf_linux_x86_64",
-    "arm_none_linux_gnueabihf_windows_x86_64",
-)
+use_repo(arm_toolchain, "arm_none_linux_gnueabihf")
 
 register_toolchains(
+    "//custom/toolchain:all",
     "@arm_none_eabi//toolchain:all",
     "@arm_none_linux_gnueabihf//toolchain:all",
-    "//custom/toolchain:all",
 )

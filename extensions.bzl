@@ -1,6 +1,14 @@
 """Module extension for toolchains"""
 
 load(
+    "@toolchains_arm_gnu//toolchain/archives:arm_none_eabi.bzl",
+    "ARM_NONE_EABI",
+)
+load(
+    "@toolchains_arm_gnu//toolchain/archives:arm_none_linux_gnueabihf.bzl",
+    "ARM_NONE_LINUX_GNUEABIHF",
+)
+load(
     "@toolchains_arm_gnu//:deps.bzl",
     "arm_none_eabi_deps",
     "arm_none_linux_gnueabihf_deps",
@@ -35,7 +43,17 @@ def _compare_versions(left, right):
            compare(left.patch, right.patch) or \
            0
 
-def _minimal_supported_version(versions):
+def _max_version(versions):
+    """Obtains the minimum version from the list of version strings."""
+    if versions:
+        maximum = versions.pop(0)
+        for version in versions:
+            if _compare_versions(maximum, version) < 0:
+                maximum = version
+        return maximum
+    return None
+
+def _min_version(versions):
     """Obtains the minimum version from the list of version strings."""
     if versions:
         minimum = versions.pop(0)
@@ -61,18 +79,18 @@ def _arm_toolchain_impl(ctx):
 
     for toolchain in available_toolchains:
         versions = [attr.version for mod in ctx.modules for attr in toolchain.tag(mod)]
-        selected = _minimal_supported_version(versions)
+        selected = _min_version(versions)
         if selected:
             toolchain.deps(version = selected)
-
-_toolchain = tag_class(attrs = {
-    "version": attr.string(),
-})
 
 arm_toolchain = module_extension(
     implementation = _arm_toolchain_impl,
     tag_classes = {
-        "arm_none_eabi": _toolchain,
-        "arm_none_linux_gnueabihf": _toolchain,
+        "arm_none_eabi": tag_class(attrs = {
+            "version": attr.string(default = _max_version(ARM_NONE_EABI.keys())),
+        }),
+        "arm_none_linux_gnueabihf": tag_class(attrs = {
+            "version": attr.string(default = _max_version(ARM_NONE_LINUX_GNUEABIHF.keys())),
+        }),
     },
 )

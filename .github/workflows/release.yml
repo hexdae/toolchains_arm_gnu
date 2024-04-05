@@ -8,8 +8,13 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  contents: write
+
 jobs:
   release:
     uses: bazel-contrib/.github/.github/workflows/release_ruleset.yaml@v6
     with:
       release_files: bazel-arm-none-eabi-*.tar.gz
+      release_prep_command: .github/tools/release.sh
+      prerelease: false

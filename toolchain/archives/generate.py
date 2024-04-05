@@ -24,7 +24,15 @@ ARM_NONE_EABI = {
         "linux_x86_64": "linux-x64",
         "windows_x86_64": "win32-x64",
     },
+    "constraints": {
+        "darwin_arm64": ["@platforms//os:macos", "@platforms//cpu:arm64"],
+        "darwin_x86_64": ["@platforms//os:macos", "@platforms//cpu:x86_64"],
+        "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
+        "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
+        "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
+    },
 }
+
 
 
 def download_sha(url):
@@ -45,8 +53,7 @@ def github_release_tags(owner, repo, count=1):
     return [release["tag_name"][1:] for release in reversed(releases[:count])]
 
 
-
-def generate_archive(name, prefix, version, system, template):
+def generate_archive(name, prefix, version, system, template, constraints):
     """Generate an archive dictionary for a given toolchain"""
     info = {
         "prefix": prefix,
@@ -61,10 +68,11 @@ def generate_archive(name, prefix, version, system, template):
         "url": url,
         "sha256": sha256,
         "strip_prefix": template["strip"].format(**info),
+        "exec_compatible_with": constraints,
     }
 
 
-def generate_release(name, prefix, hosts, template, releases):
+def generate_release(name, prefix, hosts, template, releases, constraints):
     """Generate a release dictionary for a given toolchain"""
     return {
         version: [
@@ -74,6 +82,7 @@ def generate_release(name, prefix, hosts, template, releases):
                 version=version,
                 system=system,
                 template=template,
+                constraints=constraints[host],
             )
             for host, system in hosts.items()
         ]

@@ -38,6 +38,7 @@ You might also like another, similar, toolchain project for `bazel`
 - [WORKSPACE support](#workspace)
 - [Direct access to gcc tools](#direct-access-to-gcc-tools)
 - [Custom toolchain support](#custom-toolchain)
+- [Use a specific GCC version](./examples/gcc_version)
 - [Examples](./examples)
 - Remote execution support
 - Linux, MacOS, Windows
@@ -58,39 +59,29 @@ build --incompatible_enable_cc_toolchain_resolution
 ## Bzlmod
 
 ```python
-bazel_dep(name = "toolchains_arm_gnu", version = "0.0.1")
+bazel_dep(name = "toolchains_arm_gnu", version = "<version>")
 
-# Toolchains: arm-none-eabi
 arm_toolchain = use_extension("@toolchains_arm_gnu//:extensions.bzl", "arm_toolchain")
-arm_toolchain.arm_none_eabi(version = "13.2.1")
-use_repo(
-    arm_toolchain,
-    "arm_none_eabi",
-    "arm_none_eabi_darwin_arm64",
-    "arm_none_eabi_darwin_x86_64",
-    "arm_none_eabi_linux_aarch64",
-    "arm_none_eabi_linux_x86_64",
-    "arm_none_eabi_windows_x86_64",
-)
 
+arm_toolchain.arm_none_eabi()
+use_repo(arm_toolchain, "arm_none_eabi")
 register_toolchains("@arm_none_eabi//toolchain:all")
 
-# Toolchains: arm-none-linux-gnueabihf
-arm_toolchain.arm_none_linux_gnueabihf(version = "13.2.1")
-use_repo(
-    arm_toolchain,
-    "arm_none_linux_gnueabihf",
-    "arm_none_linux_gnueabihf_linux_aarch64",
-    "arm_none_linux_gnueabihf_linux_x86_64",
-    "arm_none_linux_gnueabihf_windows_x86_64",
-)
-
+arm_toolchain.arm_none_linux_gnueabihf()
+use_repo(arm_toolchain)
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 ```
 
 ## WORKSPACE
 
-Add this git repository to your WORKSPACE to use the compiler
+Add this git repository to your WORKSPACE to use the compiler (NOTE: WORSKPACE
+setups will become obsolete soon, do not use for new projects)
+
+<details>
+
+<summary>
+WORKSPACE
+</summary>
 
 ```python
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -107,28 +98,27 @@ git_repository(
     branch = "master",
 )
 
-# Toolchain: arm-none-eabi
 load("@toolchains_arm_gnu//:deps.bzl", "arm_none_eabi_deps", "arm_none_linux_gnueabihf_deps")
+
 arm_none_eabi_deps()
 register_toolchains("@arm_none_eabi//toolchain:all")
 
-# Toolchain arm-none-linux-gnueabihf
 arm_none_linux_gnueabihf_deps()
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 ```
 
-Now Bazel will automatically use `arm-none-eabi-gcc` as a compiler.
+</details>
 
 ## Custom toolchain
 
-If you want to bake certain compiler flags in to your toolchain, you can define a custom `arm-none-eabi` toolchain in your repo.
+If you want to bake certain compiler flags in to your toolchain, you can define a custom toolchain in your repo.
 
 In a BUILD file:
 
 ```python
 # path/to/toolchains/BUILD
 
-load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
+load("@arm_none_eabi//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
 arm_none_eabi_toolchain(
     name = "custom_toolchain",
     target_compatible_with = [
@@ -184,7 +174,7 @@ genrule(
 
 ## Remote execution
 
-This toolchain is compatible with remote execution, see [`remote.yml`](.github/workflows/remote.yml)
+This toolchain is compatible with remote execution
 
 ## Building with the ARM Linux toolchain on Windows
 

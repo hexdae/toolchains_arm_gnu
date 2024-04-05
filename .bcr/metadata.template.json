@@ -1,9 +1,12 @@
 {
     "homepage": "https://github.com/hexdae/bazel-arm-none-eabi",
-    "maintainers": {
-        "name": "Davide Asnaghi",
-        "github": "hexdae"
-    },
+    "maintainers": [
+        {
+            "name": "Davide Asnaghi",
+            "email": "asnaghi@me.com",
+            "github": "hexdae"
+        }
+    ],
     "repository": [
         "github:hexdae/bazel-arm-none-eabi"
     ],
