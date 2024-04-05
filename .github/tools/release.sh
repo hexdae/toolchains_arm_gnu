@@ -16,39 +16,47 @@ git archive --format=tar --prefix=${PREFIX}/ ${TAG} | gzip > $ARCHIVE
 SHA=$(shasum -a 256 $ARCHIVE | awk '{print $1}')
 
 cat << EOF
-## Using Bzlmod with Bazel 6 or greater
-
-1. (Bazel 6 only) Enable with \`common --enable_bzlmod\` in \`.bazelrc\`.
-2. Add to your \`MODULE.bazel\` file:
+## MODULE.bazel
 
 \`\`\`starlark
 bazel_dep(name = "toolchains_arm_gnu", version = "${TAG:1}")
 
-# Toolchains: arm-none-eabi
 arm_toolchain = use_extension("@toolchains_arm_gnu//:extensions.bzl", "arm_toolchain")
-arm_toolchain.arm_none_eabi(version = "13.2.1")
-use_repo(
-    arm_toolchain,
-    "arm_none_eabi",
-    "arm_none_eabi_darwin_arm64",
-    "arm_none_eabi_darwin_x86_64",
-    "arm_none_eabi_linux_aarch64",
-    "arm_none_eabi_linux_x86_64",
-    "arm_none_eabi_windows_x86_64",
-)
 
+arm_toolchain.arm_none_eabi()
+use_repo(arm_toolchain, "arm_none_eabi")
 register_toolchains("@arm_none_eabi//toolchain:all")
 
-# Toolchains: arm-none-linux-gnueabihf
-arm_toolchain.arm_none_linux_gnueabihf(version = "13.2.1")
-use_repo(
-    arm_toolchain,
-    "arm_none_linux_gnueabihf",
-    "arm_none_linux_gnueabihf_linux_aarch64",
-    "arm_none_linux_gnueabihf_linux_x86_64",
-    "arm_none_linux_gnueabihf_windows_x86_64",
-)
-
+arm_toolchain.arm_none_linux_gnueabihf()
+use_repo(arm_toolchain)
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 \`\`\`
+
+## WORKSPACE
+
+\`\`\`starlark
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "rules_cc",
+    remote = "https://github.com/bazelbuild/rules_cc",
+    branch = "main",
+)
+
+git_repository(
+    name = "arm_none_eabi",
+    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
+    branch = "master",
+)
+
+# Toolchain: arm-none-eabi
+load("@toolchains_arm_gnu//:deps.bzl", "arm_none_eabi_deps", "arm_none_linux_gnueabihf_deps")
+arm_none_eabi_deps()
+register_toolchains("@arm_none_eabi//toolchain:all")
+
+# Toolchain arm-none-linux-gnueabihf
+arm_none_linux_gnueabihf_deps()
+register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
+\`\`\`
+
 EOF
