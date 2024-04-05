@@ -38,6 +38,7 @@ You might also like another, similar, toolchain project for `bazel`
 - [WORKSPACE support](#workspace)
 - [Direct access to gcc tools](#direct-access-to-gcc-tools)
 - [Custom toolchain support](#custom-toolchain)
+- [Use a specific GCC version](./examples/gcc_version)
 - [Examples](./examples)
 - Remote execution support
 - Linux, MacOS, Windows
@@ -73,7 +74,14 @@ register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 
 ## WORKSPACE
 
-Add this git repository to your WORKSPACE to use the compiler
+Add this git repository to your WORKSPACE to use the compiler (NOTE: WORSKPACE
+setups will become obsolete soon, do not use for new projects)
+
+<details>
+
+<summary>
+WORKSPACE
+</summary>
 
 ```python
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -98,6 +106,8 @@ register_toolchains("@arm_none_eabi//toolchain:all")
 arm_none_linux_gnueabihf_deps()
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 ```
+
+</details>
 
 ## Custom toolchain
 

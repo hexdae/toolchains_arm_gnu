@@ -29,12 +29,16 @@ jobs:
       USE_BAZEL_VERSION: "7.x"
     steps:
       - uses: actions/checkout@v2
-      - name: WORKSPACE
+      - name: workspace
         working-directory: examples/workspace
         run: bazel test //...
-      - name: MODULE
+      - name: bzlmod
         working-directory: examples/bzlmod
         run: bazel test //...
+      - name: gcc_version
+        working-directory: examples/gcc_version
+        run: bazel test //...
+
 
   windows:
     name: "x86_64-pc-windows"
