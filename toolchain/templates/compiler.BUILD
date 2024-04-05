@@ -3,8 +3,6 @@ This BUILD file marks the top of the host-specific cross-toolchain repository.
 If the host needs @arm_none_eabi_linux_x86_64, this is the build file at the
 top of that repository.
 """
-load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "tools")
-
 package(default_visibility = ["//visibility:public"])
 
 # export the executable files to make them available for direct use.
@@ -12,6 +10,7 @@ exports_files(glob(["**"], exclude_directories = 0))
 
 PREFIX = "%toolchain_prefix%"
 VERSION = "%version%"
+TOOLS = %tools%
 
 # executables.
 [
@@ -19,7 +18,7 @@ VERSION = "%version%"
         name = tool,
         srcs = ["bin/{}-{}%bin_extension%".format(PREFIX, tool)],
     )
-    for tool in tools
+    for tool in TOOLS
 ]
 
 filegroup(
