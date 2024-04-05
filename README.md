@@ -16,10 +16,6 @@
     <img alt="CI" src="https://github.com/hexdae/bazel-arm-none-eabi/actions/workflows/ci.yml/badge.svg">
 </a>
 
-<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
-    <img alt="Windows" src="https://github.com/d-asnaghi/bazel-arm-none-eabi/workflows/Windows/badge.svg">
-</a>
-
 </p>
 
 <p align="center">
