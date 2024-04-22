@@ -33,6 +33,26 @@ ARM_NONE_EABI = {
     },
 }
 
+AARCH64_NONE_ELF = {
+    "template": XPACK,
+    "name": "aarch64_none_elf",
+    "prefix": "aarch64-none-elf",
+    "hosts": {
+        "darwin_arm64": "darwin-arm64",
+        "darwin_x86_64": "darwin-x64",
+        "linux_aarch64": "linux-arm64",
+        "linux_x86_64": "linux-x64",
+        "windows_x86_64": "win32-x64",
+    },
+    "constraints": {
+        "darwin_arm64": ["@platforms//os:macos", "@platforms//cpu:arm64"],
+        "darwin_x86_64": ["@platforms//os:macos", "@platforms//cpu:x86_64"],
+        "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
+        "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
+        "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
+    },
+}
+
 
 
 def download_sha(url):
@@ -96,18 +116,25 @@ def generate_release(name, prefix, hosts, template, releases, constraints):
 
 def main():
     """Main function to generate and print release information"""
+    TOOLCHAINS = {
+        "arm-none-eabi": ARM_NONE_EABI,
+        "aarch64-none-elf": AARCH64_NONE_ELF,
+    }
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("--toolchain", choices=["arm-none-eabi"])
+    parser.add_argument("--toolchain", choices=TOOLCHAINS.keys(), required=True)
     parser.add_argument("--releases", default=1, type=int)
     args = parser.parse_args()
+
+    repository = TOOLCHAINS[args.toolchain]
+
 
     # Make the script well behaved when running under bazel
     if os.environ.get("BUILD_WORKING_DIRECTORY"):
         os.chdir(os.environ["BUILD_WORKING_DIRECTORY"])
 
-    if args.toolchain == "arm-none-eabi":
-        release = generate_release(**ARM_NONE_EABI, releases=args.releases)
-        print(json.dumps(release, indent=4))
+    release = generate_release(**repository, releases=args.releases)
+    print(json.dumps(release, indent=4)) 
 
 
 if __name__ == "__main__":

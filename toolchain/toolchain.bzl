@@ -35,6 +35,9 @@ target_constraints = {
         "arm": ["@platforms//os:linux", "@platforms//cpu:arm"],
         "armv7": ["@platforms//os:linux", "@platforms//cpu:armv7"],
     },
+    "aarch64-none-elf": {
+        "arm": ["@platforms//os:none", "@platforms//cpu:aarch64"],
+    },
 }
 
 hosts = {
@@ -47,6 +50,13 @@ hosts = {
     },
     "arm-none-linux-gnueabihf": {
         # ARM has not provided an arm linux toolchain for darwin.
+        "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
+        "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
+        "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
+    },
+    "aarch64-none-elf": {
+        "darwin_x86_64": ["@platforms//os:macos", "@platforms//cpu:x86_64"],
+        "darwin_arm64": ["@platforms//os:macos", "@platforms//cpu:arm64"],
         "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
         "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
         "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
@@ -153,6 +163,20 @@ def arm_none_linux_gnueabihf_toolchain(
         **kwargs
     )
 
-def register_arm_gnu_toolchain(name, prefix):
-    for host in hosts[prefix]:
-        native.register_toolchains("{}_{}".format(name, host))
+def aarch64_none_elf_toolchain(name, version, **kwargs):
+    """
+    Create a toolchain with the given configuration.
+
+    Args:
+        name: The name of the toolchain.
+        version: The version of the gcc toolchain.
+        **kwargs: same as toolchains_arm_gnu
+    """
+    _arm_gnu_toolchain(
+        name,
+        toolchain = "aarch64_none_elf",
+        toolchain_prefix = "aarch64-none-elf",
+        version = version,
+        abi_version = "elf",
+        **kwargs
+    )

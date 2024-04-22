@@ -1,31 +1,20 @@
 """ARM cross compilation toolchains for bazel"""
 
 module(
-    name = "smoke",
+    name = "raspberry_pi",
     version = "0.0.1",
 )
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.0.0")
 bazel_dep(name = "bazel_skylib", version = "1.5.0")
 bazel_dep(name = "toolchains_arm_gnu")
-
 local_path_override(
     module_name = "toolchains_arm_gnu",
     path = "../..",
 )
 
 arm_toolchain = use_extension("@toolchains_arm_gnu//:extensions.bzl", "arm_toolchain")
+arm_toolchain.aarch64_none_elf()
+use_repo(arm_toolchain, "aarch64_none_elf")
 
-arm_toolchain.arm_none_eabi(version = "13.2.1")
-
-use_repo(arm_toolchain, "arm_none_eabi")
-
-arm_toolchain.arm_none_linux_gnueabihf(version = "13.2.1")
-
-use_repo(arm_toolchain, "arm_none_linux_gnueabihf")
-
-register_toolchains(
-    "//custom/toolchain:all",
-    "@arm_none_eabi//toolchain:all",
-    "@arm_none_linux_gnueabihf//toolchain:all",
-)
+register_toolchains("//toolchain:all")

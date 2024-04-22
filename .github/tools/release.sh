@@ -30,9 +30,19 @@ register_toolchains("@arm_none_eabi//toolchain:all")
 arm_toolchain.arm_none_linux_gnueabihf()
 use_repo(arm_toolchain, "arm_none_linux_gnueabihf")
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
+
+arm_toolchain.aarch64_none_elf()
+use_repo(arm_toolchain, "aarch64_none_elf")
+register_toolchains("@aarch64_none_elf//toolchain:all")
 \`\`\`
 
+Feel free to pick only the toolchains you need
+
 ## WORKSPACE
+
+<details>
+
+<summary> WORKSPACE contents </summary>
 
 \`\`\`starlark
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -50,13 +60,21 @@ git_repository(
 )
 
 # Toolchain: arm-none-eabi
-load("@toolchains_arm_gnu//:deps.bzl", "arm_none_eabi_deps", "arm_none_linux_gnueabihf_deps")
+load("@toolchains_arm_gnu//:deps.bzl", "arm_none_eabi_deps")
 arm_none_eabi_deps()
 register_toolchains("@arm_none_eabi//toolchain:all")
 
 # Toolchain arm-none-linux-gnueabihf
+load("@toolchains_arm_gnu//:deps.bzl", "arm_none_linux_gnueabihf_deps")
 arm_none_linux_gnueabihf_deps()
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
+
+# Toolchain aarch64-none-elf
+load("@toolchains_arm_gnu//:deps.bzl", "aarch64_none_elf_deps")
+aarch64_none_elf_deps()
+register_toolchains("@aarch64_none_elf//toolchain:all")
 \`\`\`
+
+</details>
 
 EOF

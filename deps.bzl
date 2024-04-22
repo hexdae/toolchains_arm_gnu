@@ -2,6 +2,7 @@
 
 load("@toolchains_arm_gnu//toolchain/archives:arm_none_eabi.bzl", "ARM_NONE_EABI")
 load("@toolchains_arm_gnu//toolchain/archives:arm_none_linux_gnueabihf.bzl", "ARM_NONE_LINUX_GNUEABIHF")
+load("@toolchains_arm_gnu//toolchain/archives:aarch64_none_elf.bzl", "AARCH64_NONE_ELF")
 load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "tools")
 
 def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
@@ -142,6 +143,20 @@ def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = ARM_NONE_LINUX_
     toolchains_arm_gnu_deps(
         "arm_none_linux_gnueabihf",
         "arm-none-linux-gnueabihf",
+        version,
+        archives,
+    )
+
+def aarch64_none_elf_deps(version = "13.2.1-1.1", archives = AARCH64_NONE_ELF):
+    """Workspace dependencies for the arm linux gcc toolchain
+
+    Args:
+        version: The version of the toolchain to use. If None, the latest version is used.
+        archives: A dictionary of the version to archive attributes.
+    """
+    toolchains_arm_gnu_deps(
+        "aarch64_none_elf",
+        "aarch64-none-elf",
         version,
         archives,
     )

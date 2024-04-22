@@ -24,7 +24,7 @@ local_repository(
     path = "../../",
 )
 
-load("@toolchains_arm_gnu//:deps.bzl", "arm_none_eabi_deps", "arm_none_linux_gnueabihf_deps")
+load("@toolchains_arm_gnu//:deps.bzl", "aarch64_none_elf_deps", "arm_none_eabi_deps", "arm_none_linux_gnueabihf_deps")
 
 # Toolchain: arm-none-eabi
 arm_none_eabi_deps()
@@ -35,6 +35,10 @@ register_toolchains("@arm_none_eabi//toolchain:all")
 arm_none_linux_gnueabihf_deps()
 
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
+
+aarch64_none_elf_deps()
+
+register_toolchains("@aarch64_none_elf//toolchain:all")
 
 # Custom toolchain
 register_toolchains("//custom/toolchain:all")
