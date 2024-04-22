@@ -1,11 +1,16 @@
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 
 build_test(
-    name = "arm_linux_test",
-    targets = ["//test/arm-linux:hex"],
+    name = "aarch64_none_elf",
+    targets = ["//test/aarch64-none-elf:hex"],
 )
 
 build_test(
-    name = "arm_none_test",
-    targets = ["//test/arm-none:hex"],
+    name = "arm_none_eabi",
+    targets = ["//test/arm-none-eabi:hex"],
+)
+
+build_test(
+    name = "arm_none_linux_gnueabihf",
+    targets = ["//test/arm-none-linux-gnueabihf:hex"],
 )
