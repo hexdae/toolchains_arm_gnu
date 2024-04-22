@@ -38,6 +38,9 @@ jobs:
       - name: gcc_version
         working-directory: examples/gcc_version
         run: bazel test //...
+      - name: raspberry_pi
+        working-directory: examples/raspberry_pi
+        run: bazel test //...
 
 
   windows:
