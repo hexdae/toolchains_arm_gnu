@@ -1,15 +1,11 @@
 """Module extension for toolchains"""
 
-load(
-    "@toolchains_arm_gnu//toolchain/archives:arm_none_eabi.bzl",
-    "ARM_NONE_EABI",
-)
-load(
-    "@toolchains_arm_gnu//toolchain/archives:arm_none_linux_gnueabihf.bzl",
-    "ARM_NONE_LINUX_GNUEABIHF",
-)
+load("@toolchains_arm_gnu//toolchain/archives:arm_none_eabi.bzl", "ARM_NONE_EABI")
+load("@toolchains_arm_gnu//toolchain/archives:arm_none_linux_gnueabihf.bzl", "ARM_NONE_LINUX_GNUEABIHF")
+load("@toolchains_arm_gnu//toolchain/archives:aarch64_none_elf.bzl", "AARCH64_NONE_ELF")
 load(
     "@toolchains_arm_gnu//:deps.bzl",
+    "aarch64_none_elf_deps",
     "arm_none_eabi_deps",
     "arm_none_linux_gnueabihf_deps",
 )
@@ -75,6 +71,10 @@ def _arm_toolchain_impl(ctx):
             tag = lambda mod: mod.tags.arm_none_linux_gnueabihf,
             deps = arm_none_linux_gnueabihf_deps,
         ),
+        _module_toolchain(
+            tag = lambda mod: mod.tags.aarch64_none_elf,
+            deps = aarch64_none_elf_deps,
+        ),
     ]
 
     for toolchain in available_toolchains:
@@ -91,6 +91,9 @@ arm_toolchain = module_extension(
         }),
         "arm_none_linux_gnueabihf": tag_class(attrs = {
             "version": attr.string(default = _max_version(ARM_NONE_LINUX_GNUEABIHF.keys())),
+        }),
+        "aarch64_none_elf": tag_class(attrs = {
+            "version": attr.string(default = _max_version(AARCH64_NONE_ELF.keys())),
         }),
     },
 )
