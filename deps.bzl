@@ -147,7 +147,7 @@ def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = ARM_NONE_LINUX_
         archives,
     )
 
-def aarch64_none_elf_deps(version = "13.2.1", archives = AARCH64_NONE_ELF):
+def aarch64_none_elf_deps(version = "13.2.1-1.1", archives = AARCH64_NONE_ELF):
     """Workspace dependencies for the arm linux gcc toolchain
 
     Args:

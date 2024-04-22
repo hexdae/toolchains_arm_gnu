@@ -31,16 +31,16 @@ jobs:
       - uses: actions/checkout@v2
       - name: workspace
         working-directory: examples/workspace
-        run: bazel test //...
+        run: bazel test //:all
       - name: bzlmod
         working-directory: examples/bzlmod
-        run: bazel test //...
+        run: bazel test //:all
       - name: gcc_version
         working-directory: examples/gcc_version
-        run: bazel test //...
+        run: bazel test //:all
       - name: raspberry_pi
         working-directory: examples/raspberry_pi
-        run: bazel test //...
+        run: bazel test //:all
 
 
   windows:
