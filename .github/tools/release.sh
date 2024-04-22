@@ -28,7 +28,7 @@ use_repo(arm_toolchain, "arm_none_eabi")
 register_toolchains("@arm_none_eabi//toolchain:all")
 
 arm_toolchain.arm_none_linux_gnueabihf()
-use_repo(arm_toolchain)
+use_repo(arm_toolchain, "arm_none_linux_gnueabihf")
 register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 \`\`\`
 
