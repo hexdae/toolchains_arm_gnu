@@ -27,7 +27,7 @@ cc_library(
 )
 
 cc_binary(
-    name = "arm_elf",
+    name = "app",
     srcs = ["main.cpp"],
     copts = [
         "-mcpu=cortex-a5",
@@ -41,15 +41,24 @@ cc_binary(
 )
 
 platform_transition_filegroup(
-    name = "elf",
-    srcs = [":arm_elf"],
+    name = "arm_none_eabi_app",
+    srcs = [":app"],
     target_platform = ":arm_none_eabi",
 )
 
 genrule(
+    name = "elf",
+    srcs = [":arm_none_eabi_app"],
+    outs = ["app.elf"],
+    cmd = "cp $< $@",
+    executable = True,
+    visibility = ["//visibility:public"],
+)
+
+genrule(
     name = "hex",
-    srcs = [":elf"],
-    outs = ["mock.hex"],
+    srcs = [":arm_none_eabi_app"],
+    outs = ["app.hex"],
     cmd = "$(execpath @arm_none_eabi//:objcopy) -O ihex $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
     visibility = ["//visibility:public"],
