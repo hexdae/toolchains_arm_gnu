@@ -8,10 +8,10 @@ module(
 
 bazel_dep(name = "platforms", version = "0.0.8")
 bazel_dep(name = "rules_cc", version = "0.0.9")
+bazel_dep(name = "bazel_skylib", version = "1.5.0")
 
 # DEV ONLY (not needed for release)
 bazel_dep(name = "aspect_bazel_lib", version = "2.0.0", dev_dependency = True)
-bazel_dep(name = "bazel_skylib", version = "1.5.0", dev_dependency = True)
 
 arm_toolchain = use_extension(
     "@toolchains_arm_gnu//:extensions.bzl",
