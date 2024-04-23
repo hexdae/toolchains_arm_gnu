@@ -1,5 +1,6 @@
 """deps.bzl"""
 
+load("@toolchains_arm_gnu//:version.bzl", "latest_version")
 load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "tools")
 load("@toolchains_arm_gnu//toolchain/archives:aarch64_none_elf.bzl", "AARCH64_NONE_ELF")
 load("@toolchains_arm_gnu//toolchain/archives:aarch64_none_linux_gnu.bzl", "AARCH64_NONE_LINUX_GNU")
@@ -120,7 +121,7 @@ def toolchains_arm_gnu_deps(toolchain, toolchain_prefix, version, archives):
             **attrs
         )
 
-def arm_none_eabi_deps(version = "13.2.1", archives = ARM_NONE_EABI):
+def arm_none_eabi_deps(version = latest_version("arm-none-eabi"), archives = ARM_NONE_EABI):
     """Workspace dependencies for the arm none eabi gcc toolchain
 
     Args:
@@ -134,7 +135,7 @@ def arm_none_eabi_deps(version = "13.2.1", archives = ARM_NONE_EABI):
         archives,
     )
 
-def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = ARM_NONE_LINUX_GNUEABIHF):
+def arm_none_linux_gnueabihf_deps(version = latest_version("arm-none-linux-gnueabihf"), archives = ARM_NONE_LINUX_GNUEABIHF):
     """Workspace dependencies for the arm linux gcc toolchain
 
     Args:
@@ -148,7 +149,7 @@ def arm_none_linux_gnueabihf_deps(version = "13.2.1", archives = ARM_NONE_LINUX_
         archives,
     )
 
-def aarch64_none_elf_deps(version = "13.2.1-1.1", archives = AARCH64_NONE_ELF):
+def aarch64_none_elf_deps(version = latest_version("aarch64-none-elf"), archives = AARCH64_NONE_ELF):
     """Workspace dependencies for the arm gcc toolchain
 
     Args:
@@ -162,7 +163,7 @@ def aarch64_none_elf_deps(version = "13.2.1-1.1", archives = AARCH64_NONE_ELF):
         archives,
     )
 
-def aarch64_none_linux_gnu_deps(version = "13.2.1", archives = AARCH64_NONE_LINUX_GNU):
+def aarch64_none_linux_gnu_deps(version = latest_version("aarch64-none-linux-gnu"), archives = AARCH64_NONE_LINUX_GNU):
     """Workspace dependencies for the arm linux gcc toolchain
 
     Args:
