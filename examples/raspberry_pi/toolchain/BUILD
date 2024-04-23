@@ -7,7 +7,9 @@ aarch64_none_elf_toolchain(
         "-Wall",
         "-O2",
         "-ffreestanding",
-        "-nostdinc", "-nostdlib", "-nostartfiles"
+        "-nostdinc",
+        "-nostdlib",
+        "-nostartfiles",
     ],
     linkopts = [
         "-mcpu=cortex-a53",

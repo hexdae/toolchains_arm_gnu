@@ -74,6 +74,10 @@ register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 arm_toolchain.aarch64_none_elf()
 use_repo(arm_toolchain, "aarch64_none_elf")
 register_toolchains("@aarch64_none_elf//toolchain:all")
+
+arm_toolchain.aarch64_none_linux_gnu()
+use_repo(arm_toolchain, "aarch64_none_linux_gnu")
+register_toolchains("@aarch64_none_linux_gnu//toolchain:all")
 ```
 
 ## WORKSPACE
@@ -113,6 +117,10 @@ register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 load("@toolchains_arm_gnu//:deps.bzl", "aarch64_none_elf_deps")
 aarch64_none_elf_deps()
 register_toolchains("@aarch64_none_elf//toolchain:all")
+
+load("@toolchains_arm_gnu//:deps.bzl", "aarch64_none_linux_gnu_deps")
+aarch64_none_linux_gnu_deps()
+register_toolchains("@aarch64_none_linux_gnu//toolchain:all")
 ```
 
 </details>
