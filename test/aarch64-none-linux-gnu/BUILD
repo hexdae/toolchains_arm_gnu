@@ -41,12 +41,12 @@ cc_binary(
 platform_transition_filegroup(
     name = "elf",
     srcs = [":arm_elf"],
-    target_platform = ":aarch64_none_linux_gnu",
     target_compatible_with = select({
-        "@platforms//os:linux": ["@platforms//cpu:x86_64"], # linux x86 (no arm)
-        "@platforms//os:windows": ["@platforms//cpu:x86_64"], # windows
-        "//conditions:default": ["@platforms//:incompatible"]
-    })
+        "@platforms//os:linux": ["@platforms//cpu:x86_64"],  # linux x86 (no arm)
+        "@platforms//os:windows": ["@platforms//cpu:x86_64"],  # windows
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+    target_platform = ":aarch64_none_linux_gnu",
 )
 
 genrule(
