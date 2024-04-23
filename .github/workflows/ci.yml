@@ -29,6 +29,8 @@ jobs:
       USE_BAZEL_VERSION: "7.x"
     steps:
       - uses: actions/checkout@v2
+      - name: tests
+        run: bazel test //test:all
       - name: workspace
         working-directory: examples/workspace
         run: bazel test //:all
@@ -51,7 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: BUILD
-        run: bazel --output_user_root=C:/bzl build //...
+        run: bazel --output_user_root=C:/bzl test //test:all
 
   remote-execution:
     name: Bazel Remote Execution

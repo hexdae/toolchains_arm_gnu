@@ -6,6 +6,11 @@ build_test(
 )
 
 build_test(
+    name = "aarch64_none_linux_gnu",
+    targets = ["//test/aarch64-none-linux-gnu:hex"],
+)
+
+build_test(
     name = "arm_none_eabi",
     targets = ["//test/arm-none-eabi:hex"],
 )

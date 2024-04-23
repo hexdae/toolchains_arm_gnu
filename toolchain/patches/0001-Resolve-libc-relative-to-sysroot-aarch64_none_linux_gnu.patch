@@ -1,0 +1,16 @@
+Resolve libc relative to sysroot
+
+In the arm linux toolchain, libc.so is simply a link script that
+points to the real libc.so shared library. However, the path of the
+actual shared object is specified as an absolute path, which means
+it is not resolved relative to the toolchain prefix or sysroot
+directories. Adding '=' here causes ld to search for these files
+relative to the library search directories.
+--- a/aarch64-none-linux-gnu/libc/usr/lib64/libc.so
++++ b/aarch64-none-linux-gnu/libc/usr/lib64/libc.so
+@@ -2,4 +2,4 @@
+    Use the shared library, but some functions are only in
+    the static library, so try that secondarily.  */
+ OUTPUT_FORMAT(elf64-littleaarch64)
+-GROUP ( /lib64/libc.so.6 /usr/lib64/libc_nonshared.a  AS_NEEDED ( /lib/ld-linux-aarch64.so.1 ) )
++GROUP ( =/lib64/libc.so.6 =/usr/lib64/libc_nonshared.a  AS_NEEDED ( =/lib/ld-linux-aarch64.so.1 ) )

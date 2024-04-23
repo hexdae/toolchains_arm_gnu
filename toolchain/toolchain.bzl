@@ -2,8 +2,8 @@
 This module provides functions to register an arm-none-eabi toolchain
 """
 
-load("@toolchains_arm_gnu//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
 load("@rules_cc//cc:defs.bzl", "cc_toolchain")
+load("@toolchains_arm_gnu//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
 
 tools = [
     "as",
@@ -38,6 +38,9 @@ target_constraints = {
     "aarch64-none-elf": {
         "arm": ["@platforms//os:none", "@platforms//cpu:aarch64"],
     },
+    "aarch64-none-linux-gnu": {
+        "aarch64": ["@platforms//os:linux", "@platforms//cpu:aarch64"],
+    },
 }
 
 hosts = {
@@ -59,6 +62,10 @@ hosts = {
         "darwin_arm64": ["@platforms//os:macos", "@platforms//cpu:arm64"],
         "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
         "linux_aarch64": ["@platforms//os:linux", "@platforms//cpu:arm64"],
+        "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
+    },
+    "aarch64-none-linux-gnu": {
+        "linux_x86_64": ["@platforms//os:linux", "@platforms//cpu:x86_64"],
         "windows_x86_64": ["@platforms//os:windows", "@platforms//cpu:x86_64"],
     },
 }
@@ -178,5 +185,30 @@ def aarch64_none_elf_toolchain(name, version, **kwargs):
         toolchain_prefix = "aarch64-none-elf",
         version = version,
         abi_version = "elf",
+        **kwargs
+    )
+
+def aarch64_none_linux_gnu_toolchain(
+        name,
+        version = "13.2.1",
+        linkopts = [],
+        **kwargs):
+    """
+    Create an aarch64-none-linux-gnu toolchain with the given configuration.
+
+    Args:
+        name: The name of the toolchain.
+        version: The version of the gcc toolchain.
+        linkopts: Additional linker options.
+        **kwargs: Additional keyword arguments.
+    """
+    _arm_gnu_toolchain(
+        name,
+        toolchain = "aarch64_none_linux_gnu",
+        toolchain_prefix = "aarch64-none-linux-gnu",
+        version = version,
+        abi_version = "gnu",
+        linkopts = ["-lc", "-lstdc++"] + linkopts,
+        include_std = True,
         **kwargs
     )
