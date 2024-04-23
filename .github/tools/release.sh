@@ -18,6 +18,10 @@ SHA=$(shasum -a 256 $ARCHIVE | awk '{print $1}')
 cat << EOF
 ## MODULE.bazel
 
+Feel free to pick only the toolchains you need. Default toolchains are provided
+with `register_toolchains(@<arm_toolchain>//toolchain:all)` but registering them
+is optional (especially when using custom toolchains)
+
 \`\`\`starlark
 bazel_dep(name = "toolchains_arm_gnu", version = "${TAG:1}")
 
@@ -34,9 +38,12 @@ register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 arm_toolchain.aarch64_none_elf()
 use_repo(arm_toolchain, "aarch64_none_elf")
 register_toolchains("@aarch64_none_elf//toolchain:all")
+
+arm_toolchain.aarch64_none_linux_gnu()
+use_repo(arm_toolchain, "aarch64_none_linux_gnu")
+register_toolchains("@aarch64_none_linux_gnu//toolchain:all")
 \`\`\`
 
-Feel free to pick only the toolchains you need
 
 ## WORKSPACE
 
@@ -73,6 +80,11 @@ register_toolchains("@arm_none_linux_gnueabihf//toolchain:all")
 load("@toolchains_arm_gnu//:deps.bzl", "aarch64_none_elf_deps")
 aarch64_none_elf_deps()
 register_toolchains("@aarch64_none_elf//toolchain:all")
+
+# Toolchain aarch64-none-linux-gnu
+load("@toolchains_arm_gnu//:deps.bzl", "aarch64_none_linux_gnu_deps")
+aarch64_none_linux_gnu_deps()
+register_toolchains("@aarch64_none_linux_gnu//toolchain:all")
 \`\`\`
 
 </details>
