@@ -211,7 +211,3 @@ def aarch64_none_linux_gnu_toolchain(
         include_std = True,
         **kwargs
     )
-
-def register_arm_gnu_toolchain(name, prefix):
-    for host in hosts[prefix]:
-        native.register_toolchains("{}_{}".format(name, host))

@@ -31,9 +31,14 @@ arm_toolchain.aarch64_none_elf()
 
 use_repo(arm_toolchain, "aarch64_none_elf")
 
+arm_toolchain.aarch64_none_linux_gnu()
+
+use_repo(arm_toolchain, "aarch64_none_linux_gnu")
+
 register_toolchains(
     "//test/toolchains:all",
     "@aarch64_none_elf//toolchain:all",
+    "@aarch64_none_linux_gnu//toolchain:all",
     "@arm_none_eabi//toolchain:all",
     "@arm_none_linux_gnueabihf//toolchain:all",
     dev_dependency = True,
