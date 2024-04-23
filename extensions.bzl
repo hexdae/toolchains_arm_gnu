@@ -7,28 +7,7 @@ load(
     "arm_none_eabi_deps",
     "arm_none_linux_gnueabihf_deps",
 )
-load("@toolchains_arm_gnu//toolchain/archives:aarch64_none_elf.bzl", "AARCH64_NONE_ELF")
-load(
-    "@toolchains_arm_gnu//toolchain/archives:aarch64_none_linux_gnu.bzl",
-    "AARCH64_NONE_LINUX_GNU",
-)
-load(
-    "@toolchains_arm_gnu//toolchain/archives:arm_none_eabi.bzl",
-    "ARM_NONE_EABI",
-)
-load(
-    "@toolchains_arm_gnu//toolchain/archives:arm_none_linux_gnueabihf.bzl",
-    "ARM_NONE_LINUX_GNUEABIHF",
-)
-
-def _semver(version):
-    """Parse a semantic version string into a list of integers."""
-    parts = [int(i.split("-")[0]) for i in version.split(".")]
-    return struct(
-        major = parts[0],
-        minor = parts[1],
-        patch = parts[2],
-    )
+load("@toolchains_arm_gnu//:version.bzl", "latest_version", "min_version")
 
 def _module_toolchain(tag, deps):
     """Return a module toolchain."""
@@ -36,39 +15,6 @@ def _module_toolchain(tag, deps):
         tag = tag,
         deps = deps,
     )
-
-def _compare_versions(left, right):
-    """Compare two semantic versions."""
-    left = _semver(left)
-    right = _semver(right)
-
-    # (a < b): -1, (a > b): 1, (a == b): 0.
-    compare = lambda a, b: int(a > b) - int(a < b)
-
-    return compare(left.major, right.major) or \
-           compare(left.minor, right.minor) or \
-           compare(left.patch, right.patch) or \
-           0
-
-def _max_version(versions):
-    """Obtains the minimum version from the list of version strings."""
-    if versions:
-        maximum = versions.pop(0)
-        for version in versions:
-            if _compare_versions(maximum, version) < 0:
-                maximum = version
-        return maximum
-    return None
-
-def _min_version(versions):
-    """Obtains the minimum version from the list of version strings."""
-    if versions:
-        minimum = versions.pop(0)
-        for version in versions:
-            if _compare_versions(minimum, version) > 0:
-                minimum = version
-        return minimum
-    return None
 
 def _arm_toolchain_impl(ctx):
     """Implement the module extension."""
@@ -94,7 +40,7 @@ def _arm_toolchain_impl(ctx):
 
     for toolchain in available_toolchains:
         versions = [attr.version for mod in ctx.modules for attr in toolchain.tag(mod)]
-        selected = _min_version(versions)
+        selected = min_version(versions)
         if selected:
             toolchain.deps(version = selected)
 
@@ -102,16 +48,16 @@ arm_toolchain = module_extension(
     implementation = _arm_toolchain_impl,
     tag_classes = {
         "arm_none_eabi": tag_class(attrs = {
-            "version": attr.string(default = _max_version(ARM_NONE_EABI.keys())),
+            "version": attr.string(default = latest_version("arm-none-eabi")),
         }),
         "arm_none_linux_gnueabihf": tag_class(attrs = {
-            "version": attr.string(default = _max_version(ARM_NONE_LINUX_GNUEABIHF.keys())),
+            "version": attr.string(default = latest_version("arm-none-linux-gnueabihf")),
         }),
         "aarch64_none_elf": tag_class(attrs = {
-            "version": attr.string(default = _max_version(AARCH64_NONE_ELF.keys())),
+            "version": attr.string(default = latest_version("aarch64-none-elf")),
         }),
         "aarch64_none_linux_gnu": tag_class(attrs = {
-            "version": attr.string(default = _max_version(AARCH64_NONE_LINUX_GNU.keys())),
+            "version": attr.string(default = latest_version("aarch64-none-linux-gnu")),
         }),
     },
 )
