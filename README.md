@@ -39,6 +39,7 @@ You might also like another, similar, toolchain project for `bazel`
 - [Direct access to gcc tools](#direct-access-to-gcc-tools)
 - [Custom toolchain support](#custom-toolchain)
 - [Use a specific GCC version](./examples/gcc_version)
+- [Link Map Generation](./examples/linkmap)
 - [Examples](./examples)
 - Remote execution support
 - Linux, MacOS, Windows
