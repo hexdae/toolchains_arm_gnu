@@ -43,6 +43,9 @@ jobs:
       - name: raspberry_pi
         working-directory: examples/raspberry_pi
         run: bazel test //:all
+      - name: linkmap
+        working-directory: examples/linkmap
+        run: bazel test //:all
 
 
   windows:
