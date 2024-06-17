@@ -33,6 +33,7 @@ cc_binary(
         "-mcpu=cortex-a5",
         "-mthumb",
     ],
+    features = ["generate_linkmap"],
     linkopts = [
         "-nostartfiles",
         "-Wl,--entry,main",
@@ -40,10 +41,31 @@ cc_binary(
     deps = [":arm_library"],
 )
 
+filegroup(
+    name = "linkmap",
+    srcs = [":app"],
+    output_group = "linkmap",
+)
+
 platform_transition_filegroup(
     name = "arm_none_eabi_app",
     srcs = [":app"],
     target_platform = ":arm_none_eabi",
+)
+
+platform_transition_filegroup(
+    name = "arm_none_eabi_app_map",
+    srcs = [":linkmap"],
+    target_platform = ":arm_none_eabi",
+)
+
+genrule(
+    name = "map",
+    srcs = [":arm_none_eabi_app_map"],
+    outs = ["app.map"],
+    cmd = "cp $< $@",
+    executable = True,
+    visibility = ["//visibility:public"],
 )
 
 genrule(
