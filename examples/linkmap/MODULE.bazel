@@ -1,7 +1,7 @@
 """GCC version selection"""
 
 module(
-    name = "gcc_version",
+    name = "linkmap",
     version = "0.0.1",
 )
 
