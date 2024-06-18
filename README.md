@@ -39,6 +39,7 @@ You might also like another, similar, toolchain project for `bazel`
 - [Direct access to gcc tools](#direct-access-to-gcc-tools)
 - [Custom toolchain support](#custom-toolchain)
 - [Use a specific GCC version](./examples/gcc_version)
+- [Link Map Generation](./examples/linkmap)
 - [Examples](./examples)
 - Remote execution support
 - Linux, MacOS, Windows
@@ -187,6 +188,29 @@ genrule(
     tools = ["@arm_none_eabi//:objcopy"],
 )
 ```
+
+### Build linkermap file
+
+If you want to build a linkermap file, starting from bazel 7.2.0 it can be enabled through the `generate_linkmap` and accessed though the `linkmap` output group.
+
+```python
+
+cc_binary(
+    name = "target.out"
+    srcs = [...],
+    deps = [...],
+    copts = [...],
+    ...
+    features = ["generate_linkmap"],
+)
+
+filegroup(
+    name = "target.out.map",
+    srcs = [":target.out"],
+    output_group = "linkmap",
+)
+```
+
 
 ## Remote execution
 

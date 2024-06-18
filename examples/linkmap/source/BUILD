@@ -27,51 +27,42 @@ cc_library(
 )
 
 cc_binary(
-    name = "app",
+    name = "arm_elf",
     srcs = ["main.cpp"],
     copts = [
         "-mcpu=cortex-a5",
         "-mthumb",
     ],
-    features = ["generate_linkmap"],
     linkopts = [
         "-nostartfiles",
         "-Wl,--entry,main",
     ],
+    features = ["generate_linkmap"],
     deps = [":arm_library"],
 )
 
 filegroup(
-    name = "linkmap",
-    srcs = [":app"],
+    name = "arm_elf.map",
+    srcs = [":arm_elf"],
     output_group = "linkmap",
 )
 
 platform_transition_filegroup(
-    name = "arm_none_eabi_app",
-    srcs = [":app"],
+    name = "linkmap",
+    srcs = [":arm_elf.map"],
     target_platform = ":arm_none_eabi",
 )
 
 platform_transition_filegroup(
-    name = "arm_none_eabi_app_map",
-    srcs = [":linkmap"],
+    name = "elf",
+    srcs = [":arm_elf"],
     target_platform = ":arm_none_eabi",
 )
 
 genrule(
     name = "map",
-    srcs = [":arm_none_eabi_app_map"],
-    outs = ["app.map"],
-    cmd = "cp $< $@",
-    executable = True,
-    visibility = ["//visibility:public"],
-)
-
-genrule(
-    name = "elf",
-    srcs = [":arm_none_eabi_app"],
-    outs = ["app.elf"],
+    srcs = [":linkmap"],
+    outs = ["arm_elf.linkmap"],
     cmd = "cp $< $@",
     executable = True,
     visibility = ["//visibility:public"],
@@ -79,8 +70,8 @@ genrule(
 
 genrule(
     name = "hex",
-    srcs = [":arm_none_eabi_app"],
-    outs = ["app.hex"],
+    srcs = [":elf"],
+    outs = ["mock.hex"],
     cmd = "$(execpath @arm_none_eabi//:objcopy) -O ihex $< $@",
     tools = ["@arm_none_eabi//:objcopy"],
     visibility = ["//visibility:public"],

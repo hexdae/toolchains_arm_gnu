@@ -135,6 +135,25 @@ def _impl(ctx):
         ],
     )
 
+    generate_linkmap_feature = feature(
+        name = "generate_linkmap",
+        flag_sets = [
+            flag_set(
+                actions = [
+                    ACTION_NAMES.cpp_link_executable,
+                ],
+                flag_groups = [
+                    flag_group(
+                        flags = [
+                            "-Wl,-Map=%{output_execpath}.map",
+                        ],
+                        expand_if_available = "output_execpath",
+                    ),
+                ],
+            ),
+        ],
+    )
+
     return cc_common.create_cc_toolchain_config_info(
         ctx = ctx,
         toolchain_identifier = ctx.attr.toolchain_identifier,
@@ -147,6 +166,7 @@ def _impl(ctx):
         abi_libc_version = ctx.attr.gcc_version,
         action_configs = action_configs,
         features = [
+            generate_linkmap_feature,
             toolchain_compiler_flags,
             toolchain_linker_flags,
             custom_linkopts,

@@ -12,7 +12,10 @@ build_test(
 
 build_test(
     name = "arm_none_eabi",
-    targets = ["//test/arm-none-eabi:hex"],
+    targets = [
+        "//test/arm-none-eabi:hex",
+        "//test/arm-none-eabi:map",
+    ],
 )
 
 build_test(
