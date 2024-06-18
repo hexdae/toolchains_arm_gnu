@@ -1,19 +1,19 @@
 <p align="center">
 
-<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/blob/master/LICENSE">
-    <img alt="GitHub license" src="https://img.shields.io/github/license/d-asnaghi/bazel-arm-none-eabi?color=success">
+<a href="https://github.com/d-asnaghi/toolchains_arm_gnu/blob/master/LICENSE">
+    <img alt="GitHub license" src="https://img.shields.io/github/license/d-asnaghi/toolchains_arm_gnu?color=success">
 </a>
 
-<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/d-asnaghi/bazel-arm-none-eabi?color=success">
+<a href="https://github.com/d-asnaghi/toolchains_arm_gnu/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/d-asnaghi/toolchains_arm_gnu?color=success">
 </a>
 
-<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/issues">
-    <img alt="GitHub issues" src="https://img.shields.io/github/issues/d-asnaghi/bazel-arm-none-eabi">
+<a href="https://github.com/d-asnaghi/toolchains_arm_gnu/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/d-asnaghi/toolchains_arm_gnu">
 </a>
 
-<a href="https://github.com/d-asnaghi/bazel-arm-none-eabi/actions">
-    <img alt="CI" src="https://github.com/hexdae/bazel-arm-none-eabi/actions/workflows/ci.yml/badge.svg">
+<a href="https://github.com/d-asnaghi/toolchains_arm_gnu/actions">
+    <img alt="CI" src="https://github.com/hexdae/toolchains_arm_gnu/actions/workflows/ci.yml/badge.svg">
 </a>
 
 </p>
@@ -103,7 +103,7 @@ git_repository(
 
 git_repository(
     name = "arm_none_eabi",
-    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
+    remote = "https://github.com/hexdae/toolchains_arm_gnu",
     branch = "master",
 )
 
