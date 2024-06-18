@@ -1,18 +1,18 @@
 <p align="center">
 
-<a href="https://github.com/d-asnaghi/toolchains_arm_gnu/blob/master/LICENSE">
-    <img alt="GitHub license" src="https://img.shields.io/github/license/d-asnaghi/toolchains_arm_gnu?color=success">
+<a href="https://github.com/hexdae/toolchains_arm_gnu/blob/master/LICENSE">
+    <img alt="GitHub license" src="https://img.shields.io/github/license/hexdae/toolchains_arm_gnu?color=success">
 </a>
 
-<a href="https://github.com/d-asnaghi/toolchains_arm_gnu/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/d-asnaghi/toolchains_arm_gnu?color=success">
+<a href="https://github.com/hexdae/toolchains_arm_gnu/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/hexdae/toolchains_arm_gnu?color=success">
 </a>
 
-<a href="https://github.com/d-asnaghi/toolchains_arm_gnu/issues">
-    <img alt="GitHub issues" src="https://img.shields.io/github/issues/d-asnaghi/toolchains_arm_gnu">
+<a href="https://github.com/hexdae/toolchains_arm_gnu/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/hexdae/toolchains_arm_gnu">
 </a>
 
-<a href="https://github.com/d-asnaghi/toolchains_arm_gnu/actions">
+<a href="https://github.com/hexdae/toolchains_arm_gnu/actions">
     <img alt="CI" src="https://github.com/hexdae/toolchains_arm_gnu/actions/workflows/ci.yml/badge.svg">
 </a>
 
