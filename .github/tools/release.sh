@@ -18,9 +18,7 @@ SHA=$(shasum -a 256 $ARCHIVE | awk '{print $1}')
 cat << EOF
 ## MODULE.bazel
 
-Feel free to pick only the toolchains you need. Default toolchains are provided
-with `register_toolchains(@<arm_toolchain>//toolchain:all)` but registering them
-is optional (especially when using custom toolchains)
+Feel free to pick only the toolchains you need. Default toolchains are provided, but registering them is optional (especially when using custom toolchains)
 
 \`\`\`starlark
 bazel_dep(name = "toolchains_arm_gnu", version = "${TAG:1}")
