@@ -8,8 +8,8 @@ TAG=${GITHUB_REF_NAME}
 # The prefix is chosen to match what GitHub generates for source archives
 # This guarantees that users can easily switch from a released artifact to a source archive
 # with minimal differences in their code (e.g. strip_prefix remains the same)
-PREFIX="bazel-arm-none-eabi-${TAG:1}"
-ARCHIVE="bazel-arm-none-eabi-$TAG.tar.gz"
+PREFIX="toolchains_arm_gnu-${TAG:1}"
+ARCHIVE="toolchains_arm_gnu-$TAG.tar.gz"
 
 # NB: configuration for 'git archive' is in /.gitattributes
 git archive --format=tar --prefix=${PREFIX}/ ${TAG} | gzip > $ARCHIVE
@@ -62,7 +62,7 @@ git_repository(
 
 git_repository(
     name = "arm_none_eabi",
-    remote = "https://github.com/hexdae/bazel-arm-none-eabi",
+    remote = "https://github.com/hexdae/toolchains_arm_gnu",
     branch = "master",
 )
 
