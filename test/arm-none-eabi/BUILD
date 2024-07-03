@@ -37,6 +37,7 @@ cc_binary(
     linkopts = [
         "-nostartfiles",
         "-Wl,--entry,main",
+        "--specs=nano.specs",
     ],
     deps = [":arm_library"],
 )
