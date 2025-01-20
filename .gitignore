@@ -1,2 +1,3 @@
 # Bazel directories
 /bazel-*
+/examples/**/bazel-*

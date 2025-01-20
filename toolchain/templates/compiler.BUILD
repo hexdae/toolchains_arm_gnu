@@ -38,7 +38,7 @@ filegroup(
     srcs = [
       PREFIX,
       "{}/lib".format(PREFIX),
-    ] + glob(["lib/gcc/{}/*".format(PREFIX)]),
+    ] + glob(["lib/gcc/{}/*".format(PREFIX)], exclude_directories = 0),
 )
 
 # libraries, headers and executables.
