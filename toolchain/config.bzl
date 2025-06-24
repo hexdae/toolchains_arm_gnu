@@ -161,7 +161,7 @@ def _impl(ctx):
         target_system_name = ctx.attr.toolchain_prefix,
         target_cpu = ctx.attr.toolchain_prefix,
         target_libc = "gcc",
-        compiler = ctx.attr.gcc_repo,
+        compiler = "gcc",
         abi_version = ctx.attr.abi_version,
         abi_libc_version = ctx.attr.gcc_version,
         action_configs = action_configs,
