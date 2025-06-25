@@ -26,6 +26,11 @@ arm_none_eabi_toolchain(
 arm_none_eabi_toolchain(
     name = "cortex_m4_toolchain",
     copts = [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-ffreestanding",
         "-mcpu=cortex-m4",
         "-mthumb",
         "-mfloat-abi=hard",
@@ -43,4 +48,5 @@ arm_none_eabi_toolchain(
         "@platforms//os:none",
         "//custom/cpu:cortex_m4",
     ],
+    #include_std = False,
 )
