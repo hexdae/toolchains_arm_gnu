@@ -44,6 +44,18 @@ def _default_linker_flags(_ctx):
         "-no-canonical-prefixes",
     ]
 
+def _additional_link_library_paths(ctx):
+    """Extract library paths from CcInfo providers."""
+    library_paths = []
+    for target in ctx.attr.additional_link_libraries:
+        for linker_input in target[CcInfo].linking_context.linker_inputs.to_list():
+            for library in linker_input.libraries:
+                if library.static_library:
+                    library_paths.append(library.static_library.path)
+                elif library.pic_static_library:
+                    library_paths.append(library.pic_static_library.path)
+    return library_paths
+
 def _impl(ctx):
     default_compiler_flags = _default_compiler_flags(ctx)
     default_linker_flags = _default_linker_flags(ctx)
@@ -116,8 +128,26 @@ def _impl(ctx):
             flag_set(
                 actions = [ACTION_NAMES.linkstamp_compile],
                 flag_groups = [
-                    flag_group(flags = ["-L" + include.path for include in ctx.files.library_path]),
+                    flag_group(flags = [
+                        "-L" + include.path
+                        for include in ctx.files.library_path
+                    ]),
                 ],
+            ),
+        ],
+    )
+
+    additional_link_libraries = feature(
+        name = "additional_link_libraries",
+        enabled = True,
+        flag_sets = [
+            flag_set(
+                actions = [ACTION_NAMES.cpp_link_executable],
+                flag_groups = [
+                    flag_group(
+                        flags = _additional_link_library_paths(ctx),
+                    ),
+                ] if ctx.attr.additional_link_libraries else [],
             ),
         ],
     )
@@ -169,6 +199,7 @@ def _impl(ctx):
             generate_linkmap_feature,
             toolchain_compiler_flags,
             toolchain_linker_flags,
+            additional_link_libraries,
             custom_linkopts,
         ],
     )
@@ -189,6 +220,7 @@ cc_arm_gnu_toolchain_config = rule(
         "include_path": attr.label_list(default = [], allow_files = True),
         "library_path": attr.label_list(default = [], allow_files = True),
         "include_std": attr.bool(default = False),
+        "additional_link_libraries": attr.label_list(providers = [CcInfo], default = []),
     },
     provides = [CcToolchainConfigInfo],
 )
