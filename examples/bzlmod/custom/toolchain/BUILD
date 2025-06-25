@@ -1,4 +1,5 @@
 load("@arm_none_eabi//toolchain:toolchain.bzl", "arm_none_eabi_toolchain")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 # Cortex-M3 toolchain
 arm_none_eabi_toolchain(
@@ -22,7 +23,13 @@ arm_none_eabi_toolchain(
     ],
 )
 
-# Cortex-M4 toolchain, compiled using g++ instead of gcc
+# always linked in with the toolchain below
+cc_library(
+    name = "start",
+    srcs = ["start.c"],
+)
+
+# Cortex-M4 toolchain
 arm_none_eabi_toolchain(
     name = "cortex_m4_toolchain",
     copts = [
@@ -36,13 +43,15 @@ arm_none_eabi_toolchain(
         "-mfloat-abi=hard",
         "-mfpu=fpv4-sp-d16",
     ],
-    gcc_tool = "g++",
     linkopts = [
         "-mcpu=cortex-m4",
         "-mthumb",
         "-mfloat-abi=hard",
         "-mfpu=fpv4-sp-d16",
         "-nostartfiles",
+    ],
+    additional_link_libraries = [
+        ":start",
     ],
     target_compatible_with = [
         "@platforms//os:none",
