@@ -102,7 +102,7 @@ def _impl(ctx):
                     ACTION_NAMES.clif_match,
                 ],
                 flag_groups = [
-                    flag_group(flags = ["-I" + include.path for include in ctx.files.include_path]),
+                    flag_group(flags = ["-isystem" + include.path for include in ctx.files.include_path]),
                     flag_group(flags = ctx.attr.copts + default_compiler_flags),
                 ],
             ),
@@ -165,6 +165,10 @@ def _impl(ctx):
         abi_version = ctx.attr.abi_version,
         abi_libc_version = ctx.attr.gcc_version,
         action_configs = action_configs,
+        cxx_builtin_include_directories = [
+            include.path
+            for include in ctx.files.include_path
+        ],
         features = [
             generate_linkmap_feature,
             toolchain_compiler_flags,
