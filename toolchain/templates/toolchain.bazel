@@ -47,6 +47,7 @@ def %toolchain_name%_toolchain(
             copts = copts + fix_copts,
             linkopts = linkopts + fix_linkopts,
             include_std = include_std,
+            tags = ["manual"],
         )
 
         cc_toolchain(
@@ -61,6 +62,7 @@ def %toolchain_name%_toolchain(
             supports_param_files = 0,
             toolchain_config = ":config_{}_{}".format(name, host_repo),
             toolchain_identifier = host_repo,
+            tags = ["manual"],
         )
 
         native.toolchain(
@@ -69,4 +71,5 @@ def %toolchain_name%_toolchain(
             target_compatible_with = target_compatible_with,
             toolchain = ":cc_toolchain_{}_{}".format(name, host_repo),
             toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+            tags = ["manual"],
         )
