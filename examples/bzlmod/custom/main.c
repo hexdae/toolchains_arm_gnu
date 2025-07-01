@@ -1,4 +1,5 @@
 // The simplest possible main function
+#include <limits.h>
 
 int main()
 {
