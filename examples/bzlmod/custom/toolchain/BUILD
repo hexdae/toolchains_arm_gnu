@@ -23,15 +23,38 @@ arm_none_eabi_toolchain(
     ],
 )
 
+# Cortex-M4 toolchain, compiled using g++ instead of gcc
+arm_none_eabi_toolchain(
+    name = "cortex_m4_toolchain",
+    copts = [
+        "-mcpu=cortex-m4",
+        "-mthumb",
+        "-mfloat-abi=hard",
+        "-mfpu=fpv4-sp-d16",
+    ],
+    gcc_tool = "g++",
+    linkopts = [
+        "-mcpu=cortex-m4",
+        "-mthumb",
+        "-mfloat-abi=hard",
+        "-mfpu=fpv4-sp-d16",
+        "-nostartfiles",
+    ],
+    target_compatible_with = [
+        "@platforms//os:none",
+        "//custom/cpu:cortex_m4",
+    ],
+)
+
 # always linked in with the toolchain below
 cc_library(
     name = "start",
     srcs = ["start.c"],
 )
 
-# Cortex-M4 toolchain
+# Cortex-M4 toolchain that always links `:start`
 arm_none_eabi_toolchain(
-    name = "cortex_m4_toolchain",
+    name = "cortex_m4_toolchain_with_start",
     copts = [
         "-Wall",
         "-Wextra",
@@ -57,5 +80,5 @@ arm_none_eabi_toolchain(
         "@platforms//os:none",
         "//custom/cpu:cortex_m4",
     ],
-    #include_std = False,
+    visibility = ["//visibility:public"],
 )
