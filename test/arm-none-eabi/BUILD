@@ -86,3 +86,30 @@ genrule(
     tools = ["@arm_none_eabi//:objcopy"],
     visibility = ["//visibility:public"],
 )
+
+cc_binary(
+    name = "builds_without_warnings",
+    srcs = ["builds_without_warnings.c"],
+    copts = [
+        "-mcpu=cortex-a5",
+        "-mthumb",
+        "-fdiagnostics-color",
+        "-Werror",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+    ],
+    linkopts = [
+        "-nostartfiles",
+        "-Wl,--entry,main",
+        "--specs=nano.specs",
+    ],
+    tags = ["manual"],
+)
+
+platform_transition_filegroup(
+    name = "builds_without_warnings_bin",
+    srcs = [":builds_without_warnings"],
+    target_platform = ":arm_none_eabi",
+    visibility = ["//visibility:public"],
+)

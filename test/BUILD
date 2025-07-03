@@ -15,6 +15,7 @@ build_test(
     targets = [
         "//test/arm-none-eabi:hex",
         "//test/arm-none-eabi:map",
+        "//test/arm-none-eabi:builds_without_warnings_bin",
     ],
 )
 
