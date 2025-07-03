@@ -1,8 +1,95 @@
-load("@toolchains_arm_gnu//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
+load("@local_config_platform//:constraints.bzl", "HOST_CONSTRAINTS")
 load("@rules_cc//cc:defs.bzl", "cc_toolchain")
+load("@toolchains_arm_gnu//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
+load("@toolchains_arm_gnu//toolchain:transitions.bzl", "toolchain_transition_library")
 
 HOSTS = %hosts%
 
+def _normalize(x):
+    mapping = {
+        "osx": "macos",
+        "darwin": "macos",
+        "aarch64": "arm64",
+    }
+    return mapping.get(x, default=x)
+
+
+def _host_os_cpu():
+    host_constraints = HOST_CONSTRAINTS
+    if "os" not in host_constraints:
+        host_constraints = reversed(host_constraints)
+
+    return struct(
+        os = _normalize(Label(host_constraints[0]).name),
+        cpu = _normalize(Label(host_constraints[1]).name),
+    )
+
+def _toolchain_variants(name, additional_link_libraries, target_compatible_with):
+    """
+    List of toolchain variants to create.
+
+    If `additional_link_libraries` is empty, returns a single variant with the
+    arguments unchanged. If `additional_link_libraries` is not empty,
+    additionally returns a toolchain variant used for bootstrapping compilation
+    of the targets in `additional_link_libraries`.
+
+    Args:
+        name: The name of the toolchain.
+        additional_link_libraries: Library targets to always link into executables.
+        target_compatible_with: Constraint values for the target platform.
+    """
+    toolchains = [
+        struct(
+            name = name,
+            additional_link_libraries = additional_link_libraries,
+            target_compatible_with = target_compatible_with,
+        ),
+    ]
+    if additional_link_libraries:
+        toolchains.append(
+            struct(
+                name = name + "_bootstrap",
+                additional_link_libraries = [],
+                target_compatible_with = target_compatible_with + [
+                    "@toolchains_arm_gnu//toolchain:bootstrap",
+                ],
+            ),
+        )
+    return toolchains
+
+def _transition_additional_link_libraries(
+        name,
+        host_repo,
+        additional_link_libraries,
+        bootstrap_platform,
+    ):
+    """
+    Transition additional link libraries to allow bootstrapping.
+
+    For each target in `additional_link_libraries`, creates a transitioned
+    library target that the primary toolchain can depend on.
+
+    Args:
+        name: The name of the toolchain.
+        host_repo: Repo containing files of the toolchain archive.
+        additional_link_libraries: Library targets to always link into executables.
+        bootstrap_platform: The platform associated with the bootstrap toolchain.
+
+    Returns:
+        A list of transitioned library targets.
+    """
+    transitioned_libraries = []
+    for i, lib in enumerate(additional_link_libraries):
+        library_name = "additional_link_library.{}.{}.{}".format(name, host_repo, i)
+        toolchain_transition_library(
+            name = library_name,
+            src = lib,
+            toolchain = ":{}_bootstrap_{}".format(name, host_repo),
+            platform = bootstrap_platform,
+            tags = ["manual"],
+        )
+        transitioned_libraries.append(":{}".format(library_name))
+    return transitioned_libraries
 
 def %toolchain_name%_toolchain(
         name,
@@ -13,16 +100,34 @@ def %toolchain_name%_toolchain(
         copts = [],
         linkopts = [],
         target_compatible_with = [],
-        include_std = False
+        additional_link_libraries = [],
+        include_std = False,
+        visibility = None,
     ):
     """
-    Create an toolchain with the given configuration.
+    Create a toolchain with the given configuration.
 
     Args:
         name: The name of the toolchain.
         version: The version of the gcc toolchain.
     """
+    native.platform(
+        name = "{}_bootstrap_platform".format(name),
+        constraint_values = target_compatible_with + [
+            "@toolchains_arm_gnu//toolchain:bootstrap",
+        ],
+    )
+
+    host = _host_os_cpu()
+
     for host_repo, exec_compatible_with in HOSTS.items():
+        os, cpu = [Label(x).name for x in exec_compatible_with]
+        if _normalize(os) == host.os and _normalize(cpu) == host.cpu:
+            native.alias(
+                name = name,
+                actual =  ":{}_{}".format(name, host_repo),
+                visibility = visibility,
+            )
 
         fix_copts = []
         fix_linkopts = []
@@ -32,44 +137,67 @@ def %toolchain_name%_toolchain(
         if "13.2.1" in version and "darwin" in host_repo:
             fix_linkopts.append("-fno-lto")
 
-        cc_arm_gnu_toolchain_config(
-            name = "config_{}_{}".format(name, host_repo),
-            gcc_repo = host_repo,
-            gcc_version = version,
-            gcc_tool = gcc_tool,
-            abi_version = abi_version,
-            host_system_name = host_repo,
-            toolchain_prefix = "%toolchain_prefix%",
-            toolchain_identifier = host_repo,
-            toolchain_bins = "{}:compiler_components".format(alias_repo),
-            include_path = ["{}:include_path".format(alias_repo)],
-            library_path = ["{}:library_path".format(alias_repo)],
-            copts = copts + fix_copts,
-            linkopts = linkopts + fix_linkopts,
-            include_std = include_std,
-            tags = ["manual"],
+        transitioned_link_libraries = _transition_additional_link_libraries(
+            name,
+            host_repo,
+            additional_link_libraries,
+            "{}_bootstrap_platform".format(name),
         )
 
-        cc_toolchain(
-            name = "cc_toolchain_{}_{}".format(name, host_repo),
-            all_files = "{}:compiler_pieces".format(alias_repo),
-            ar_files = "{}:ar_files".format(alias_repo),
-            compiler_files = "{}:compiler_files".format(alias_repo),
-            dwp_files = ":empty",
-            linker_files = "{}:linker_files".format(alias_repo),
-            objcopy_files = "{}:objcopy".format(alias_repo),
-            strip_files = "{}:strip".format(alias_repo),
-            supports_param_files = 0,
-            toolchain_config = ":config_{}_{}".format(name, host_repo),
-            toolchain_identifier = host_repo,
-            tags = ["manual"],
-        )
+        for variant in _toolchain_variants(
+            name,
+            transitioned_link_libraries,
+            target_compatible_with,
+        ):
+            cc_arm_gnu_toolchain_config(
+                name = "config_{}_{}".format(variant.name, host_repo),
+                gcc_repo = host_repo,
+                gcc_version = version,
+                gcc_tool = gcc_tool,
+                abi_version = abi_version,
+                host_system_name = host_repo,
+                toolchain_prefix = "%toolchain_prefix%",
+                toolchain_identifier = host_repo,
+                toolchain_bins = "{}:compiler_components".format(alias_repo),
+                include_path = ["{}:include_path".format(alias_repo)],
+                library_path = ["{}:library_path".format(alias_repo)],
+                copts = copts + fix_copts,
+                linkopts = linkopts + fix_linkopts,
+                include_std = include_std,
+                additional_link_libraries = variant.additional_link_libraries,
+                tags = ["manual"],
+            )
 
-        native.toolchain(
-            name = "{}_{}".format(name, host_repo),
-            exec_compatible_with = exec_compatible_with,
-            target_compatible_with = target_compatible_with,
-            toolchain = ":cc_toolchain_{}_{}".format(name, host_repo),
-            toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
-            tags = ["manual"],
-        )
+            native.filegroup(
+                name = "{}_{}_all_linker_files".format(variant.name, host_repo),
+                srcs = [
+                    "{}:linker_files".format(alias_repo),
+                ] + variant.additional_link_libraries,
+                tags = ["manual"],
+            )
+
+            cc_toolchain(
+                name = "cc_toolchain_{}_{}".format(variant.name, host_repo),
+                all_files = "{}:compiler_pieces".format(alias_repo),
+                ar_files = "{}:ar_files".format(alias_repo),
+                compiler_files = "{}:compiler_files".format(alias_repo),
+                dwp_files = ":empty",
+                linker_files = ":{}_{}_all_linker_files".format(variant.name, host_repo),
+                objcopy_files = "{}:objcopy".format(alias_repo),
+                strip_files = "{}:strip".format(alias_repo),
+                supports_param_files = 0,
+                toolchain_config = ":config_{}_{}".format(variant.name, host_repo),
+                toolchain_identifier = host_repo,
+                exec_transition_for_inputs = False,
+                tags = ["manual"],
+            )
+
+            native.toolchain(
+                name = "{}_{}".format(variant.name, host_repo),
+                exec_compatible_with = exec_compatible_with,
+                target_compatible_with = variant.target_compatible_with,
+                toolchain = ":cc_toolchain_{}_{}".format(variant.name, host_repo),
+                toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+                visibility = visibility,
+                tags = ["manual"],
+            )

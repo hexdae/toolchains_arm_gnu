@@ -100,7 +100,7 @@ ARM_NONE_EABI = {
             "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-eabi.zip?rev=93fda279901c4c0299e03e5c4899b51f&hash=A3C5FF788BE90810E121091C873E3532336C8D46",
             "exec_compatible_with": [
                 "@platforms//os:windows",
-                "@platforms//cpu:aarch64",
+                "@platforms//cpu:x86_64",
             ],
         },
     ],
