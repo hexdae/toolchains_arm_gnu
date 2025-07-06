@@ -139,7 +139,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_toolchain": {
       "general": {
-        "bzlTransitiveDigest": "LuPsDwef1S4Xy7HhD7HHq2ZqFEEuym7LG3xRt4+LhO8=",
+        "bzlTransitiveDigest": "cnG33fzR3/jTnWyo+Jt9gyhc5cLlVyzFXATTo3S8nOc=",
         "usagesDigest": "P/3UnhHe8mBjAHhQOgY8IbRzO7gyGHPkTqDB/W/U9qY=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
@@ -170,7 +170,7 @@
                 ],
                 "arm_none_eabi_windows_x86_64": [
                   "@platforms//os:windows",
-                  "@platforms//cpu:aarch64"
+                  "@platforms//cpu:x86_64"
                 ]
               }
             }
@@ -241,7 +241,7 @@
               "url": "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-mingw-w64-i686-arm-none-eabi.zip?rev=93fda279901c4c0299e03e5c4899b51f&hash=A3C5FF788BE90810E121091C873E3532336C8D46",
               "exec_compatible_with": [
                 "@platforms//os:windows",
-                "@platforms//cpu:aarch64"
+                "@platforms//cpu:x86_64"
               ]
             }
           },
