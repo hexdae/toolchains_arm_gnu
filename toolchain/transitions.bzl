@@ -14,9 +14,23 @@ _toolchain_transition = transition(
 )
 
 def _toolchain_transition_library_impl(ctx):
+    default_info = ctx.attr.src[DefaultInfo]
+    cc_info =  ctx.attr.src[CcInfo]
+
+    linker_input_files = []
+    for linker_input in cc_info.linking_context.linker_inputs.to_list():
+        linker_input_files.extend(linker_input.additional_inputs)
+
     return [
-        ctx.attr.src[DefaultInfo],
-        ctx.attr.src[CcInfo],
+        DefaultInfo(
+            files = depset(
+                transitive = [
+                    default_info.files,
+                    depset(linker_input_files),
+                ],
+            ),
+        ),
+        cc_info,
     ]
 
 toolchain_transition_library = rule(

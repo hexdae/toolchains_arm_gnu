@@ -44,12 +44,21 @@ def _default_linker_flags(_ctx):
         "-no-canonical-prefixes",
     ]
 
-def _additional_link_library_paths(ctx):
-    """Extract library paths from CcInfo providers."""
-    return [
-        target[DefaultInfo].files.to_list()[0].path
-        for target in ctx.attr.additional_link_libraries
-    ]
+def _additional_link_library_flags(ctx):
+    """Extract link flags from CcInfo providers."""
+    flags = []
+
+    for link in ctx.attr.additional_link_libraries:
+        for input in link[CcInfo].linking_context.linker_inputs.to_list():
+            flags.extend(input.user_link_flags)
+
+            for library in input.libraries:
+                if library.static_library:
+                    flags.append(library.static_library.path)
+                elif library.dynamic_library:
+                    flags.append(library.dynamic_library.path)
+
+    return flags
 
 def _impl(ctx):
     default_compiler_flags = _default_compiler_flags(ctx)
@@ -140,7 +149,7 @@ def _impl(ctx):
                 actions = [ACTION_NAMES.cpp_link_executable],
                 flag_groups = [
                     flag_group(
-                        flags = _additional_link_library_paths(ctx),
+                        flags = _additional_link_library_flags(ctx),
                     ),
                 ] if ctx.attr.additional_link_libraries else [],
             ),
