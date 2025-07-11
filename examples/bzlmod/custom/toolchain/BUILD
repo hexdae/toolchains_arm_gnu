@@ -50,6 +50,8 @@ arm_none_eabi_toolchain(
 cc_library(
     name = "start",
     srcs = ["start.c"],
+    additional_linker_inputs = ["link.ld"],
+    linkopts = ["-T $(location :link.ld)"],
 )
 
 # Cortex-M4 toolchain that always links `:start`
