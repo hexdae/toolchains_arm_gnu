@@ -60,6 +60,28 @@ def _additional_link_library_flags(ctx):
 
     return flags
 
+def _flag_groups_if_not_empty(flags, actual_flags = None):
+    if not flags:
+        return []
+    return [
+        flag_group(
+            flags = actual_flags or flags,
+        ),
+    ]
+
+_all_compile_actions =[
+    ACTION_NAMES.assemble,
+    ACTION_NAMES.preprocess_assemble,
+    ACTION_NAMES.linkstamp_compile,
+    ACTION_NAMES.c_compile,
+    ACTION_NAMES.cpp_compile,
+    ACTION_NAMES.cpp_header_parsing,
+    ACTION_NAMES.cpp_module_compile,
+    ACTION_NAMES.cpp_module_codegen,
+    ACTION_NAMES.lto_backend,
+    ACTION_NAMES.clif_match,
+]
+
 def _impl(ctx):
     default_compiler_flags = _default_compiler_flags(ctx)
     default_linker_flags = _default_linker_flags(ctx)
@@ -100,27 +122,82 @@ def _impl(ctx):
         "strip",
     )
 
+    dbg_feature = feature(
+        name = "dbg",
+        flag_sets = [
+            flag_set(
+                actions = _all_compile_actions,
+                flag_groups = _flag_groups_if_not_empty(ctx.attr.dbg_compile_flags),
+            ),
+        ],
+        provides = ["compilation_mode"],
+    )
+
+    opt_feature = feature(
+        name = "opt",
+        flag_sets = [
+            flag_set(
+                actions = _all_compile_actions,
+                flag_groups = _flag_groups_if_not_empty(ctx.attr.opt_compile_flags),
+            ),
+            flag_set(
+                actions = [ACTION_NAMES.cpp_link_executable],
+                flag_groups = _flag_groups_if_not_empty(ctx.attr.opt_link_flags),
+            ),
+        ],
+        provides = ["compilation_mode"],
+    )
+
+    fastbuild_feature = feature(
+        name = "fastbuild",
+        flag_sets = [
+            flag_set(
+                actions = _all_compile_actions,
+                flag_groups = [],
+            ),
+        ],
+        provides = ["compilation_mode"],
+    )
+
     toolchain_compiler_flags = feature(
         name = "compiler_flags",
         enabled = True,
         flag_sets = [
             flag_set(
+                actions = _all_compile_actions,
+                flag_groups = [
+                    flag_group(flags = ["-isystem " + include.path for include in ctx.files.include_path]),
+                    flag_group(flags = ctx.attr.copts + default_compiler_flags),
+                ],
+            ),
+        ],
+    )
+
+    cxx_flags = feature(
+        name = "cxx_flags",
+        enabled = True,
+        flag_sets = [
+            flag_set(
                 actions = [
-                    ACTION_NAMES.assemble,
-                    ACTION_NAMES.preprocess_assemble,
-                    ACTION_NAMES.linkstamp_compile,
-                    ACTION_NAMES.c_compile,
                     ACTION_NAMES.cpp_compile,
                     ACTION_NAMES.cpp_header_parsing,
                     ACTION_NAMES.cpp_module_compile,
                     ACTION_NAMES.cpp_module_codegen,
-                    ACTION_NAMES.lto_backend,
-                    ACTION_NAMES.clif_match,
                 ],
-                flag_groups = [
-                    flag_group(flags = ["-isystem" + include.path for include in ctx.files.include_path]),
-                    flag_group(flags = ctx.attr.copts + default_compiler_flags),
+                flag_groups = _flag_groups_if_not_empty(ctx.attr.cxxopts),
+            ),
+        ],
+    )
+
+    conly_flags = feature(
+        name = "conly_flags",
+        enabled = True,
+        flag_sets = [
+            flag_set(
+                actions = [
+                    ACTION_NAMES.c_compile,
                 ],
+                flag_groups = _flag_groups_if_not_empty(ctx.attr.conlyopts),
             ),
         ],
     )
@@ -141,21 +218,6 @@ def _impl(ctx):
         ],
     )
 
-    additional_link_libraries = feature(
-        name = "additional_link_libraries",
-        enabled = True,
-        flag_sets = [
-            flag_set(
-                actions = [ACTION_NAMES.cpp_link_executable],
-                flag_groups = [
-                    flag_group(
-                        flags = _additional_link_library_flags(ctx),
-                    ),
-                ] if ctx.attr.additional_link_libraries else [],
-            ),
-        ],
-    )
-
     custom_linkopts = feature(
         name = "custom_linkopts",
         enabled = True,
@@ -165,6 +227,20 @@ def _impl(ctx):
                 flag_groups = [
                     flag_group(flags = ctx.attr.linkopts + default_linker_flags),
                 ],
+            ),
+        ],
+    )
+
+    additional_link_libraries = feature(
+        name = "additional_link_libraries",
+        enabled = True,
+        flag_sets = [
+            flag_set(
+                actions = [ACTION_NAMES.cpp_link_executable],
+                flag_groups = _flag_groups_if_not_empty(
+                    ctx.attr.additional_link_libraries,
+                    _additional_link_library_flags(ctx),
+                ),
             ),
         ],
     )
@@ -204,8 +280,13 @@ def _impl(ctx):
             for include in ctx.files.include_path
         ],
         features = [
+            dbg_feature,
+            opt_feature,
+            fastbuild_feature,
             generate_linkmap_feature,
             toolchain_compiler_flags,
+            cxx_flags,
+            conly_flags,
             toolchain_linker_flags,
             additional_link_libraries,
             custom_linkopts,
@@ -224,10 +305,23 @@ cc_arm_gnu_toolchain_config = rule(
         "gcc_tool": attr.string(default = "gcc"),
         "abi_version": attr.string(default = ""),
         "copts": attr.string_list(default = []),
+        "cxxopts": attr.string_list(default = []),
+        "conlyopts": attr.string_list(default = []),
         "linkopts": attr.string_list(default = []),
         "include_path": attr.label_list(default = [], allow_files = True),
         "library_path": attr.label_list(default = [], allow_files = True),
         "include_std": attr.bool(default = False),
+        "dbg_compile_flags": attr.string_list(default = [
+            "-ggdb",
+            "-Og",
+        ]),
+        "opt_compile_flags": attr.string_list(default = [
+            "-DNDEBUG",
+            "-O2",
+        ]),
+        "opt_link_flags": attr.string_list(default = [
+            "-Wl,-S",
+        ]),
         "additional_link_libraries": attr.label_list(
             providers = [CcInfo],
             default = [],
