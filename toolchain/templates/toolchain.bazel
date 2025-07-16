@@ -106,7 +106,7 @@ def %toolchain_name%_toolchain(
         opt_link_flags = [],
         target_compatible_with = [],
         additional_link_libraries = [],
-        include_std = False,
+        include_std = True,
         visibility = None,
     ):
     """

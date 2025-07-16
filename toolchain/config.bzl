@@ -310,7 +310,7 @@ cc_arm_gnu_toolchain_config = rule(
         "linkopts": attr.string_list(default = []),
         "include_path": attr.label_list(default = [], allow_files = True),
         "library_path": attr.label_list(default = [], allow_files = True),
-        "include_std": attr.bool(default = False),
+        "include_std": attr.bool(default = True),
         "dbg_compile_flags": attr.string_list(default = [
             "-ggdb",
             "-Og",
