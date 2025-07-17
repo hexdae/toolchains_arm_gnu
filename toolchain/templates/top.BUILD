@@ -4,35 +4,30 @@ repository, i.e., the targets defined here appear in the workspace as
 "@arm_none_eabi//:*" for arm-none-eabi toolchains.
 """
 
-load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "hosts", "tools")
 load("@bazel_skylib//rules:native_binary.bzl", "native_binary")
+load("@local_config_platform//:constraints.bzl", "HOST_CONSTRAINTS")
+load(
+    "@toolchains_arm_gnu//toolchain:toolchain.bzl",
+    "host_from",
+    "hosts",
+    "tools",
+)
 
 package(default_visibility = ["//visibility:public"])
 
-TOOLS = tools + ["bin"]
-
-[
-    config_setting(
-        name = host,
-        constraint_values = constraint_values,
-    )
-    for host, constraint_values in hosts["%toolchain_prefix%"].items()
-]
+TOOLS = tools
+host = host_from(HOST_CONSTRAINTS)
 
 [
     native_binary(
         name = tool,
-        src = select({
-            host: "@%toolchain_name%_{}//:{}".format(host, tool)
-            for host in hosts["%toolchain_prefix%"].keys()
-        }),
+        src = "@%toolchain_name%_{}//:{}".format(host, tool),
         out = tool,
-        target_compatible_with = select({
-            host: constraint_values
-            for host, constraint_values in hosts["%toolchain_prefix%"].items()
-        } | {
-            "//conditions:default": ["@platforms//:incompatible"],
-        }),
+        target_compatible_with = (
+            []
+            if host in hosts["%toolchain_prefix%"].keys() else
+            ["@platforms//:incompatible"]
+        ),
     )
     for tool in TOOLS
 ]

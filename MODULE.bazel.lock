@@ -139,7 +139,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%arm_toolchain": {
       "general": {
-        "bzlTransitiveDigest": "cqGNMbHOpcWofrKzWJEvft+a7/gOVZb5B5O+Nc0sihQ=",
+        "bzlTransitiveDigest": "XPn1XO+tfcFjd6JeePOShhiLnilTfUtfR9AqQWbn7CM=",
         "usagesDigest": "P/3UnhHe8mBjAHhQOgY8IbRzO7gyGHPkTqDB/W/U9qY=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},

@@ -70,6 +70,28 @@ hosts = {
     },
 }
 
+def host_from(host_constraints):
+    if "os" != Label(host_constraints[0]).package:
+        host_constraints = reversed(host_constraints)
+
+    mapping = {
+        "osx": "darwin",
+        "macos": "darwin",
+        "x86_64": "amd64",
+        "aarch64": "arm64",
+    }
+
+    normalize = lambda x: mapping.get(x, default = x)
+
+    os, cpu = [normalize(Label(x).name) for x in host_constraints]
+
+    if os == "darwin":
+        return "darwin_x86_64" if cpu == "amd64" else "darwin_arm64"
+    elif os == "linux":
+        return "linux_x86_64" if cpu == "amd64" else "linux_aarch64"
+    else:
+        return "windows_x86_64"
+
 def _arm_gnu_toolchain(
         name,
         toolchain = "",
