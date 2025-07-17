@@ -1,28 +1,10 @@
 load("@local_config_platform//:constraints.bzl", "HOST_CONSTRAINTS")
 load("@rules_cc//cc:defs.bzl", "cc_toolchain")
 load("@toolchains_arm_gnu//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
+load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "host_from")
 load("@toolchains_arm_gnu//toolchain:transitions.bzl", "toolchain_transition_library")
 
 HOSTS = %hosts%
-
-def _normalize(x):
-    mapping = {
-        "osx": "macos",
-        "darwin": "macos",
-        "aarch64": "arm64",
-    }
-    return mapping.get(x, default=x)
-
-
-def _host_os_cpu():
-    host_constraints = HOST_CONSTRAINTS
-    if "os" not in host_constraints:
-        host_constraints = reversed(host_constraints)
-
-    return struct(
-        os = _normalize(Label(host_constraints[0]).name),
-        cpu = _normalize(Label(host_constraints[1]).name),
-    )
 
 def _toolchain_variants(name, additional_link_libraries, target_compatible_with):
     """
@@ -118,11 +100,8 @@ def %toolchain_name%_toolchain(
         ],
     )
 
-    host = _host_os_cpu()
-
     for host_repo, exec_compatible_with in HOSTS.items():
-        os, cpu = [Label(x).name for x in exec_compatible_with]
-        if _normalize(os) == host.os and _normalize(cpu) == host.cpu:
+        if host_repo == "%toolchain_name%_{}".format(host_from(HOST_CONSTRAINTS)):
             native.alias(
                 name = name,
                 actual =  ":{}_{}".format(name, host_repo),
