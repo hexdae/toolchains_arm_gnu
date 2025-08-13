@@ -46,12 +46,19 @@ arm_none_eabi_toolchain(
     ],
 )
 
+# this dummy is used to test that transitive deps are included
+cc_library(
+    name = "start_dep",
+    srcs = ["dummy.c"],
+)
+
 # always linked in with the toolchain below
 cc_library(
     name = "start",
     srcs = ["start.c"],
     additional_linker_inputs = ["link.ld"],
     linkopts = ["-T $(location :link.ld)"],
+    deps = [":start_dep"],
 )
 
 # Cortex-M4 toolchain that always links `:start`
