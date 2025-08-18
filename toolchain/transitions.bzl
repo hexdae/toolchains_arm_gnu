@@ -14,12 +14,25 @@ _toolchain_transition = transition(
 )
 
 def _toolchain_transition_library_impl(ctx):
+    to_list = lambda x: [x] if x else []
+
     default_info = ctx.attr.src[DefaultInfo]
     cc_info =  ctx.attr.src[CcInfo]
 
     linker_input_files = []
+
+    # We need to recreate default_info since not all files are propagated with
+    # the transition. Specifically, the following are known to not propagate:
+    # * additional_linker_inputs (e.g. linker scripts)
+    # * deps (i.e. other libraries this one depends on)
     for linker_input in cc_info.linking_context.linker_inputs.to_list():
         linker_input_files.extend(linker_input.additional_inputs)
+
+        for lib in linker_input.libraries:
+            linker_input_files.extend(to_list(lib.static_library))
+            # I'm not sure if these below are needed
+            linker_input_files.extend(to_list(lib.pic_static_library))
+            linker_input_files.extend(to_list(lib.dynamic_library))
 
     return [
         DefaultInfo(
