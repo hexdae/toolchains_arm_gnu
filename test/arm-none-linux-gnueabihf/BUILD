@@ -33,6 +33,9 @@ cc_binary(
         "-mcpu=cortex-a5",
         "-mthumb",
     ],
+    linkopts = [
+        "-lm",
+    ],
     deps = [":arm_library"],
 )
 
