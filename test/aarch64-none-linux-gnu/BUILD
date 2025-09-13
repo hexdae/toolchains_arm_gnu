@@ -34,6 +34,7 @@ cc_binary(
     linkopts = [
         "-nostartfiles",
         "-Wl,--entry,main",
+        "-lm",
     ],
     deps = [":arm_library"],
 )

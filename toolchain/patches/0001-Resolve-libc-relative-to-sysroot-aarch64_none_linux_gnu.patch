@@ -14,3 +14,12 @@ relative to the library search directories.
  OUTPUT_FORMAT(elf64-littleaarch64)
 -GROUP ( /lib64/libc.so.6 /usr/lib64/libc_nonshared.a  AS_NEEDED ( /lib/ld-linux-aarch64.so.1 ) )
 +GROUP ( =/lib64/libc.so.6 =/usr/lib64/libc_nonshared.a  AS_NEEDED ( =/lib/ld-linux-aarch64.so.1 ) )
+
+--- a/aarch64-none-linux-gnu/libc/usr/lib64/libm.so
++++ b/aarch64-none-linux-gnu/libc/usr/lib64/libm.so
+@@ -1,4 +1,4 @@
+ /* GNU ld script
+ */
+ OUTPUT_FORMAT(elf64-littleaarch64)
+-GROUP ( /lib64/libm.so.6  AS_NEEDED ( /lib64/libmvec.so.1 ) )
++GROUP ( =/lib64/libm.so.6  AS_NEEDED ( =/lib64/libmvec.so.1 ) )
