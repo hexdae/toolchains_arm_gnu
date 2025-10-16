@@ -65,6 +65,11 @@ filegroup(
 )
 
 filegroup(
+    name = "as_files",
+    srcs = [":compiler_pieces"],
+)
+
+filegroup(
     name = "linker_files",
     srcs = [":compiler_pieces"],
 )

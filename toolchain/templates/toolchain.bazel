@@ -190,6 +190,7 @@ def %toolchain_name%_toolchain(
                 name = "cc_toolchain_{}_{}".format(variant.name, host_repo),
                 all_files = "{}:compiler_pieces".format(alias_repo),
                 ar_files = "{}:ar_files".format(alias_repo),
+                as_files = "{}:as_files".format(alias_repo),
                 compiler_files = "{}:compiler_files".format(alias_repo),
                 dwp_files = ":empty",
                 linker_files = ":{}_{}_all_linker_files".format(variant.name, host_repo),
