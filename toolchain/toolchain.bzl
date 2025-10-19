@@ -109,6 +109,7 @@ def _arm_gnu_toolchain(
             name = "cc_toolchain_{}_{}".format(host, name),
             all_files = "@{}_{}//:compiler_pieces".format(toolchain, host),
             ar_files = "@{}_{}//:ar_files".format(toolchain, host),
+            as_files = "@{}_{}//:as_files".format(toolchain, host),
             compiler_files = "@{}_{}//:compiler_files".format(toolchain, host),
             dwp_files = ":empty",
             linker_files = "@{}_{}//:linker_files".format(toolchain, host),

@@ -18,6 +18,7 @@ TOOLS = %tools%
         "compiler_pieces",
         "compiler_files",
         "ar_files",
+        "as_files",
         "linker_files",
         "compiler_components",
     ]
