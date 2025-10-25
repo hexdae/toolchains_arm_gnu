@@ -32,7 +32,6 @@ arm_none_eabi_toolchain(
         "-mfloat-abi=hard",
         "-mfpu=fpv4-sp-d16",
     ],
-    gcc_tool = "g++",
     linkopts = [
         "-mcpu=cortex-m4",
         "-mthumb",
