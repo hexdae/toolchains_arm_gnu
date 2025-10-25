@@ -25,10 +25,13 @@ cc_library(
         "-mthumb",
     ],
     includes = ["includes"],
-    target_compatible_with = [
-        "@platforms//cpu:arm",
-        "@platforms//os:linux",
-    ],
+   )
+
+cc_library(
+    name = "atomics",
+    srcs = ["atomics.c"],
+    copts = ["-std=c11"],
+    visibility = ["//visibility:public"],
 )
 
 cc_binary(
