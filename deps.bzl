@@ -1,5 +1,6 @@
 """deps.bzl"""
 
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@toolchains_arm_gnu//:version.bzl", "latest_version")
 load("@toolchains_arm_gnu//toolchain:toolchain.bzl", "tools")
 load("@toolchains_arm_gnu//toolchain/archives:aarch64_none_elf.bzl", "AARCH64_NONE_ELF")
@@ -7,16 +8,10 @@ load("@toolchains_arm_gnu//toolchain/archives:aarch64_none_linux_gnu.bzl", "AARC
 load("@toolchains_arm_gnu//toolchain/archives:arm_none_eabi.bzl", "ARM_NONE_EABI")
 load("@toolchains_arm_gnu//toolchain/archives:arm_none_linux_gnueabihf.bzl", "ARM_NONE_LINUX_GNUEABIHF")
 
-def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
-    """Defines a host-specific repository for the ARM GNU toolchain."""
-    repository_ctx.download_and_extract(
-        sha256 = repository_ctx.attr.sha256,
-        url = repository_ctx.attr.url,
-        stripPrefix = repository_ctx.attr.strip_prefix,
-    )
-
+def _arm_gnu_build_file_impl(repository_ctx):
+    """Generates the BUILD file with template substitutions."""
     repository_ctx.template(
-        "BUILD.bazel",
+        "file",
         Label("@toolchains_arm_gnu//toolchain:templates/compiler.BUILD"),
         substitutions = {
             "%toolchain_prefix%": repository_ctx.attr.toolchain_prefix,
@@ -26,22 +21,51 @@ def _arm_gnu_cross_hosted_platform_specific_repo_impl(repository_ctx):
         },
     )
 
-    for patch in repository_ctx.attr.patches:
-        repository_ctx.patch(patch, strip = 1)
+    repository_ctx.file(
+        "BUILD.bazel",
+        content = """
+exports_files(["file"])
+        """,
+    )
 
-arm_gnu_cross_hosted_platform_specific_repo = repository_rule(
-    implementation = _arm_gnu_cross_hosted_platform_specific_repo_impl,
+_arm_gnu_build_file = repository_rule(
+    implementation = _arm_gnu_build_file_impl,
     attrs = {
-        "sha256": attr.string(mandatory = True),
-        "url": attr.string(mandatory = True),
         "toolchain_prefix": attr.string(mandatory = True),
         "version": attr.string(mandatory = True),
-        "strip_prefix": attr.string(),
-        "patches": attr.label_list(),
-        "tools": attr.string_list(default = tools),
-        "exec_compatible_with": attr.string_list(),
+        "tools": attr.string_list(mandatory = True),
     },
 )
+
+def arm_gnu_cross_hosted_platform_specific_repo(
+        *,
+        name,
+        sha256,
+        url,
+        toolchain_prefix,
+        strip_prefix = "",
+        version,
+        patches = [],
+        tools = tools,
+        exec_compatible_with = []):  # this last arg is unused
+    """Defines a host-specific repository for the ARM GNU toolchain."""
+
+    _arm_gnu_build_file(
+        name = name + "_build_file",
+        toolchain_prefix = toolchain_prefix,
+        version = version,
+        tools = tools,
+    )
+
+    http_archive(
+        name = name,
+        sha256 = sha256,
+        urls = [url],
+        strip_prefix = strip_prefix,
+        patches = patches,
+        patch_args = ["-p1"],
+        build_file = "@" + name + "_build_file//:file",
+    )
 
 def _arm_gnu_toolchain_repo_impl(repository_ctx):
     """Defines the top-level toolchain repository."""
