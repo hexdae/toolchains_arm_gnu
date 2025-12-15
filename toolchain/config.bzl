@@ -118,6 +118,12 @@ def _impl(ctx):
 
     action_configs += _action_configs(
         ctx,
+        [ACTION_NAMES.objcopy_embed_data],
+        "objcopy",
+    )
+
+    action_configs += _action_configs(
+        ctx,
         [ACTION_NAMES.strip],
         "strip",
     )
