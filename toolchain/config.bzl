@@ -264,6 +264,22 @@ def _impl(ctx):
         ],
     )
 
+    external_include_paths_feature = feature(
+        name = "external_include_paths",
+        flag_sets = [
+            flag_set(
+                actions = _all_compile_actions,
+                flag_groups = [
+                    flag_group(
+                        flags = ["-isystem", "%{external_include_paths}"],
+                        iterate_over = "external_include_paths",
+                        expand_if_available = "external_include_paths",
+                    ),
+                ],
+            ),
+        ],
+    )
+
     return cc_common.create_cc_toolchain_config_info(
         ctx = ctx,
         toolchain_identifier = ctx.attr.toolchain_identifier,
@@ -284,6 +300,7 @@ def _impl(ctx):
             opt_feature,
             fastbuild_feature,
             generate_linkmap_feature,
+            external_include_paths_feature,
             toolchain_compiler_flags,
             cxx_flags,
             conly_flags,
