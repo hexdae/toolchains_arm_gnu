@@ -1,3 +1,5 @@
+load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
+
 def _toolchain_transition_impl(settings, attr):
     return {
         "//command_line_option:extra_toolchains": [attr.toolchain],
