@@ -25,4 +25,38 @@ AARCH64_NONE_LINUX_GNU = {
             ],
         },
     ],
+    "15.2.1": [
+        {
+            "name": "aarch64_none_linux_gnu_linux_x86_64",
+            "sha256": "9a685b335bd709d683a8c782253c37e8c36c10e6924e59e39d4769b02132eb43",
+            "strip_prefix": "arm-gnu-toolchain-15.2.rel1-x86_64-aarch64-none-linux-gnu",
+            "url": "https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/15.2.rel1/binrel/arm-gnu-toolchain-15.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz",
+            "patches": ["@toolchains_arm_gnu//toolchain:patches/0001-Resolve-libc-relative-to-sysroot-aarch64_none_linux_gnu.patch"],
+            "exec_compatible_with": [
+                "@platforms//os:linux",
+                "@platforms//cpu:x86_64",
+            ],
+        },
+        {
+            "name": "aarch64_none_linux_gnu_linux_aarch64",
+            "sha256": "97e3f600c00413088bb21109475443f9a1c57b4f75336a6e820acd43b065f875",
+            "strip_prefix": "arm-gnu-toolchain-15.2.rel1-aarch64-aarch64-none-linux-gnu",
+            "url": "https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/15.2.rel1/binrel/arm-gnu-toolchain-15.2.rel1-aarch64-aarch64-none-linux-gnu.tar.xz",
+            "patches": ["@toolchains_arm_gnu//toolchain:patches/0001-Resolve-libc-relative-to-sysroot-aarch64_none_linux_gnu.patch"],
+            "exec_compatible_with": [
+                "@platforms//os:linux",
+                "@platforms//cpu:aarch64",
+            ],
+        },
+        {
+            "name": "aarch64_none_linux_gnu_windows_x86_64",
+            "sha256": "43c374920d33a96232466b53f46c723c8ca260a86680c69f2ef8fc0c3cb5c28e",
+            "url": "https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/15.2.rel1/binrel/arm-gnu-toolchain-15.2.rel1-mingw-w64-x86_64-aarch64-none-linux-gnu.zip",
+            "patches": ["@toolchains_arm_gnu//toolchain:patches/0001-Resolve-libc-relative-to-sysroot-aarch64_none_linux_gnu.patch"],
+            "exec_compatible_with": [
+                "@platforms//os:windows",
+                "@platforms//cpu:x86_64",
+            ],
+        },
+    ],
 }

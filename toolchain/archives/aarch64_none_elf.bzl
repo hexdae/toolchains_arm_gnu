@@ -469,4 +469,57 @@ AARCH64_NONE_ELF = {
             ],
         },
     ],
+    "15.2.1-1.1": [
+        {
+            "name": "aarch64_none_elf_darwin_arm64",
+            "url": "https://github.com/xpack-dev-tools/aarch64-none-elf-gcc-xpack/releases/download/v15.2.1-1.1/xpack-aarch64-none-elf-gcc-15.2.1-1.1-darwin-arm64.tar.gz",
+            "sha256": "13d1a5b53a847855210b0fc2d2758d0e5cec6e633a2aec920d7a886624082b6a",
+            "strip_prefix": "xpack-aarch64-none-elf-gcc-15.2.1-1.1",
+            "exec_compatible_with": [
+                "@platforms//os:macos",
+                "@platforms//cpu:arm64",
+            ],
+        },
+        {
+            "name": "aarch64_none_elf_darwin_x86_64",
+            "url": "https://github.com/xpack-dev-tools/aarch64-none-elf-gcc-xpack/releases/download/v15.2.1-1.1/xpack-aarch64-none-elf-gcc-15.2.1-1.1-darwin-x64.tar.gz",
+            "sha256": "a35b37a9128ca8824bccb0d42da4d77bbbce464b4c5ac3700374f0b2560fdcea",
+            "strip_prefix": "xpack-aarch64-none-elf-gcc-15.2.1-1.1",
+            "exec_compatible_with": [
+                "@platforms//os:macos",
+                "@platforms//cpu:x86_64",
+            ],
+        },
+        {
+            "name": "aarch64_none_elf_linux_aarch64",
+            "url": "https://github.com/xpack-dev-tools/aarch64-none-elf-gcc-xpack/releases/download/v15.2.1-1.1/xpack-aarch64-none-elf-gcc-15.2.1-1.1-linux-arm64.tar.gz",
+            "sha256": "cec5f2820d6c91c612e0a653ee7ada1fb80d93d0e2f4d9ed1dc6f5b477ac349a",
+            "strip_prefix": "xpack-aarch64-none-elf-gcc-15.2.1-1.1",
+            "exec_compatible_with": [
+                "@platforms//os:linux",
+                "@platforms//cpu:arm64",
+            ],
+        },
+        {
+            "name": "aarch64_none_elf_linux_x86_64",
+            "url": "https://github.com/xpack-dev-tools/aarch64-none-elf-gcc-xpack/releases/download/v15.2.1-1.1/xpack-aarch64-none-elf-gcc-15.2.1-1.1-linux-x64.tar.gz",
+            "sha256": "bda035138579b596d7b0ca8815c06d11df24e063bd12c2a5c410f5ad61ec67aa",
+            "strip_prefix": "xpack-aarch64-none-elf-gcc-15.2.1-1.1",
+            "exec_compatible_with": [
+                "@platforms//os:linux",
+                "@platforms//cpu:x86_64",
+            ],
+        },
+        {
+            "name": "aarch64_none_elf_windows_x86_64",
+            "url": "https://github.com/xpack-dev-tools/aarch64-none-elf-gcc-xpack/releases/download/v15.2.1-1.1/xpack-aarch64-none-elf-gcc-15.2.1-1.1-win32-x64.zip",
+            "sha256": "6fb15fcccb4c038b8e0586a03484b58ce63f443cd9c5319b2377063bb665cf9a",
+            "strip_prefix": "xpack-aarch64-none-elf-gcc-15.2.1-1.1",
+            "exec_compatible_with": [
+                "@platforms//os:windows",
+                "@platforms//cpu:x86_64",
+            ],
+        },
+    ],
+
 }
