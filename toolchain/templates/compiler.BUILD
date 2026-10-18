@@ -50,7 +50,7 @@ filegroup(
         "{}/**".format(PREFIX),
         "lib/**",
         "lib/gcc/{}/**".format(PREFIX),
-    ]),
+    ], allow_empty=True),
 )
 
 # files for executing compiler.

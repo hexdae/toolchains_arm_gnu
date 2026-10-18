@@ -1,4 +1,4 @@
-load("@local_config_platform//:constraints.bzl", "HOST_CONSTRAINTS")
+load("@platforms//host:constraints.bzl", "HOST_CONSTRAINTS")
 load("@rules_cc//cc:defs.bzl", "cc_toolchain")
 load("@toolchains_arm_gnu//toolchain:config.bzl", "cc_arm_gnu_toolchain_config")
 load("@toolchains_arm_gnu//toolchain:transitions.bzl", "toolchain_transition_library")

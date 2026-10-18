@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   integration:
-    name: ${{ matrix.target }}
+    name: ${{ matrix.target }} ${{ matrix.bazel }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -21,17 +21,27 @@ jobs:
         include:
           - os: ubuntu-latest
             target: "x86_64-unknown-linux-gnu"
+            bazel: "7.x"
+          - os: ubuntu-latest
+            target: "x86_64-unknown-linux-gnu"
+            bazel: "8.x"
+          - os: ubuntu-latest
+            target: "x86_64-unknown-linux-gnu"
+            bazel: "9.x"
           - os: macos-latest
             target: "x86_64-apple-darwin"
+            bazel: "7.x"
           - os: macos-latest
             target: "aarch64-apple-darwin"
+            bazel: "7.x"
     env:
-      USE_BAZEL_VERSION: "7.x"
+      USE_BAZEL_VERSION: ${{ matrix.bazel }}
     steps:
       - uses: actions/checkout@v2
       - name: tests
         run: bazel test //test:all
       - name: workspace
+        if: matrix.bazel == '7.x'
         working-directory: examples/workspace
         run: bazel test //:all
       - name: bzlmod
@@ -65,7 +75,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: run nativelink
         run: |
-          cargo install nativelink --git https://github.com/TraceMachina/nativelink --tag v0.7.0
+          cargo install nativelink --git https://github.com/TraceMachina/nativelink --tag v1.7.7
           (nativelink test/basic_cas.json &)
       - name: remote execution
         run: |
